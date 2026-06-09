@@ -27,6 +27,9 @@ file = "dx_glycogen_storage_disease_type_3.csv"
 [tables.valueset_dx_glycogen_storage_disease_type_4]
 file = "dx_glycogen_storage_disease_type_4.csv"
 
+[tables.valueset_dx_homocystinuria]
+file = "dx_homocystinuria.csv"
+
 [tables.valueset_dx_maple_syrup_urine_disease]
 file = "dx_maple_syrup_urine_disease.csv"
 

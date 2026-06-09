@@ -1,0 +1,22 @@
+system,code,display,tier
+http://snomed.info/sct,24308003,Cystathionine beta-synthase deficiency,1
+http://snomed.info/sct,11282001,Homocystinuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.11,Homocystinuria,1
+http://www.orpha.net/ontology/orphanet.owl,394,Homocystinuria due to cystathionine beta-synthase deficiency,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C84765,Homocystinuria,1
+http://hl7.org/fhir/sid/icd-9-cm,270.4,Disturbances of sulphur-bearing amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.1,Disorders of sulfur-bearing amino-acid metabolism,2
+http://human-phenotype-ontology.org,HP:6000357,Reduced cystathionine beta-synthase activity in cultured fibroblasts,2
+http://human-phenotype-ontology.org,HP:0002160,Hyperhomocystinemia,2
+http://human-phenotype-ontology.org,HP:0003235,Hypermethioninemia,2
+http://snomed.info/sct,43123004,Hypermethioninemia,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.10,"Disorder of sulfur-bearing amino-acid metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E72.19,Other disorders of sulfur-bearing amino-acid metabolism,3
+http://human-phenotype-ontology.org,HP:0001083,Ectopia lentis,3
+http://human-phenotype-ontology.org,HP:0000545,Myopia,3
+http://human-phenotype-ontology.org,HP:0001519,Disproportionate tall stature,3
+http://human-phenotype-ontology.org,HP:0001166,Arachnodactyly,3
+http://human-phenotype-ontology.org,HP:0002797,Osteoporosis,3
+http://human-phenotype-ontology.org,HP:0001907,Thromboembolism,3
+http://human-phenotype-ontology.org,HP:0001263,Global developmental delay,3
+http://human-phenotype-ontology.org,HP:0001250,Seizure,3
