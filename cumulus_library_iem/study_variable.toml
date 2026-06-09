@@ -1,0 +1,22 @@
+[[actions]]
+description="variable cohorts"
+type="build:parallel"
+files= [
+	"athena/iem__cohort_dx_ass1_deficiency.sql",
+	"athena/iem__cohort_dx_cps1_deficiency.sql",
+	"athena/iem__cohort_dx_cpt1_deficiency.sql",
+	"athena/iem__cohort_dx_galactosemia.sql",
+	"athena/iem__cohort_dx_gaucher_disease.sql",
+	"athena/iem__cohort_dx_glycogen_storage_disease_type_1.sql",
+	"athena/iem__cohort_dx_glycogen_storage_disease_type_2.sql",
+	"athena/iem__cohort_dx_glycogen_storage_disease_type_3.sql",
+	"athena/iem__cohort_dx_glycogen_storage_disease_type_4.sql",
+	"athena/iem__cohort_dx_homocystinuria.sql",
+	"athena/iem__cohort_dx_maple_syrup_urine_disease.sql",
+	"athena/iem__cohort_dx_molybdenum_cofactor_deficiency.sql",
+	"athena/iem__cohort_dx_nags_deficiency.sql",
+	"athena/iem__cohort_dx_niemann_pick_disease.sql",
+	"athena/iem__cohort_dx_phenylketonuria.sql",
+	"athena/iem__cohort_dx_tyrosinemia_type_1.sql",
+	"athena/iem__cohort_dx_urea_cycle_disorders.sql"
+]

@@ -1,0 +1,26 @@
+[[actions]]
+description="study_period"
+type="build:parallel"
+files= [
+	"athena/iem__cohort_study_period.sql"
+]
+
+[[actions]]
+description="study_population"
+type="build:parallel"
+files= [
+	"athena/iem__cohort_study_population.sql"
+]
+
+[[actions]]
+description="study_population aspects ('enc', 'dx', 'rx', 'lab', 'proc', 'doc', 'diag')"
+type="build:parallel"
+files= [
+	"athena/iem__cohort_study_population_enc.sql",
+	"athena/iem__cohort_study_population_dx.sql",
+	"athena/iem__cohort_study_population_rx.sql",
+	"athena/iem__cohort_study_population_lab.sql",
+	"athena/iem__cohort_study_population_proc.sql",
+	"athena/iem__cohort_study_population_doc.sql",
+	"athena/iem__cohort_study_population_diag.sql"
+]
