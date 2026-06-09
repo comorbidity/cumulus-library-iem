@@ -1,0 +1,102 @@
+age_at_visit,age_group,age_group_display
+0,age_00_to_01,Infant <1
+1,age_01_to_05,Child 1-5
+2,age_01_to_05,Child 1-5
+3,age_01_to_05,Child 1-5
+4,age_01_to_05,Child 1-5
+5,age_01_to_05,Child 1-5
+6,age_06_to_11,Child 6-11
+7,age_06_to_11,Child 6-11
+8,age_06_to_11,Child 6-11
+9,age_06_to_11,Child 6-11
+10,age_06_to_11,Child 6-11
+11,age_06_to_11,Child 6-11
+12,age_12_to_17,Adolescent 12-17
+13,age_12_to_17,Adolescent 12-17
+14,age_12_to_17,Adolescent 12-17
+15,age_12_to_17,Adolescent 12-17
+16,age_12_to_17,Adolescent 12-17
+17,age_12_to_17,Adolescent 12-17
+18,age_18_to_34,Young Adult 18-34
+19,age_18_to_34,Young Adult 18-34
+20,age_18_to_34,Young Adult 18-34
+21,age_18_to_34,Young Adult 18-34
+22,age_18_to_34,Young Adult 18-34
+23,age_18_to_34,Young Adult 18-34
+24,age_18_to_34,Young Adult 18-34
+25,age_18_to_34,Young Adult 18-34
+26,age_18_to_34,Young Adult 18-34
+27,age_18_to_34,Young Adult 18-34
+28,age_18_to_34,Young Adult 18-34
+29,age_18_to_34,Young Adult 18-34
+30,age_18_to_34,Young Adult 18-34
+31,age_18_to_34,Young Adult 18-34
+32,age_18_to_34,Young Adult 18-34
+33,age_18_to_34,Young Adult 18-34
+34,age_18_to_34,Young Adult 18-34
+35,age_35_to_49,Adult 35-49
+36,age_35_to_49,Adult 35-49
+37,age_35_to_49,Adult 35-49
+38,age_35_to_49,Adult 35-49
+39,age_35_to_49,Adult 35-49
+40,age_35_to_49,Adult 35-49
+41,age_35_to_49,Adult 35-49
+42,age_35_to_49,Adult 35-49
+43,age_35_to_49,Adult 35-49
+44,age_35_to_49,Adult 35-49
+45,age_35_to_49,Adult 35-49
+46,age_35_to_49,Adult 35-49
+47,age_35_to_49,Adult 35-49
+48,age_35_to_49,Adult 35-49
+49,age_35_to_49,Adult 35-49
+50,age_50_to_64,Older Adult 50-64
+51,age_50_to_64,Older Adult 50-64
+52,age_50_to_64,Older Adult 50-64
+53,age_50_to_64,Older Adult 50-64
+54,age_50_to_64,Older Adult 50-64
+55,age_50_to_64,Older Adult 50-64
+56,age_50_to_64,Older Adult 50-64
+57,age_50_to_64,Older Adult 50-64
+58,age_50_to_64,Older Adult 50-64
+59,age_50_to_64,Older Adult 50-64
+60,age_50_to_64,Older Adult 50-64
+61,age_50_to_64,Older Adult 50-64
+62,age_50_to_64,Older Adult 50-64
+63,age_50_to_64,Older Adult 50-64
+64,age_50_to_64,Older Adult 50-64
+65,age_65_plus,Elderly >=65
+66,age_65_plus,Elderly >=65
+67,age_65_plus,Elderly >=65
+68,age_65_plus,Elderly >=65
+69,age_65_plus,Elderly >=65
+70,age_65_plus,Elderly >=65
+71,age_65_plus,Elderly >=65
+72,age_65_plus,Elderly >=65
+73,age_65_plus,Elderly >=65
+74,age_65_plus,Elderly >=65
+75,age_65_plus,Elderly >=65
+76,age_65_plus,Elderly >=65
+77,age_65_plus,Elderly >=65
+78,age_65_plus,Elderly >=65
+79,age_65_plus,Elderly >=65
+80,age_65_plus,Elderly >=65
+81,age_65_plus,Elderly >=65
+82,age_65_plus,Elderly >=65
+83,age_65_plus,Elderly >=65
+84,age_65_plus,Elderly >=65
+85,age_65_plus,Elderly >=65
+86,age_65_plus,Elderly >=65
+87,age_65_plus,Elderly >=65
+88,age_65_plus,Elderly >=65
+89,age_65_plus,Elderly >=65
+90,age_65_plus,Elderly >=65
+91,age_65_plus,Elderly >=65
+92,age_65_plus,Elderly >=65
+93,age_65_plus,Elderly >=65
+94,age_65_plus,Elderly >=65
+95,age_65_plus,Elderly >=65
+96,age_65_plus,Elderly >=65
+97,age_65_plus,Elderly >=65
+98,age_65_plus,Elderly >=65
+99,age_65_plus,Elderly >=65
+100,age_65_plus,Elderly >=65
