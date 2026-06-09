@@ -1,0 +1,20 @@
+[[actions]]
+description = 'file_upload_population.toml'
+type = "build:parallel"
+files = [
+  '../spreadsheet/file_upload_population.toml'
+]
+
+#[[actions]]
+#description = 'file_upload_study_variable.toml'
+#type = "build:parallel"
+#files = [
+#  '../spreadsheet/file_upload_study_variable.toml'
+#]
+
+#[[actions]]
+#description = 'file_upload_casedef.toml'
+#type = "build:parallel"
+#files = [
+#  '../spreadsheet/file_upload_casedef.toml'
+#]

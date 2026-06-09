@@ -1,0 +1,31 @@
+config_type="file_upload"
+
+[tables.include_age_at_visit]
+# min/max patient age at vist
+col_types = ["int","int"] #age_min,age_max
+file = "include_age_at_visit.csv"
+
+[tables.valueset_age_group]
+# Include (require) patients to have ED encounter
+col_types = ["int","string","string"] #age_at_visit,age_group,age_group_display
+file = "age_group.csv"
+
+[tables.include_gender]
+# birth sex (using FHIR Gender)
+col_types = ["string","string","string"] #system,code,display
+file = "include_gender.csv"
+
+[tables.include_study_period]
+# min/max date encounter dates with option to include patient history
+col_types = ["string","string","boolean"] #period_start,period_end,include_history
+file = "include_study_period.csv"
+
+[tables.include_utilization]
+# min/max number of counters, min/max number of days between first and last encounter
+col_types = ["int","int","int","int"] #enc_min,enc_max,days_min,days_max
+file = "include_utilization.csv"
+
+[tables.include_diag_category]
+# standard valueset of FHIR DiagnosticReport.category
+col_types = ["string","string","string"] #system,code,display
+file = "include_diag_category.csv"

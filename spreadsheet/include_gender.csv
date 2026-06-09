@@ -1,0 +1,5 @@
+system,code,display
+"http://hl7.org/fhir/ValueSet/administrative-gender","female","female"
+"http://hl7.org/fhir/ValueSet/administrative-gender","male","male"
+"http://hl7.org/fhir/ValueSet/administrative-gender","other","other"
+"http://hl7.org/fhir/ValueSet/administrative-gender","unknown","unknown"
