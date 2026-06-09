@@ -16,13 +16,13 @@ files = ['study_variable.toml']
 type = "submanifest"
 files = ['study_variable_wide.toml']
 
-[[stages.casedef]]
-type = "submanifest"
-files = ['casedef.toml']
+#[[stages.casedef]]
+#type = "submanifest"
+#files = ['casedef.toml']
 
-[[stages.sample]]
-type = "submanifest"
-files = ['sample.toml']
+#[[stages.sample]]
+#type = "submanifest"
+#files = ['sample.toml']
 
 [[stages.cube]]
 type = "submanifest"
