@@ -2,7 +2,8 @@ import unittest
 from collections import Counter
 from cumulus_library_iem.tools import filetool
 
-DISEASE_NAMES = filetool.read_json(filetool.path_project('disease_names.json'))
+DISEASE_FILE = filetool.path_project('disease_names.json')
+DISEASE_NAMES = filetool.read_json(DISEASE_FILE)
 
 class TestDiseaseNameSynonyms(unittest.TestCase):
     def test_20_diseases(self):
@@ -24,4 +25,15 @@ class TestDiseaseNameSynonyms(unittest.TestCase):
         for query in term_freq:
             if term_freq[query] > 1:
                 print('WARN', term_freq[query], 'disease names map to query', f"'{query}'")
+
+    def json_to_csv(self):
+        out = list()
+        for dx in DISEASE_NAMES:
+            for query in DISEASE_NAMES[dx]:
+                out.append(f"{dx},{query}")
+        out = '\n'.join(out)
+        print(out)
+
+        filetool.write_text(out, f"{DISEASE_FILE}.csv")
+
 
