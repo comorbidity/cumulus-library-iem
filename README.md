@@ -1,7 +1,9 @@
 # Inborn Errors of Metabolism (IEM)
 
 ## See [spreadsheet](spreadsheet) for IEM disease valuesets
-Curation assisted by GPT5.5, [link to chat](https://chatgpt.com/share/6a285438-8860-83e8-b4ee-1b8ac90050d7).
+Curation assisted by GPT5.5
+* curate [valueset CSV files](https://chatgpt.com/share/6a285438-8860-83e8-b4ee-1b8ac90050d7).
+* curate [elasticsearch terms](https://chatgpt.com/share/6a28687c-8830-83e8-a866-05547ffa99c8).
 
 ## IEM Disease List (original request)
 * Maple Syrup Urine Disease
