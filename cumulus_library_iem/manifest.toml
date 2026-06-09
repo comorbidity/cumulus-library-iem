@@ -1,0 +1,29 @@
+study_prefix = "iem"
+
+[[stages.file_upload]]
+type = "submanifest"
+files = ['file_upload.toml']
+
+[[stages.study_population]]
+type = "submanifest"
+files = ['study_population.toml']
+
+[[stages.study_variable]]
+type = "submanifest"
+files = ['study_variable.toml']
+
+[[stages.study_variable_wide]]
+type = "submanifest"
+files = ['study_variable_wide.toml']
+
+[[stages.casedef]]
+type = "submanifest"
+files = ['casedef.toml']
+
+[[stages.sample]]
+type = "submanifest"
+files = ['sample.toml']
+
+[[stages.cube]]
+type = "submanifest"
+files = ['cube.toml']
