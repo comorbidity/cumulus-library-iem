@@ -1,0 +1,15 @@
+[[actions]]
+description="SQL study metadata"
+type="build:parallel"
+files= [
+	"athena/iem__meta_date.sql",
+	"athena/iem__meta_version.sql"
+]
+
+[[actions]]
+description="export study metadata"
+type="export:meta"
+tables= [
+	"iem__meta_date",
+	"iem__meta_version"
+]

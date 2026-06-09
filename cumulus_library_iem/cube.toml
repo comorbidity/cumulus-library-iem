@@ -1,0 +1,31 @@
+[[actions]]
+description="SQL cube variable union"
+type="build:parallel"
+files= [
+	"athena/iem__cube_patient_variable_union.sql",
+	"athena/iem__cube_encounter_variable_union.sql"
+]
+
+[[actions]]
+description="export cube tables variable union"
+type="export:counts"
+tables= [
+	"iem__cube_patient_variable_union",
+	"iem__cube_encounter_variable_union"
+]
+
+[[actions]]
+description="SQL study metadata"
+type="build:parallel"
+files= [
+	"athena/iem__meta_date.sql",
+	"athena/iem__meta_version.sql"
+]
+
+[[actions]]
+description="export study metadata"
+type="export:meta"
+tables= [
+	"iem__meta_date",
+	"iem__meta_version"
+]
