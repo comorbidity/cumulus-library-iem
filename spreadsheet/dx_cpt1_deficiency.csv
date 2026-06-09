@@ -13,6 +13,7 @@ http://human-phenotype-ontology.org,HP:0001250,Seizure,3
 http://human-phenotype-ontology.org,HP:0001943,Hypoglycemia,3
 http://human-phenotype-ontology.org,HP:0001987,Hyperammonemia,3
 http://snomed.info/sct,302870006,Fatty acid oxidation disorder,3
+http://hl7.org/fhir/sid/icd-10-cm,E71.3,"Disorder of fatty-acid metabolism, unspecified",3
 http://hl7.org/fhir/sid/icd-10-cm,E71.30,"Disorder of fatty-acid metabolism, unspecified",3
 http://hl7.org/fhir/sid/icd-10-cm,E71.3,Disorders of fatty-acid metabolism,3
 http://hl7.org/fhir/sid/icd-10-cm,E71.39,Other disorders of fatty-acid metabolism,3
