@@ -1,0 +1,21 @@
+system,code,display,tier
+http://snomed.info/sct,190687004,Phenylketonuria,1
+http://snomed.info/sct,7573000,Classical phenylketonuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E70.0,Classical phenylketonuria,1
+http://hl7.org/fhir/sid/icd-9-cm,270.1,Phenylketonuria [PKU],1
+http://www.orpha.net/ontology/orphanet.owl,716,Phenylketonuria,1
+http://www.orpha.net/ontology/orphanet.owl,79254,Classic phenylketonuria,1
+http://www.orpha.net/ontology/orphanet.owl,79253,Mild phenylketonuria,1
+http://www.orpha.net/ontology/orphanet.owl,293284,Tetrahydrobiopterin-responsive phenylketonuria,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C81315,Phenylketonuria,1
+http://snomed.info/sct,297225000,Maternal phenylketonuria,2
+http://snomed.info/sct,68528007,Hyperphenylalaninemia,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.1,Other hyperphenylalaninemias,2
+http://www.orpha.net/ontology/orphanet.owl,79651,Mild hyperphenylalaninemia,2
+http://human-phenotype-ontology.org,HP:0004923,Hyperphenylalaninemia,2
+http://human-phenotype-ontology.org,HP:0005982,Reduced phenylalanine hydroxylase level,2
+http://human-phenotype-ontology.org,HP:0010893,Abnormal circulating phenylalanine concentration,3
+http://snomed.info/sct,60590005,Maternal PKU fetal effect,3
+http://www.orpha.net/ontology/orphanet.owl,2209,Maternal phenylketonuria syndrome,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.8,Other disorders of aromatic amino-acid metabolism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.9,"Disorder of aromatic amino-acid metabolism, unspecified",3

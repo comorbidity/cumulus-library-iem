@@ -1,0 +1,16 @@
+system,code,display,tier
+http://snomed.info/sct,66937008,"Glycogen storage disease, type III",1
+http://hl7.org/fhir/sid/icd-10-cm,E74.03,Cori disease,1
+http://www.orpha.net/ontology/orphanet.owl,366,Glycogen storage disease due to glycogen debranching enzyme deficiency,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C84736,Glycogen Storage Disease Type III,1
+http://hl7.org/fhir/sid/icd-9-cm,271.0,Glycogenosis,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.0,Glycogen storage disease,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.00,"Glycogen storage disease, unspecified",2
+http://www.orpha.net/ontology/orphanet.owl,79201,Glycogen storage disease,2
+http://snomed.info/sct,267424007,Generalized glycogenosis,3
+http://hl7.org/fhir/sid/icd-10-cm,E74.09,Other glycogen storage disease,3
+http://human-phenotype-ontology.org,HP:0012734,Ketotic hypoglycemia,3
+http://human-phenotype-ontology.org,HP:0001943,Hypoglycemia,3
+http://human-phenotype-ontology.org,HP:0002240,Hepatomegaly,3
+http://human-phenotype-ontology.org,HP:0002155,Hypertriglyceridemia,3
+http://human-phenotype-ontology.org,HP:0003128,Lactic acidosis,3

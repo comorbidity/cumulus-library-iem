@@ -1,0 +1,13 @@
+system,code,display,tier
+http://snomed.info/sct,410056006,Tyrosinemia type I,1
+http://snomed.info/sct,124536006,Deficiency of fumarylacetoacetase,1
+http://www.orpha.net/ontology/orphanet.owl,882,Tyrosinemia type 1,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C98641,Tyrosinemia Type I,1
+http://hl7.org/fhir/sid/icd-10-cm,E70.21,Tyrosinemia,2
+http://hl7.org/fhir/sid/icd-9-cm,270.2,Other disturbances of aromatic amino-acid metabolism,2
+http://snomed.info/sct,271847005,Hereditary hypertyrosinemia,2
+http://human-phenotype-ontology.org,HP:0003231,Hypertyrosinemia,2
+http://snomed.info/sct,37200009,Disorder of tyrosine metabolism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.2,Disorders of tyrosine metabolism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.20,"Disorder of tyrosine metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E70.29,Other disorders of tyrosine metabolism,3

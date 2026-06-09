@@ -1,0 +1,24 @@
+system,code,display,tier
+http://snomed.info/sct,11179002,"Glycogen storage disease, type IV",1
+http://www.orpha.net/ontology/orphanet.owl,367,Glycogen storage disease due to glycogen branching enzyme deficiency,1
+http://www.orpha.net/ontology/orphanet.owl,308621,"Glycogen storage disease type IV, progressive hepatic form",1
+http://www.orpha.net/ontology/orphanet.owl,308638,"Glycogen storage disease type IV, non-progressive hepatic form",1
+http://www.orpha.net/ontology/orphanet.owl,308655,"Glycogen storage disease type IV, fatal perinatal neuromuscular form",1
+http://www.orpha.net/ontology/orphanet.owl,308670,"Glycogen storage disease type IV, congenital neuromuscular form",1
+http://www.orpha.net/ontology/orphanet.owl,308698,"Glycogen storage disease type IV, childhood neuromuscular form",1
+http://www.orpha.net/ontology/orphanet.owl,308712,"Glycogen storage disease type IV, adult neuromuscular form",1
+http://www.orpha.net/ontology/orphanet.owl,206583,Adult polyglucosan body disease,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C84737,Glycogen Storage Disease Type IV,1
+http://snomed.info/sct,721099001,Adult polyglucosan body disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.09,Other glycogen storage disease,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.0,Glycogen storage disease,2
+http://hl7.org/fhir/sid/icd-9-cm,271.0,Glycogenosis,2
+http://www.orpha.net/ontology/orphanet.owl,79201,Glycogen storage disease,2
+http://human-phenotype-ontology.org,HP:0500030,Abnormal hepatic glycogen storage,2
+http://human-phenotype-ontology.org,HP:0030231,Glycogen accumulation in muscle fiber lysosomes,2
+http://human-phenotype-ontology.org,HP:0002240,Hepatomegaly,3
+http://human-phenotype-ontology.org,HP:0001395,Hepatic fibrosis,3
+http://human-phenotype-ontology.org,HP:0001394,Cirrhosis,3
+http://human-phenotype-ontology.org,HP:0001252,Hypotonia,3
+http://human-phenotype-ontology.org,HP:0001644,Dilated cardiomyopathy,3
+http://human-phenotype-ontology.org,HP:0001943,Hypoglycemia,3

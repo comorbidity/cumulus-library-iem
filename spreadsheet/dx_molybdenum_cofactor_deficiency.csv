@@ -1,0 +1,20 @@
+system,code,display,tier
+http://snomed.info/sct,1003367004,Molybdenum cofactor deficiency complementation group A,1
+http://snomed.info/sct,29692004,Combined molybdoflavoprotein enzyme deficiency,1
+http://www.orpha.net/ontology/orphanet.owl,308386,Sulfite oxidase deficiency due to molybdenum cofactor deficiency type A,1
+http://www.orpha.net/ontology/orphanet.owl,308393,Sulfite oxidase deficiency due to molybdenum cofactor deficiency type B,2
+http://www.orpha.net/ontology/orphanet.owl,308400,Sulfite oxidase deficiency due to molybdenum cofactor deficiency type C,2
+http://snomed.info/sct,1003368009,Molybdenum cofactor deficiency complementation group B,2
+http://snomed.info/sct,1003387003,Molybdenum cofactor deficiency complementation group C,2
+http://www.orpha.net/ontology/orphanet.owl,833,Encephalopathy due to sulfite oxidase deficiency,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.1,Disorders of sulfur-bearing amino-acid metabolism,2
+http://human-phenotype-ontology.org,HP:0034744,Elevated urinary S-sulfocysteine level,2
+http://human-phenotype-ontology.org,HP:0032350,Sulfocysteinuria,2
+http://human-phenotype-ontology.org,HP:0011942,Increased urinary sulfite level,2
+http://human-phenotype-ontology.org,HP:0010934,Xanthinuria,2
+http://human-phenotype-ontology.org,HP:0010933,Hyperxanthinemia,2
+http://human-phenotype-ontology.org,HP:0003537,Hypouricemia,2
+http://human-phenotype-ontology.org,HP:0001250,Seizure,3
+http://human-phenotype-ontology.org,HP:0001298,Encephalopathy,3
+http://human-phenotype-ontology.org,HP:0001263,Global developmental delay,3
+http://human-phenotype-ontology.org,HP:0000252,Microcephaly,3

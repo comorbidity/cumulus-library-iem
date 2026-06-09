@@ -1,0 +1,17 @@
+system,code,display,tier
+http://snomed.info/sct,444707001,Glycogen storage disease type Ia,1
+http://snomed.info/sct,7265005,"Glycogen storage disease, type I",1
+http://snomed.info/sct,124437004,Deficiency of glucose-6-phosphatase,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.01,von Gierke disease,1
+http://www.orpha.net/ontology/orphanet.owl,79258,Glycogen storage disease due to glucose-6-phosphatase deficiency type Ia,1
+http://www.orpha.net/ontology/orphanet.owl,364,Glycogen storage disease due to glucose-6-phosphatase deficiency,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C162398,Glycogen Storage Disease Type Ia,1
+http://hl7.org/fhir/sid/icd-9-cm,271.0,Glycogenosis,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.0,Glycogen storage disease,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.00,"Glycogen storage disease, unspecified",2
+http://www.orpha.net/ontology/orphanet.owl,79201,Glycogen storage disease,2
+http://human-phenotype-ontology.org,HP:0001943,Hypoglycemia,3
+http://human-phenotype-ontology.org,HP:0002240,Hepatomegaly,3
+http://human-phenotype-ontology.org,HP:0003128,Lactic acidosis,3
+http://human-phenotype-ontology.org,HP:0002155,Hypertriglyceridemia,3
+http://hl7.org/fhir/sid/icd-10-cm,E74.09,Other glycogen storage disease,3

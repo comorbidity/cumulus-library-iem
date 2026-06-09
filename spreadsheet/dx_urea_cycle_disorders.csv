@@ -1,0 +1,39 @@
+system,code,display,tier
+http://snomed.info/sct,36444000,Disorder of the urea cycle metabolism,1
+http://snomed.info/sct,23501004,Arginase deficiency,1
+http://snomed.info/sct,41013004,Argininosuccinate lyase deficiency,1
+http://snomed.info/sct,62522004,"Congenital hyperammonemia, type I",1
+http://snomed.info/sct,57119000,"Hyperammonemia, type III",1
+http://snomed.info/sct,80908008,Ornithine carbamoyltransferase deficiency,1
+http://snomed.info/sct,398680004,Citrullinemia,1
+http://snomed.info/sct,716863007,Citrullinemia type II,1
+http://snomed.info/sct,30529005,"Citrullinemia, neonatal type",1
+http://snomed.info/sct,30287008,Hyperornithinemia-hyperammonemia-homocitrullinuria syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.2,Disorders of urea cycle metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.20,"Disorder of urea cycle metabolism, unspecified",1
+http://hl7.org/fhir/sid/icd-10-cm,E72.21,Argininemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.22,Arginosuccinic aciduria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.23,Citrullinemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.29,Other disorders of urea cycle metabolism,1
+http://hl7.org/fhir/sid/icd-9-cm,270.6,Disorders of urea cycle metabolism,1
+http://www.orpha.net/ontology/orphanet.owl,79167,Disorder of urea cycle metabolism and ammonia detoxification,1
+http://www.orpha.net/ontology/orphanet.owl,927,Hyperammonemia due to N-acetylglutamate synthase deficiency,1
+http://www.orpha.net/ontology/orphanet.owl,147,Carbamoyl-phosphate synthetase 1 deficiency,1
+http://www.orpha.net/ontology/orphanet.owl,664,Ornithine transcarbamylase deficiency,1
+http://www.orpha.net/ontology/orphanet.owl,187,Citrullinemia,1
+http://www.orpha.net/ontology/orphanet.owl,247525,Citrullinemia type I,1
+http://www.orpha.net/ontology/orphanet.owl,247546,Acute neonatal citrullinemia type I,1
+http://www.orpha.net/ontology/orphanet.owl,247573,Late-onset citrullinemia type I,1
+http://www.orpha.net/ontology/orphanet.owl,23,Argininosuccinic aciduria,1
+http://www.orpha.net/ontology/orphanet.owl,90,Argininemia,1
+http://www.orpha.net/ontology/orphanet.owl,415,Hyperornithinemia-hyperammonemia-homocitrullinuria syndrome,1
+http://www.orpha.net/ontology/orphanet.owl,247582,Citrin deficiency,1
+http://www.orpha.net/ontology/orphanet.owl,247585,Citrullinemia type II,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.4,Disorders of ornithine metabolism,2
+http://www.orpha.net/ontology/orphanet.owl,247598,Neonatal intrahepatic cholestasis due to citrin deficiency,2
+http://human-phenotype-ontology.org,HP:0011965,Abnormal circulating citrulline concentration,2
+http://human-phenotype-ontology.org,HP:0500153,Hyperargininemia,2
+http://human-phenotype-ontology.org,HP:0001987,Hyperammonemia,3
+http://human-phenotype-ontology.org,HP:0003218,Oroticaciduria,3
+http://human-phenotype-ontology.org,HP:0003526,Orotic acid crystalluria,3
+http://snomed.info/sct,9360008,Hyperammonemia,3

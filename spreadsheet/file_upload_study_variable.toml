@@ -1,0 +1,49 @@
+config_type="file_upload"
+
+[tables.valueset_dx_ass1_deficiency]
+file = "dx_ass1_deficiency.csv"
+
+[tables.valueset_dx_cps1_deficiency]
+file = "dx_cps1_deficiency.csv"
+
+[tables.valueset_dx_cpt1_deficiency]
+file = "dx_cpt1_deficiency.csv"
+
+[tables.valueset_dx_galactosemia]
+file = "dx_galactosemia.csv"
+
+[tables.valueset_dx_gaucher_disease]
+file = "dx_gaucher_disease.csv"
+
+[tables.valueset_dx_glycogen_storage_disease_type_1]
+file = "dx_glycogen_storage_disease_type_1.csv"
+
+[tables.valueset_dx_glycogen_storage_disease_type_2]
+file = "dx_glycogen_storage_disease_type_2.csv"
+
+[tables.valueset_dx_glycogen_storage_disease_type_3]
+file = "dx_glycogen_storage_disease_type_3.csv"
+
+[tables.valueset_dx_glycogen_storage_disease_type_4]
+file = "dx_glycogen_storage_disease_type_4.csv"
+
+[tables.valueset_dx_maple_syrup_urine_disease]
+file = "dx_maple_syrup_urine_disease.csv"
+
+[tables.valueset_dx_molybdenum_cofactor_deficiency]
+file = "dx_molybdenum_cofactor_deficiency.csv"
+
+[tables.valueset_dx_nags_deficiency]
+file = "dx_nags_deficiency.csv"
+
+[tables.valueset_dx_niemann_pick_disease]
+file = "dx_niemann_pick_disease.csv"
+
+[tables.valueset_dx_phenylketonuria]
+file = "dx_phenylketonuria.csv"
+
+[tables.valueset_dx_tyrosinemia_type_1]
+file = "dx_tyrosinemia_type_1.csv"
+
+[tables.valueset_dx_urea_cycle_disorders]
+file = "dx_urea_cycle_disorders.csv"

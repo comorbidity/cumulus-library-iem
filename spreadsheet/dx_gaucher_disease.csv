@@ -1,0 +1,25 @@
+system,code,display,tier
+http://snomed.info/sct,190794006,Gaucher disease,1
+http://snomed.info/sct,62201009,Gaucher disease type I,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.22,Gaucher disease,1
+http://www.orpha.net/ontology/orphanet.owl,355,Gaucher disease,1
+http://www.orpha.net/ontology/orphanet.owl,77259,Gaucher disease type 1,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C61268,Gaucher Disease,1
+http://snomed.info/sct,12246008,Gaucher disease type II,2
+http://snomed.info/sct,5963005,Gaucher disease type III,2
+http://www.orpha.net/ontology/orphanet.owl,77260,Gaucher disease type 2,2
+http://www.orpha.net/ontology/orphanet.owl,77261,Gaucher disease type 3,2
+http://www.orpha.net/ontology/orphanet.owl,85212,Fetal Gaucher disease,2
+http://www.orpha.net/ontology/orphanet.owl,2072,Gaucher disease-ophthalmoplegia-cardiovascular calcification syndrome,2
+http://www.orpha.net/ontology/orphanet.owl,309252,Atypical Gaucher disease due to saposin C deficiency,2
+http://hl7.org/fhir/sid/icd-9-cm,272.7,Lipidoses,2
+http://human-phenotype-ontology.org,HP:6001185,Elevated circulating glucosylsphingosine concentration,2
+http://human-phenotype-ontology.org,HP:6000611,Elevated circulating chitotriosidase activity,2
+http://hl7.org/fhir/sid/icd-10-cm,E75.2,Other sphingolipidosis,3
+http://human-phenotype-ontology.org,HP:0001433,Hepatosplenomegaly,3
+http://human-phenotype-ontology.org,HP:0001873,Thrombocytopenia,3
+http://human-phenotype-ontology.org,HP:0001903,Anemia,3
+http://human-phenotype-ontology.org,HP:0001744,Splenomegaly,3
+http://human-phenotype-ontology.org,HP:0002240,Hepatomegaly,3
+http://human-phenotype-ontology.org,HP:0002653,Bone pain,3
+http://human-phenotype-ontology.org,HP:0000938,Osteopenia,3

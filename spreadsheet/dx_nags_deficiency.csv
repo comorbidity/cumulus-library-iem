@@ -1,0 +1,12 @@
+system,code,display,tier
+http://snomed.info/sct,57119000,"Hyperammonemia, type III",1
+http://www.orpha.net/ontology/orphanet.owl,927,Hyperammonemia due to N-acetylglutamate synthase deficiency,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C129307,N-Acetylglutamate Synthase Deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.29,Other disorders of urea cycle metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.2,Disorders of urea cycle metabolism,2
+http://hl7.org/fhir/sid/icd-9-cm,270.6,Disorders of urea cycle metabolism,2
+http://snomed.info/sct,36444000,Disorder of the urea cycle metabolism,2
+http://human-phenotype-ontology.org,HP:0008281,Acute hyperammonemia,3
+http://human-phenotype-ontology.org,HP:0001987,Hyperammonemia,3
+http://snomed.info/sct,9360008,Hyperammonemia,3
+http://hl7.org/fhir/sid/icd-10-cm,E72.20,"Disorder of urea cycle metabolism, unspecified",3

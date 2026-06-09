@@ -1,0 +1,21 @@
+system,code,display,tier
+http://snomed.info/sct,39390005,Niemann-Pick disease type B,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.241,Niemann-Pick disease type B,1
+http://www.orpha.net/ontology/orphanet.owl,77293,Chronic visceral acid sphingomyelinase deficiency,1
+http://snomed.info/sct,58459009,Sphingomyelin/cholesterol lipidosis,2
+http://hl7.org/fhir/sid/icd-10-cm,E75.24,Niemann-Pick disease,2
+http://hl7.org/fhir/sid/icd-10-cm,E75.244,Niemann-Pick disease type A/B,2
+http://hl7.org/fhir/sid/icd-9-cm,272.7,Lipidoses,2
+http://www.orpha.net/ontology/orphanet.owl,618899,Acid sphingomyelinase deficiency,2
+http://www.orpha.net/ontology/orphanet.owl,618891,Chronic neurovisceral acid sphingomyelinase deficiency,2
+http://human-phenotype-ontology.org,HP:6001380,Elevated circulating lysosphingomyelin concentration,2
+http://hl7.org/fhir/sid/icd-10-cm,E75.2,Other sphingolipidosis,3
+http://hl7.org/fhir/sid/icd-10-cm,E75.249,"Niemann-Pick disease, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E75.248,Other Niemann-Pick disease,3
+http://human-phenotype-ontology.org,HP:0001433,Hepatosplenomegaly,3
+http://human-phenotype-ontology.org,HP:0001744,Splenomegaly,3
+http://human-phenotype-ontology.org,HP:0002240,Hepatomegaly,3
+http://human-phenotype-ontology.org,HP:0001873,Thrombocytopenia,3
+http://human-phenotype-ontology.org,HP:0002094,Dyspnea,3
+http://human-phenotype-ontology.org,HP:0002205,Recurrent respiratory infections,3
+http://human-phenotype-ontology.org,HP:0006530,Interstitial pulmonary abnormality,3

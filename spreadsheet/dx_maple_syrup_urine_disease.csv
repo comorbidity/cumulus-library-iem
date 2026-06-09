@@ -1,0 +1,23 @@
+system,code,display,tier
+http://snomed.info/sct,27718001,Maple syrup urine disease,1
+http://snomed.info/sct,54064006,Classical maple syrup urine disease,1
+http://snomed.info/sct,23156007,Mild maple syrup urine disease,1
+http://snomed.info/sct,405287008,Intermediate maple syrup urine disease,1
+http://snomed.info/sct,405288003,Intermittent maple syrup urine disease,1
+http://snomed.info/sct,31368008,Thiamin-responsive maple syrup urine disease,1
+http://snomed.info/sct,71702000,"Maple syrup urine disease, multiple dehydrogenase form",1
+http://snomed.info/sct,29914000,Dihydrolipoamide dehydrogenase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.0,Maple-syrup-urine disease,1
+http://www.orpha.net/ontology/orphanet.owl,511,Maple syrup urine disease,1
+http://www.orpha.net/ontology/orphanet.owl,268145,Classic maple syrup urine disease,1
+http://www.orpha.net/ontology/orphanet.owl,268162,Intermediate maple syrup urine disease,1
+http://www.orpha.net/ontology/orphanet.owl,268173,Intermittent maple syrup urine disease,1
+http://www.orpha.net/ontology/orphanet.owl,268184,Thiamine-responsive maple syrup urine disease,1
+http://www.orpha.net/ontology/orphanet.owl,2394,Pyruvate dehydrogenase E3 deficiency,2
+http://snomed.info/sct,116020001,Disorder of branched-chain amino acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.2,"Disorder of branched-chain amino-acid metabolism, unspecified",2
+http://hl7.org/fhir/sid/icd-9-cm,270.3,Disturbances of branched-chain amino-acid metabolism,2
+http://human-phenotype-ontology.org,HP:0008344,Elevated circulating branched chain amino acid concentration,2
+http://human-phenotype-ontology.org,HP:0012088,Abnormal urinary odor,3
+http://hl7.org/fhir/sid/icd-10-cm,E71.1,Other disorders of branched-chain amino-acid metabolism,3
+http://hl7.org/fhir/sid/icd-10-cm,E71.19,Other disorders of branched-chain amino-acid metabolism,3

@@ -1,0 +1,23 @@
+system,code,display,tier
+http://snomed.info/sct,398664009,Deficiency of UTP-hexose-1-phosphate uridylyltransferase,1
+http://snomed.info/sct,124354006,Deficiency of UDPglucose-hexose-1-phosphate uridylyltransferase,1
+http://snomed.info/sct,190745006,Galactosemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.21,Galactosemia,1
+http://hl7.org/fhir/sid/icd-9-cm,271.1,Galactosemia,1
+http://www.orpha.net/ontology/orphanet.owl,79239,Classic galactosemia,1
+http://www.orpha.net/ontology/orphanet.owl,352,Galactosemia,1
+http://human-phenotype-ontology.org,HP:4000208,Reduced erythrocyte galactose-1-phosphate uridylyltransferase activity,2
+http://human-phenotype-ontology.org,HP:0012024,Hypergalactosemia,2
+http://snomed.info/sct,124302001,Deficiency of galactokinase,2
+http://snomed.info/sct,8849004,Galactoepimerase deficiency,2
+http://www.orpha.net/ontology/orphanet.owl,79237,Galactokinase deficiency,2
+http://www.orpha.net/ontology/orphanet.owl,79238,Galactose epimerase deficiency,2
+http://www.orpha.net/ontology/orphanet.owl,570422,Galactose mutarotase deficiency,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.2,Disorders of galactose metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.29,Other disorders of galactose metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.20,"Disorders of galactose metabolism, unspecified",3
+http://human-phenotype-ontology.org,HP:0012023,Galactosuria,3
+http://human-phenotype-ontology.org,HP:0000952,Jaundice,3
+http://human-phenotype-ontology.org,HP:0002240,Hepatomegaly,3
+http://human-phenotype-ontology.org,HP:0000518,Cataract,3
+http://human-phenotype-ontology.org,HP:0001943,Hypoglycemia,3
