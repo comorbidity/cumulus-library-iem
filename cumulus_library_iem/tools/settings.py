@@ -1,7 +1,7 @@
 import os
 
 CUMULUS_CUBE_AS_VIEW = int(os.environ.get("CUMULUS_CUBE_AS_VIEW") or 0)
-CUMULUS_CUBE_MIN_SUBJECTS = int(os.environ.get("CUMULUS_CUBE_MIN_SUBJECTS") or 10)
+CUMULUS_CUBE_MIN_SUBJECTS = int(os.environ.get("CUMULUS_CUBE_MIN_SUBJECTS") or 1)
 
 # print('###########################################################')
 # print('[Settings]')
