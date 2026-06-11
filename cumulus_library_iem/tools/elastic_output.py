@@ -5,28 +5,17 @@ from cumulus_library_iem.tools import settings, manifest, tablespace, filetool, 
 #-----------------------------------------------------------------------------
 # ElasticSearch output
 #-----------------------------------------------------------------------------
-def path_output() -> Path | None:
-    output_dir = Path(settings.ELASTIC_OUTPUT)
-    if not output_dir and not Path(output_dir).exists():
-        print(f'Does not exist', output_dir)
-        return None
-    return Path(output_dir)
-
-def list_output() -> list[Path] | None:
-    output_path = path_output()
+def list_csv() -> list[Path]:
+    output_path = filetool.path_elastic_output()
     if output_path and output_path.exists():
         return list(output_path.glob('*.csv'))
-    return None
-
-def exists_output() -> bool:
-    output_list = list_output()
-    return (output_list is not None) and len(output_list) > 0
+    return list()
 
 #-----------------------------------------------------------------------------
 # TOML files
 #-----------------------------------------------------------------------------
 def path_upload_toml() -> Path:
-    return path_output() / 'file_upload_elastic.toml'
+    return filetool.path_elastic_output() / 'file_upload_elastic.toml'
 
 def path_stage_toml() -> Path:
      return filetool.path_project() / 'elastic_output.toml'
@@ -35,7 +24,7 @@ def path_stage_toml() -> Path:
 # Helpers
 #-----------------------------------------------------------------------------
 def list_tables(aspect:Aspect=None) -> list[str]:
-    name_list = [filetool.file_to_simplename(file.name) for file in list_output()]
+    name_list = [filetool.file_to_simplename(file.name) for file in list_csv()]
     return [tablespace.name_elastic(name) for name in name_list]
 
 def select_union(table_list: list[str]) -> str:
@@ -50,7 +39,7 @@ def select_union(table_list: list[str]) -> str:
 # Make
 #-----------------------------------------------------------------------------
 def make_file_upload_toml() -> list[Path]:
-    return [manifest.save_file_upload_toml(list_output(), path_upload_toml(), table_prefix='elastic')]
+    return [manifest.save_file_upload_toml(list_csv(), path_upload_toml(), table_prefix='elastic')]
 
 def make_union() -> list[Path]:
     file_list = [_make_union()]
@@ -65,7 +54,7 @@ def _make_union(aspect:Aspect=None) -> Path:
     )
 
 def make() -> list[Path]:
-    if exists_output():
+    if len(list_csv()) > 0:
         return make_file_upload_toml() + make_union()
     return list()
 

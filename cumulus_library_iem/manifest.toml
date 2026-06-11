@@ -17,6 +17,10 @@ files = ['study_variable.toml']
 type = "submanifest"
 files = ['study_variable_wide.toml']
 
+[[stages.elastic_query]]
+type = "submanifest"
+files = ['elastic_query.toml']
+
 [[stages.elastic_output]]
 type = "submanifest"
 files = ['elastic_output.toml']

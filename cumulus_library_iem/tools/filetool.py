@@ -2,7 +2,7 @@ import os
 import json
 from pathlib import Path
 from typing import Dict, Any
-from cumulus_library_iem.tools import fhir_reference
+from cumulus_library_iem.tools import fhir_reference, settings
 
 #-----------------------------------------------------------------------------
 # PROJECT HOME
@@ -100,6 +100,16 @@ def path_llm_athena(filename: Path | str = None) -> Path:
 
 def save_llm_athena(file_sql: str, contents: str) -> Path:
     return Path(write_text(contents, path_llm_athena(file_sql)))
+
+#-----------------------------------------------------------------------------
+# Elastic
+#-----------------------------------------------------------------------------
+def path_elastic_output() -> Path | None:
+    output_dir = Path(settings.ELASTIC_OUTPUT)
+    if not output_dir and not Path(output_dir).exists():
+        print(f'Does not exist', output_dir)
+        return None
+    return Path(output_dir)
 
 #-----------------------------------------------------------------------------
 # Read/Write Text

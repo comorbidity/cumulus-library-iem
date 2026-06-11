@@ -1,0 +1,6 @@
+[[actions]]
+description="Elastic search query (this might take a while)"
+type="build:parallel"
+files= [
+	"tools/elastic_query.py"
+]
