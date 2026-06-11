@@ -1,9 +1,9 @@
-create table {{ prefix }}__elastic_union as
-with select_union as
+CREATE TABLE {{ prefix }}__elastic_union AS
+WITH select_union AS
 (
 {{ select_union }}
 )
-select  distinct *
-from    select_union
+SELECT  DISTINCT *
+FROM    select_union
 ;
 
