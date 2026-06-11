@@ -1,0 +1,19 @@
+system,code,display,tier
+http://snomed.info/sct,63246000,Cerebrotendinous xanthomatosis,1
+http://www.orpha.net/ontology/orphanet.owl,909,Cerebrotendinous xanthomatosis,1
+http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl,C84628,Cerebrotendinous Xanthomatosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.5,Other lipid storage disorders,2
+http://hl7.org/fhir/sid/icd-9-cm,272.7,Lipidoses,2
+http://human-phenotype-ontology.org,HP:0010874,Tendon xanthomatosis,2
+http://snomed.info/sct,69880002,Tendinous xanthoma,2
+http://human-phenotype-ontology.org,HP:0000518,Cataract,3
+http://human-phenotype-ontology.org,HP:0002014,Diarrhea,3
+http://human-phenotype-ontology.org,HP:0001251,Ataxia,3
+http://human-phenotype-ontology.org,HP:0002073,Progressive cerebellar ataxia,3
+http://human-phenotype-ontology.org,HP:0002510,Dementia,3
+http://human-phenotype-ontology.org,HP:0001250,Seizure,3
+http://human-phenotype-ontology.org,HP:0009830,Peripheral neuropathy,3
+http://human-phenotype-ontology.org,HP:0001298,Encephalopathy,3
+http://human-phenotype-ontology.org,HP:0000952,Jaundice,3
+http://human-phenotype-ontology.org,HP:0001396,Cholestasis,3
+http://human-phenotype-ontology.org,HP:0002797,Osteoporosis,3
