@@ -1,0 +1,17 @@
+system,code,display,tier
+http://snomed.info/sct,80908008,Ornithine carbamoyltransferase deficiency,1
+http://www.orpha.net/ontology/orphanet.owl,664,Ornithine transcarbamylase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.4,Disorders of ornithine metabolism,2
+http://hl7.org/fhir/sid/icd-9-cm,270.6,Disorders of urea cycle metabolism,2
+http://snomed.info/sct,36444000,Disorder of the urea cycle metabolism,2
+http://www.orpha.net/ontology/orphanet.owl,79167,Disorder of urea cycle metabolism and ammonia detoxification,2
+http://human-phenotype-ontology.org,HP:0003218,Oroticaciduria,2
+http://human-phenotype-ontology.org,HP:0008281,Acute hyperammonemia,3
+http://human-phenotype-ontology.org,HP:0001987,Hyperammonemia,3
+http://snomed.info/sct,9360008,Hyperammonemia,3
+http://human-phenotype-ontology.org,HP:0001298,Encephalopathy,3
+http://human-phenotype-ontology.org,HP:0001250,Seizure,3
+http://human-phenotype-ontology.org,HP:0002013,Vomiting,3
+http://human-phenotype-ontology.org,HP:0002054,Lethargy,3
+http://human-phenotype-ontology.org,HP:0004396,Poor appetite,3
+http://human-phenotype-ontology.org,HP:0001263,Global developmental delay,3
