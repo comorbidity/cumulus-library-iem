@@ -1,5 +1,8 @@
 config_type="file_upload"
 
+[tables.valueset_dx_cerebrotendinous_xanthomatosis]
+file = "dx_cerebrotendinous_xanthomatosis.csv"
+
 [tables.valueset_dx_citrullinemia]
 file = "dx_citrullinemia.csv"
 
@@ -30,6 +33,9 @@ file = "dx_glycogen_storage_disease_type_4.csv"
 [tables.valueset_dx_homocystinuria]
 file = "dx_homocystinuria.csv"
 
+[tables.valueset_dx_iem_generic]
+file = "dx_iem_generic.csv"
+
 [tables.valueset_dx_maple_syrup_urine_disease]
 file = "dx_maple_syrup_urine_disease.csv"
 
@@ -41,6 +47,9 @@ file = "dx_nags_deficiency.csv"
 
 [tables.valueset_dx_niemann_pick_disease]
 file = "dx_niemann_pick_disease.csv"
+
+[tables.valueset_dx_ornithine_transcarbamylase]
+file = "dx_ornithine_transcarbamylase.csv"
 
 [tables.valueset_dx_phenylketonuria]
 file = "dx_phenylketonuria.csv"

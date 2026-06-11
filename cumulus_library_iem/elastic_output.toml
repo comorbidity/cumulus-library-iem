@@ -1,4 +1,11 @@
 [[actions]]
+description = 'file_upload_elastic.toml'
+type = "build:parallel"
+files = [
+    './elastic_output/file_upload_elastic.toml'
+]
+
+[[actions]]
 description=""
 type="build:parallel"
 files= [
