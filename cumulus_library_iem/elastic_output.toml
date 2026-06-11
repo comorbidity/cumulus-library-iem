@@ -9,5 +9,6 @@ files = [
 description=""
 type="build:parallel"
 files= [
-	"athena/iem__elastic_union.sql"
+	"athena/iem__elastic_union.sql",
+	"athena/iem__elastic_union_dx.sql"
 ]

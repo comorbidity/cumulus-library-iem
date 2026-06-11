@@ -23,7 +23,7 @@ def path_stage_toml() -> Path:
 #-----------------------------------------------------------------------------
 # Helpers
 #-----------------------------------------------------------------------------
-def list_tables(aspect:Aspect=None) -> list[str]:
+def list_tables() -> list[str]:
     name_list = [filetool.file_to_simplename(file.name) for file in list_csv()]
     return [tablespace.name_elastic(name) for name in name_list]
 
@@ -42,12 +42,12 @@ def make_file_upload_toml() -> list[Path]:
     return [manifest.save_file_upload_toml(list_csv(), path_upload_toml(), table_prefix='elastic')]
 
 def make_union() -> list[Path]:
-    file_list = [_make_union()]
+    file_list = [_make_union(), _make_union(Aspect.dx)]
     return [manifest.save_sql_toml(file_list, path_stage_toml())]
 
 def _make_union(aspect:Aspect=None) -> Path:
     cohort = f'union_{aspect.name}' if aspect else f'union'
-    table_list = list_tables(aspect)
+    table_list = list_tables()
     return filetool.save_athena_view(
         tablespace.name_elastic(cohort),
         template.load(f"elastic_{cohort}.sql", select_union=select_union(table_list))
