@@ -1,5 +1,5 @@
 from pathlib import Path
-from cumulus_library_iem.tools import manifest, study_meta
+from cumulus_library_iem.tools import manifest, study_meta, tablespace
 from cumulus_library_iem.tools.cube import PREFIX
 from cumulus_library_iem.tools.cube import (
     cube_patient,
@@ -8,6 +8,7 @@ from cumulus_library_iem.tools.cube import (
     cube_document,
     cube_diagnostic
 )
+
 
 #-----------------------------------------------------------------------------
 # Make FHIR variables
@@ -35,10 +36,16 @@ def make_variable_union() -> list[Path]:
 def make_elastic_union() -> list[Path]:
     return [
         cube_patient(source_table=f'{PREFIX}__elastic_union',
-                     table_cols=['elastic','document_title']),
+                     table_name=tablespace.name_cube('elastic', 'patient'),
+                     table_cols=['topic','document_title']),
 
         cube_encounter(source_table=f'{PREFIX}__elastic_union',
-                     table_cols=['elastic', 'document_title'])
+                       table_name=tablespace.name_cube('elastic', 'encounter'),
+                       table_cols=['topic', 'document_title']),
+
+        cube_note(source_table=f'{PREFIX}__elastic_union',
+                  table_name=tablespace.name_cube('elastic', 'note'),
+                  table_cols=['topic', 'document_title'])
     ]
 
 #-----------------------------------------------------------------------------

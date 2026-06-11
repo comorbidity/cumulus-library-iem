@@ -7,11 +7,29 @@ files= [
 ]
 
 [[actions]]
+description="SQL cube elastic union"
+type="build:parallel"
+files= [
+	"athena/iem__cube_patient_elastic.sql",
+	"athena/iem__cube_encounter_elastic.sql",
+	"athena/iem__cube_note_elastic.sql"
+]
+
+[[actions]]
 description="export cube tables variable union"
 type="export:counts"
 tables= [
 	"iem__cube_patient_variable_union",
 	"iem__cube_encounter_variable_union"
+]
+
+[[actions]]
+description="export cube tables study populations"
+type="export:counts"
+tables= [
+	"iem__cube_patient_elastic",
+	"iem__cube_encounter_elastic",
+	"iem__cube_note_elastic"
 ]
 
 [[actions]]

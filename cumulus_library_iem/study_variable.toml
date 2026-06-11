@@ -2,7 +2,7 @@
 description="variable cohorts"
 type="build:parallel"
 files= [
-	"athena/iem__cohort_dx_ass1_deficiency.sql",
+	"athena/iem__cohort_dx_citrullinemia.sql",
 	"athena/iem__cohort_dx_cps1_deficiency.sql",
 	"athena/iem__cohort_dx_cpt1_deficiency.sql",
 	"athena/iem__cohort_dx_galactosemia.sql",

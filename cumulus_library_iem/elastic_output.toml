@@ -1,0 +1,6 @@
+[[actions]]
+description=""
+type="build:parallel"
+files= [
+	"athena/iem__elastic_union.sql"
+]

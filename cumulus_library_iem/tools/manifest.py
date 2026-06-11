@@ -55,7 +55,7 @@ def as_export_toml(file_list:list[Path], description:str=None, export_type='expo
     _tables = [_quote(f.stem) for f in file_list]
     return _actions(description, export_type, 'tables', _tables)
 
-def as_file_upload_toml(file_list:list[Path]) -> str:
+def as_file_upload_toml(file_list:list[Path], table_prefix='valueset') -> str:
     """
     @Refactor: TOML templates be Jinja `template.py`
     :return: str content for `manifest.toml` submanifest
@@ -66,15 +66,15 @@ def as_file_upload_toml(file_list:list[Path]) -> str:
         if 'include' in filename.name:
             out.append(f'[tables.{simple}]')
         else:
-            out.append(f'[tables.valueset_{simple}]')
+            out.append(f'[tables.{table_prefix}_{simple}]')
         out.append(f'file = "{filename.name}"')
         out.append('')
     return '\n'.join(out)
 
-def save_file_upload_toml(file_list:list[Path], toml_file:Path|str) -> Path:
+def save_file_upload_toml(file_list:list[Path], toml_file:Path|str, table_prefix='valueset') -> Path:
     if not isinstance(toml_file, Path):
         toml_file = filetool.path_spreadsheet(toml_file)
-    content=as_file_upload_toml(file_list)
+    content=as_file_upload_toml(file_list, table_prefix)
     return save_text_toml(content=content, toml_file=toml_file)
 
 def save_sql_toml(file_list: list[Path], toml_file: Path|str, description:str = None, build='build:parallel') -> Path:

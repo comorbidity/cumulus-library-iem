@@ -1,0 +1,6 @@
+[[actions]]
+description="study population from cache"
+type="build:parallel"
+files= [
+	"athena/study_population_from_cache.sql"
+]

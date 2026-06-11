@@ -1,7 +1,7 @@
 from pathlib import Path
 from cumulus_library_iem.tools import manifest, template
 
-DATA_PACKAGE_VERSION = 5
+DATA_PACKAGE_VERSION = 8
 
 def make_study_meta_sql(data_package_version:int = DATA_PACKAGE_VERSION) -> list[Path]:
     """
@@ -18,16 +18,16 @@ def make_inline()->list[str]:
     description = "export metadata"
     type = "build:serial"
     files = [
-        'athena/irae__meta_date.sql',
-        'athena/irae__meta_version.sql'
+        'athena/iem__meta_date.sql',
+        'athena/iem__meta_version.sql'
     ]
 
     [[actions]]
     description = "export metadata"
     type = "export:meta"
     tables = [
-        'irae__meta_date',
-        'irae__meta_version'
+        'iem__meta_date',
+        'iem__meta_version'
     ]
     """
     file_list = make_study_meta_sql()

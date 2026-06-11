@@ -7,6 +7,7 @@ files = ['file_upload.toml']
 [[stages.study_population]]
 type = "submanifest"
 files = ['study_population.toml']
+#files = ['study_population_from_cache.toml'] # << optional cached copy
 
 [[stages.study_variable]]
 type = "submanifest"
@@ -16,13 +17,9 @@ files = ['study_variable.toml']
 type = "submanifest"
 files = ['study_variable_wide.toml']
 
-#[[stages.casedef]]
-#type = "submanifest"
-#files = ['casedef.toml']
-
-#[[stages.sample]]
-#type = "submanifest"
-#files = ['sample.toml']
+[[stages.elastic_output]]
+type = "submanifest"
+files = ['elastic_output.toml']
 
 [[stages.cube]]
 type = "submanifest"

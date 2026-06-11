@@ -16,7 +16,7 @@ def name_suffix(name: str, suffix=None) -> str:
 
 def name_trim(table) -> str:
     simple = table
-    for part in ['cohort_', 'cube_', 'valueset_']:
+    for part in ['cohort_', 'cube_', 'valueset_', 'elastic_']:
         simple = simple.replace(part, '')
     return simple.replace(name_prefix(''), '')
 
@@ -29,6 +29,10 @@ def name_sample(table: str, suffix=None) -> str:
 
 def name_cohort(table: str, suffix=None) -> str:
     part = name_suffix('cohort', suffix)
+    return name_join(part, table)
+
+def name_elastic(table: str, suffix=None) -> str:
+    part = name_suffix('elastic', suffix)
     return name_join(part, table)
 
 def name_study_population(suffix=None) -> str:

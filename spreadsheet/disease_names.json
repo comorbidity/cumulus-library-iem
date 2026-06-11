@@ -21,7 +21,6 @@
 "Hypercitrullinemia due to ASS1 deficiency",
 "Hyperammonemia due to ASS1 deficiency"
 ],
-
 "dx_cps1_deficiency": [
 "CPS1 deficiency",
 "CPS1D",
@@ -60,7 +59,6 @@
 "Hyperammonemia type I",
 "Hyperammonemia type 1"
 ],
-
 "dx_cpt1_deficiency": [
 "CPT1 deficiency",
 "CPT I deficiency",
@@ -91,7 +89,6 @@
 "CPT1A variant",
 "CPT1A gene mutation"
 ],
-
 "dx_galactosemia": [
 "Galactosemia",
 "Classic galactosemia",
@@ -117,7 +114,6 @@
 "UDP glucose hexose-1-phosphate uridylyltransferase deficiency",
 "UDP-glucose hexose-1-phosphate uridylyltransferase deficiency"
 ],
-
 "dx_gaucher_disease": [
 "Gaucher disease",
 "Gaucher's disease",
@@ -158,7 +154,6 @@
 "GBA1 variant",
 "GBA1 gene mutation"
 ],
-
 "dx_glycogen_storage_disease_type_1": [
 "Glycogen storage disease type 1",
 "Glycogen storage disease type I",
@@ -225,7 +220,6 @@
 "SLC37A4 variant",
 "SLC37A4 gene mutation"
 ],
-
 "dx_glycogen_storage_disease_type_2": [
 "Glycogen storage disease type 2",
 "Glycogen storage disease type II",
@@ -263,7 +257,6 @@
 "GAA variant",
 "GAA gene mutation"
 ],
-
 "dx_glycogen_storage_disease_type_3": [
 "Glycogen storage disease type 3",
 "Glycogen storage disease type III",
@@ -317,7 +310,6 @@
 "GSD3b",
 "GSDIIIb"
 ],
-
 "dx_glycogen_storage_disease_type_4": [
 "Glycogen storage disease type 4",
 "Glycogen storage disease type IV",
@@ -359,9 +351,8 @@
 "Fatal perinatal neuromuscular glycogen storage disease",
 "Congenital neuromuscular glycogen storage disease type 4",
 "Congenital neuromuscular glycogen storage disease type IV",
-"Adult polyglucosan body disease",
+"Adult polyglucosan body disease"
 ],
-
 "dx_homocystinuria": [
 "Homocystinuria",
 "Classic homocystinuria",
