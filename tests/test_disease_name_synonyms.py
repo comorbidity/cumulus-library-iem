@@ -2,7 +2,7 @@ import unittest
 from collections import Counter
 from cumulus_library_iem.tools import filetool
 
-DISEASE_FILE = filetool.path_project('disease_names.json')
+DISEASE_FILE = filetool.path_spreadsheet('disease_names.json')
 DISEASE_NAMES = filetool.read_json(DISEASE_FILE)
 
 class TestDiseaseNameSynonyms(unittest.TestCase):
@@ -26,13 +26,22 @@ class TestDiseaseNameSynonyms(unittest.TestCase):
             if term_freq[query] > 1:
                 print('WARN', term_freq[query], 'disease names map to query', f"'{query}'")
 
-    def json_to_csv(self):
+    def test_too_short(self):
+        """
+        https://en.wikipedia.org/wiki/Too_Short
+        """
+        for dx in DISEASE_NAMES:
+            for syn in DISEASE_NAMES[dx]:
+                self.assertTrue(len(syn) > 3, f'{syn} (is too short for) {dx}')
+
+
+    @unittest.skip('disease_names_expanded.json.csv')
+    def test_json_to_csv(self):
         out = list()
         for dx in DISEASE_NAMES:
             for query in DISEASE_NAMES[dx]:
-                out.append(f"{dx},{query}")
+                out.append(f'{dx},"{query}"')
         out = '\n'.join(out)
-        print(out)
 
         filetool.write_text(out, f"{DISEASE_FILE}.csv")
 
