@@ -1,0 +1,298 @@
+system,code,display,tier
+http://hl7.org/fhir/sid/icd-10-cm,E70,Disorders of aromatic amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.0,Classical phenylketonuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E70.1,Other hyperphenylalaninemias,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.2,Disorders of tyrosine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.20,"Disorder of tyrosine metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E70.21,Tyrosinemia,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.29,Other disorders of tyrosine metabolism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.3,Albinism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.30,"Albinism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E70.31,Ocular albinism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.310,X-linked ocular albinism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.311,Autosomal recessive ocular albinism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.318,Other ocular albinism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.319,"Ocular albinism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E70.32,Oculocutaneous albinism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.330,Chediak-Higashi syndrome,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.331,Griscelli syndrome,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.338,Other disorders of diminished melanin formation,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.339,"Disorder of diminished melanin formation, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E70.39,Other albinism,3
+http://hl7.org/fhir/sid/icd-10-cm,E70.4,Disorders of histidine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.5,Disorders of tryptophan metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.8,Other disorders of aromatic amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E70.9,"Disorder of aromatic amino-acid metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E71,Disorders of branched-chain amino-acid metabolism and fatty-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.0,Maple-syrup-urine disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.1,Other disorders of branched-chain amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.11,Branched-chain organic acidurias,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.110,Isovaleric acidemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.111,3-methylcrotonyl-CoA carboxylase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.118,Other branched-chain organic acidurias,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.12,Methylmalonic acidemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.120,"Methylmalonic acidemia, unspecified",1
+http://hl7.org/fhir/sid/icd-10-cm,E71.121,Methylmalonic acidemia due to transcobalamin receptor defect,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.128,Other methylmalonic acidemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.19,Other disorders of branched-chain amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.2,"Disorder of branched-chain amino-acid metabolism, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E71.3,Disorders of fatty-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.30,"Disorder of fatty-acid metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E71.31,Disorders of fatty-acid oxidation,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.310,Long chain/very long chain acyl CoA dehydrogenase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.311,Medium chain acyl CoA dehydrogenase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.312,Short chain acyl CoA dehydrogenase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.313,Glutaric aciduria type II,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.314,Muscle carnitine palmitoyltransferase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.318,Other disorders of fatty-acid oxidation,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.32,Disorders of ketone metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.39,Other disorders of fatty-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.4,Disorders of carnitine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E71.40,"Disorder of carnitine metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E71.41,Primary carnitine deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.42,Carnitine deficiency due to inborn error of metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.43,Iatrogenic carnitine deficiency,3
+http://hl7.org/fhir/sid/icd-10-cm,E71.44,Secondary carnitine deficiency,3
+http://hl7.org/fhir/sid/icd-10-cm,E71.440,"Secondary carnitine deficiency, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E71.448,Other secondary carnitine deficiency,3
+http://hl7.org/fhir/sid/icd-10-cm,E71.5,Peroxisomal disorders,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.50,"Peroxisomal disorder, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E71.51,Disorders of peroxisome biogenesis,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.510,Zellweger syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.511,Neonatal adrenoleukodystrophy,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.518,Other disorders of peroxisome biogenesis,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.52,X-linked adrenoleukodystrophy,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.520,Childhood cerebral X-linked adrenoleukodystrophy,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.521,Adolescent X-linked adrenoleukodystrophy,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.522,Adrenomyeloneuropathy,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.528,Other X-linked adrenoleukodystrophy,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.529,"X-linked adrenoleukodystrophy, unspecified type",1
+http://hl7.org/fhir/sid/icd-10-cm,E71.53,Other group 2 peroxisomal disorders,1
+http://hl7.org/fhir/sid/icd-10-cm,E71.54,Other peroxisomal disorders,1
+http://hl7.org/fhir/sid/icd-10-cm,E72,Other disorders of amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.0,Disorders of amino-acid transport,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.01,Cystinuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.02,Cystinosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.03,Lysinuric protein intolerance,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.04,Cystathioninuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.09,Other disorders of amino-acid transport,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.1,Disorders of sulfur-bearing amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.10,"Disorder of sulfur-bearing amino-acid metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E72.11,Homocystinuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.12,Methylenetetrahydrofolate reductase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.19,Other disorders of sulfur-bearing amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.2,Disorders of urea cycle metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.20,"Disorder of urea cycle metabolism, unspecified",1
+http://hl7.org/fhir/sid/icd-10-cm,E72.21,Argininemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.22,Arginosuccinic aciduria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.23,Citrullinemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.29,Other disorders of urea cycle metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.3,Disorders of lysine and hydroxylysine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.4,Disorders of ornithine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.5,Disorders of glycine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.50,"Disorder of glycine metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E72.51,Non-ketotic hyperglycinemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.52,Trimethylaminuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.53,Primary hyperoxaluria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.530,"Primary hyperoxaluria, type 1",1
+http://hl7.org/fhir/sid/icd-10-cm,E72.538,Other specified primary hyperoxaluria,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.539,"Primary hyperoxaluria, unspecified",1
+http://hl7.org/fhir/sid/icd-10-cm,E72.54,Secondary hyperoxaluria,3
+http://hl7.org/fhir/sid/icd-10-cm,E72.540,Dietary hyperoxaluria,3
+http://hl7.org/fhir/sid/icd-10-cm,E72.541,Enteric hyperoxaluria,3
+http://hl7.org/fhir/sid/icd-10-cm,E72.548,Other secondary hyperoxaluria,3
+http://hl7.org/fhir/sid/icd-10-cm,E72.549,"Secondary hyperoxaluria, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E72.59,Other disorders of glycine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.8,Other specified disorders of amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.81,Disorders of gamma aminobutyric acid metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E72.89,Other specified disorders of amino-acid metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E72.9,"Disorder of amino-acid metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E73.0,Congenital lactase deficiency,3
+http://hl7.org/fhir/sid/icd-10-cm,E74,Other disorders of carbohydrate metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.0,Glycogen storage disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.00,"Glycogen storage disease, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E74.01,von Gierke disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.02,Pompe disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.03,Cori disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.04,McArdle disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.09,Other glycogen storage disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.1,Disorders of fructose metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.10,"Disorder of fructose metabolism, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E74.11,Essential fructosuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.12,Hereditary fructose intolerance,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.19,Other disorders of fructose metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.2,Disorders of galactose metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.20,"Disorders of galactose metabolism, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E74.21,Galactosemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.29,Other disorders of galactose metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.3,Other disorders of intestinal carbohydrate absorption,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.31,Sucrase-isomaltase deficiency,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.39,Other disorders of intestinal carbohydrate absorption,3
+http://hl7.org/fhir/sid/icd-10-cm,E74.4,Disorders of pyruvate metabolism and gluconeogenesis,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.8,Other specified disorders of carbohydrate metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.810,Glucose transporter protein type 1 deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E74.818,Other disorders of glucose transport,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.819,"Disorders of glucose transport, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E74.89,Other specified disorders of carbohydrate metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E74.9,"Disorder of carbohydrate metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E75,Disorders of sphingolipid metabolism and other lipid storage disorders,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.0,GM2 gangliosidosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.00,"GM2 gangliosidosis, unspecified",1
+http://hl7.org/fhir/sid/icd-10-cm,E75.01,Sandhoff disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.02,Tay-Sachs disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.09,Other GM2 gangliosidosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.1,Other and unspecified gangliosidosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.10,Unspecified gangliosidosis,2
+http://hl7.org/fhir/sid/icd-10-cm,E75.11,Mucolipidosis IV,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.19,Other gangliosidosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.2,Other sphingolipidosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.21,Fabry disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.22,Gaucher disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.23,Krabbe disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.24,Niemann-Pick disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.240,Niemann-Pick disease type A,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.241,Niemann-Pick disease type B,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.242,Niemann-Pick disease type C,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.243,Niemann-Pick disease type D,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.244,Niemann-Pick disease type A/B,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.248,Other Niemann-Pick disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.249,"Niemann-Pick disease, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E75.25,Metachromatic leukodystrophy,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.26,Sulfatase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.29,Other sphingolipidosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.3,"Sphingolipidosis, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E75.4,Neuronal ceroid lipofuscinosis,1
+http://hl7.org/fhir/sid/icd-10-cm,E75.5,Other lipid storage disorders,2
+http://hl7.org/fhir/sid/icd-10-cm,E75.6,"Lipid storage disorder, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E76,Disorders of glycosaminoglycan metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.0,"Mucopolysaccharidosis, type I",1
+http://hl7.org/fhir/sid/icd-10-cm,E76.01,Hurler syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.02,Hurler-Scheie syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.03,Scheie syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.1,"Mucopolysaccharidosis, type II",1
+http://hl7.org/fhir/sid/icd-10-cm,E76.2,Other mucopolysaccharidoses,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.21,Morquio mucopolysaccharidoses,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.210,Morquio A mucopolysaccharidoses,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.211,Morquio B mucopolysaccharidoses,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.219,"Morquio mucopolysaccharidoses, unspecified",1
+http://hl7.org/fhir/sid/icd-10-cm,E76.22,Sanfilippo mucopolysaccharidoses,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.29,Other mucopolysaccharidoses,1
+http://hl7.org/fhir/sid/icd-10-cm,E76.3,"Mucopolysaccharidosis, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E76.8,Other disorders of glucosaminoglycan metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E76.9,"Glucosaminoglycan metabolism disorder, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E77,Disorders of glycoprotein metabolism,1
+http://hl7.org/fhir/sid/icd-10-cm,E77.0,Defects in post-translational modification of lysosomal enzymes,1
+http://hl7.org/fhir/sid/icd-10-cm,E77.1,Defects in glycoprotein degradation,1
+http://hl7.org/fhir/sid/icd-10-cm,E77.8,Other disorders of glycoprotein metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E77.9,"Disorder of glycoprotein metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E78.010,Homozygous familial hypercholesterolemia,3
+http://hl7.org/fhir/sid/icd-10-cm,E78.011,Heterozygous familial hypercholesterolemia,3
+http://hl7.org/fhir/sid/icd-10-cm,E78.019,"Familial hypercholesterolemia, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E78.3,Hyperchylomicronemia,2
+http://hl7.org/fhir/sid/icd-10-cm,E78.6,Lipoprotein deficiency,2
+http://hl7.org/fhir/sid/icd-10-cm,E78.7,Disorders of bile acid and cholesterol metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E78.70,"Disorder of bile acid and cholesterol metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E78.71,Barth syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E78.72,Smith-Lemli-Opitz syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E78.79,Other disorders of bile acid and cholesterol metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E79,Disorders of purine and pyrimidine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E79.1,Lesch-Nyhan syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E79.2,Myoadenylate deaminase deficiency,1
+http://hl7.org/fhir/sid/icd-10-cm,E79.8,Other disorders of purine and pyrimidine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E79.81,Aicardi-Goutieres syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E79.82,Hereditary xanthinuria,1
+http://hl7.org/fhir/sid/icd-10-cm,E79.89,Other disorders of purine and pyrimidine metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E79.9,"Disorder of purine and pyrimidine metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E80,Disorders of porphyrin and bilirubin metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E80.0,Hereditary erythropoietic porphyria,1
+http://hl7.org/fhir/sid/icd-10-cm,E80.1,Porphyria cutanea tarda,2
+http://hl7.org/fhir/sid/icd-10-cm,E80.2,Other and unspecified porphyria,1
+http://hl7.org/fhir/sid/icd-10-cm,E80.20,Unspecified porphyria,2
+http://hl7.org/fhir/sid/icd-10-cm,E80.21,Acute intermittent hepatic porphyria,1
+http://hl7.org/fhir/sid/icd-10-cm,E80.29,Other porphyria,1
+http://hl7.org/fhir/sid/icd-10-cm,E80.3,Defects of catalase and peroxidase,2
+http://hl7.org/fhir/sid/icd-10-cm,E80.4,Gilbert syndrome,3
+http://hl7.org/fhir/sid/icd-10-cm,E80.5,Crigler-Najjar syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E80.6,Other disorders of bilirubin metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E80.7,"Disorder of bilirubin metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E83.0,Disorders of copper metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E83.00,"Disorder of copper metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E83.01,Wilson disease,1
+http://hl7.org/fhir/sid/icd-10-cm,E83.09,Other disorders of copper metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E83.1,Disorders of iron metabolism,3
+http://hl7.org/fhir/sid/icd-10-cm,E83.10,"Disorder of iron metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E83.11,Hemochromatosis,3
+http://hl7.org/fhir/sid/icd-10-cm,E83.110,Hereditary hemochromatosis,3
+http://hl7.org/fhir/sid/icd-10-cm,E83.111,Hemochromatosis due to repeated red blood cell transfusions,3
+http://hl7.org/fhir/sid/icd-10-cm,E83.118,Other hemochromatosis,3
+http://hl7.org/fhir/sid/icd-10-cm,E83.119,"Hemochromatosis, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E83.19,Other disorders of iron metabolism,3
+http://hl7.org/fhir/sid/icd-10-cm,E83.3,Disorders of phosphorus metabolism and phosphatases,2
+http://hl7.org/fhir/sid/icd-10-cm,E83.30,"Disorder of phosphorus metabolism, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,E83.31,Familial hypophosphatemia,1
+http://hl7.org/fhir/sid/icd-10-cm,E83.32,Hereditary vitamin D-dependent rickets,1
+http://hl7.org/fhir/sid/icd-10-cm,E83.39,Other disorders of phosphorus metabolism,2
+http://hl7.org/fhir/sid/icd-10-cm,E88.01,Alpha-1-antitrypsin deficiency,2
+http://hl7.org/fhir/sid/icd-10-cm,E88.4,Mitochondrial metabolism disorders,1
+http://hl7.org/fhir/sid/icd-10-cm,E88.40,"Mitochondrial metabolism disorder, unspecified",2
+http://hl7.org/fhir/sid/icd-10-cm,E88.41,MELAS syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E88.42,MERRF syndrome,1
+http://hl7.org/fhir/sid/icd-10-cm,E88.43,Disorders of mitochondrial tRNA synthetases,1
+http://hl7.org/fhir/sid/icd-10-cm,E88.49,Other mitochondrial metabolism disorders,1
+http://hl7.org/fhir/sid/icd-10-cm,E88.8,Other specified metabolic disorders,3
+http://hl7.org/fhir/sid/icd-10-cm,E88.89,Other specified metabolic disorders,3
+http://hl7.org/fhir/sid/icd-10-cm,E88.9,"Metabolic disorder, unspecified",3
+http://hl7.org/fhir/sid/icd-10-cm,G31.82,Leigh disease,1
+http://hl7.org/fhir/sid/icd-10-cm,G60.1,Refsum disease,1
+http://hl7.org/fhir/sid/icd-10-cm,G71.3,Mitochondrial myopathy,1
+http://hl7.org/fhir/sid/icd-10-cm,D55.0,Anemia due to glucose-6-phosphate dehydrogenase deficiency,3
+http://hl7.org/fhir/sid/icd-10-cm,D55.2,Anemia due to disorders of glycolytic enzymes,2
+http://snomed.info/sct,75934005,Metabolic disease,3
+http://snomed.info/sct,42930003,Inborn error of amino acid metabolism,1
+http://snomed.info/sct,116020001,Disorder of branched-chain amino acid metabolism,2
+http://snomed.info/sct,36444000,Disorder of the urea cycle metabolism,1
+http://snomed.info/sct,27718001,Maple syrup urine disease,1
+http://snomed.info/sct,57119000,"Hyperammonemia, type III",1
+http://snomed.info/sct,62522004,"Congenital hyperammonemia, type I",1
+http://snomed.info/sct,80908008,Ornithine carbamoyltransferase deficiency,1
+http://snomed.info/sct,398680004,Citrullinemia,1
+http://snomed.info/sct,23501004,Arginase deficiency,1
+http://snomed.info/sct,41013004,Argininosuccinate lyase deficiency,1
+http://snomed.info/sct,24308003,Cystathionine beta-synthase deficiency,1
+http://snomed.info/sct,11282001,Homocystinuria,1
+http://snomed.info/sct,190687004,Phenylketonuria,1
+http://snomed.info/sct,7573000,Classical phenylketonuria,1
+http://snomed.info/sct,37200009,Disorder of tyrosine metabolism,2
+http://snomed.info/sct,410056006,Tyrosinemia type I,1
+http://snomed.info/sct,190745006,Galactosemia,1
+http://snomed.info/sct,398664009,Deficiency of UTP-hexose-1-phosphate uridylyltransferase,1
+http://snomed.info/sct,7265005,"Glycogen storage disease, type I",1
+http://snomed.info/sct,444707001,Glycogen storage disease type Ia,1
+http://snomed.info/sct,237967002,"Glycogen storage disease, type II",1
+http://snomed.info/sct,274864009,Glycogen storage disease due to acid maltase deficiency,1
+http://snomed.info/sct,66937008,"Glycogen storage disease, type III",1
+http://snomed.info/sct,11179002,"Glycogen storage disease, type IV",1
+http://snomed.info/sct,267424007,Generalized glycogenosis,2
+http://snomed.info/sct,238001003,Carnitine palmitoyltransferase I deficiency,1
+http://snomed.info/sct,128596003,Medium-chain acyl-coenzyme A dehydrogenase deficiency,1
+http://snomed.info/sct,237997005,Very long chain acyl-CoA dehydrogenase deficiency,1
+http://snomed.info/sct,726021008,Long chain 3-hydroxyacyl-CoA dehydrogenase deficiency,1
+http://snomed.info/sct,302870006,Fatty acid oxidation disorder,2
+http://snomed.info/sct,421784001,Carnitine deficiency,2
+http://snomed.info/sct,190794006,Gaucher disease,1
+http://snomed.info/sct,62201009,Gaucher disease type I,1
+http://snomed.info/sct,39390005,Niemann-Pick disease type B,1
+http://snomed.info/sct,58459009,Sphingomyelin/cholesterol lipidosis,2
+http://snomed.info/sct,16652001,Fabry disease,1
+http://snomed.info/sct,111385000,Tay-Sachs disease,1
+http://snomed.info/sct,11380006,Mucopolysaccharidosis disorder,1
+http://snomed.info/sct,65327002,"Mucopolysaccharidosis, MPS-I-H",1
+http://snomed.info/sct,7259005,"Mucopolysaccharidosis, MPS-IV-A",1
+http://snomed.info/sct,43916004,Mucopolysaccharidosis type VII,1
+http://snomed.info/sct,75238000,Mucopolysaccharidosis III-C,1
+http://snomed.info/sct,29692004,Combined molybdoflavoprotein enzyme deficiency,1
+http://snomed.info/sct,1003367004,Molybdenum cofactor deficiency complementation group A,1
+http://snomed.info/sct,63246000,Cerebrotendinous xanthomatosis,1
+http://snomed.info/sct,69880002,Tendinous xanthoma,3
+http://snomed.info/sct,88518009,Wilson disease,1
+http://snomed.info/sct,34925000,Megaloblastic anemia due to inborn errors of metabolism,2
