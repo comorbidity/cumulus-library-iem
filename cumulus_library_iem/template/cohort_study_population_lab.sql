@@ -38,7 +38,7 @@ sp_encounters AS (
         encounter_ref,
         enc_period_ordinal,
         enc_period_start_day,
-        COALESCE(enc_period_end_day, enc_period_start_day) AS enc_period_end_day
+        enc_period_end_day_filled AS enc_period_end_day
     FROM {{ prefix }}__cohort_study_population
     WHERE encounter_ref IS NOT NULL
 ),

@@ -38,7 +38,7 @@ sp_encounters AS (
         encounter_ref,
         enc_period_ordinal,
         enc_period_start_day,
-        COALESCE(enc_period_end_day, enc_period_start_day) AS enc_period_end_day
+        enc_period_end_day_filled AS enc_period_end_day
     FROM {{ prefix }}__cohort_study_population
     WHERE encounter_ref IS NOT NULL
 ),
@@ -54,13 +54,11 @@ sp_subject_bounds AS (
 
 lab_candidate AS (
     SELECT
-        COALESCE(lab.observation_ref, lab.id) AS lab_key,
-
+        lab.observation_ref,
         lab.category_code                     AS category_code,
         lab.category_system                   AS category_system,
 
         lab.status                            AS status,
-
         lab.observation_code                  AS observation_code,
         lab.observation_system                AS observation_system,
 
@@ -104,7 +102,6 @@ lab_candidate AS (
         ON lab.subject_ref = bounds.subject_ref
 
     WHERE lab.category_code = 'laboratory'
-      AND COALESCE(lab.observation_ref, lab.id) IS NOT NULL
       AND (
             -- Native encounter-linked lab already belongs to an in-study encounter.
             sp_enc.encounter_ref IS NOT NULL
@@ -128,7 +125,7 @@ SELECT
 
     -- Native linkage flag within this staged, study-linkable lab universe.
     -- Prevents fallback rows from being double-counted when the same
-    -- lab_key already has native in-study encounter linkage.
+    -- observation_ref already has native in-study encounter linkage.
     --
     -- This reflects IN-STUDY native linkage only, since out-of-study native
     -- rows are not staged. A lab whose sole encounter is out-of-study can
@@ -139,7 +136,7 @@ SELECT
             THEN 1 ELSE 0
         END
     ) OVER (
-        PARTITION BY lab_key
+        PARTITION BY observation_ref
     ) AS key_has_encounter
 
 FROM lab_candidate

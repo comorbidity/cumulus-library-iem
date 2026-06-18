@@ -11,6 +11,22 @@ study_population as (
             SP.period_ordinal       as enc_period_ordinal,
             E.period_start_day      as enc_period_start_day,
             E.period_end_day        as enc_period_end_day,
+            -- Normalized end-day for downstream date-window matching:
+            -- open-ended (NULL end) encounters collapse to a single-day
+            -- [start, start] window. Computed ONCE here so the per-resource
+            -- linkage templates can match on enc_period_end_day_filled
+            -- directly instead of each repeating
+            -- COALESCE(enc_period_end_day, enc_period_start_day).
+            --
+            -- IMPORTANT: the raw enc_period_end_day (above) is retained
+            -- unchanged because the `duration` CTE below takes
+            -- MAX(enc_period_end_day) -- with SQL NULLs ignored by MAX -- to
+            -- derive cnt_days and the utilization membership filter. Filling
+            -- those NULLs would raise some patients' max_end_day, change
+            -- cnt_days, and silently alter COHORT MEMBERSHIP. Matching uses
+            -- the filled column; membership math uses the raw one.
+            COALESCE(E.period_end_day, E.period_start_day)
+                                    as enc_period_end_day_filled,
             E.class_code            as enc_class_code,
             E.class_display         as enc_class_display,
             E.servicetype_code      as enc_servicetype_code,

@@ -25,13 +25,10 @@
 -- multiple rows -- one per reaction (reaction_row) -- so the carry-through
 -- re-join on allergyintolerance_ref preserves every reaction row under the
 -- single chosen encounter, just as the diag template preserves result rows.
---
+
 -- core__allergyintolerance is assumed NOT huge; single-table carry-through
 -- like rx / dx / proc / doc. If it is large, apply the lab-style staging.
---
--- has_encounter guard retained for consistency with the other resources
--- (inert given non-null refs and single-valued encounter_ref).
---
+
 -- TIE-BREAK (exact-start-day; canonical across all resources):
 --   1. encounter starts on the date-mapped day, 2. narrowest window,
 --   3. start closest to the date-mapped day, 4. ordinal, 5. encounter_ref.
@@ -55,29 +52,29 @@ allergy_has_encounter_ref AS (
 --
 by_encounter AS (
     SELECT DISTINCT
-        allergy.clinicalstatus_code              AS allergy_clinical_status,
-        allergy.verificationstatus_code          AS allergy_verification_status,
-        allergy.type                             AS allergy_type,
-        allergy.category                         AS allergy_category,
-        allergy.criticality                      AS allergy_criticality,
-        allergy.code_code                        AS allergy_code,
-        allergy.code_system                      AS allergy_system,
-        allergy.code_display                     AS allergy_display,
-        allergy.recordeddate                     AS allergy_recorded_date,
-        DATE(allergy.recordeddate)               AS allergy_link_day,
-        allergy.reaction_row                     AS allergy_reaction_row,
-        allergy.reaction_substance_code          AS allergy_reaction_substance_code,
-        allergy.reaction_substance_system        AS allergy_reaction_substance_system,
-        allergy.reaction_substance_display       AS allergy_reaction_substance_display,
-        allergy.reaction_manifestation_code      AS allergy_reaction_manifestation_code,
-        allergy.reaction_manifestation_system    AS allergy_reaction_manifestation_system,
-        allergy.reaction_manifestation_display   AS allergy_reaction_manifestation_display,
-        allergy.reaction_severity                AS allergy_reaction_severity,
-        allergy.allergyintolerance_ref           AS allergyintolerance_ref,
+        allergy.clinicalstatus_code             AS allergy_clinical_status,
+        allergy.verificationstatus_code         AS allergy_verification_status,
+        allergy."type"                          AS allergy_type,
+        allergy.category                        AS allergy_category,
+        allergy.criticality                     AS allergy_criticality,
+        allergy.code_code                       AS allergy_code,
+        allergy.code_system                     AS allergy_system,
+        allergy.code_display                    AS allergy_display,
+        allergy.recordeddate                    AS allergy_recorded_date,
+        DATE(allergy.recordeddate)              AS allergy_link_day,
+        allergy.reaction_row                    AS allergy_reaction_row,
+        allergy.reaction_substance_code         AS allergy_reaction_substance_code,
+        allergy.reaction_substance_system       AS allergy_reaction_substance_system,
+        allergy.reaction_substance_display      AS allergy_reaction_substance_display,
+        allergy.reaction_manifestation_code     AS allergy_reaction_manifestation_code,
+        allergy.reaction_manifestation_system   AS allergy_reaction_manifestation_system,
+        allergy.reaction_manifestation_display  AS allergy_reaction_manifestation_display,
+        allergy.reaction_severity               AS allergy_reaction_severity,
+        allergy.allergyintolerance_ref          AS allergyintolerance_ref,
 
-        allergy.encounter_ref                    AS allergy_allergyintolerance_encounter_ref,
-        sp.encounter_ref                         AS link_encounter_ref,
-        'encounter_ref'                          AS allergy_link_method
+        allergy.encounter_ref                   AS allergy_allergyintolerance_encounter_ref,
+        sp.encounter_ref                        AS link_encounter_ref,
+        'encounter_ref'                         AS allergy_link_method
 
     FROM {{ prefix }}__cohort_study_population AS sp
 
@@ -126,7 +123,7 @@ allergy_recordeddate_links_ranked AS (
                 DATE_DIFF(
                     'day',
                     sp.enc_period_start_day,
-                    COALESCE(sp.enc_period_end_day, sp.enc_period_start_day)
+                    sp.enc_period_end_day_filled
                 ) ASC,
                 ABS(
                     DATE_DIFF(
@@ -144,10 +141,7 @@ allergy_recordeddate_links_ranked AS (
     JOIN {{ prefix }}__cohort_study_population AS sp
         ON sp.subject_ref = allergy.subject_ref
        AND allergy.allergy_day BETWEEN sp.enc_period_start_day
-                                   AND COALESCE(
-                                       sp.enc_period_end_day,
-                                       sp.enc_period_start_day
-                                   )
+                                   AND sp.enc_period_end_day_filled
 ),
 
 allergy_recordeddate_links AS (

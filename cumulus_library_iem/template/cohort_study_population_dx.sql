@@ -14,10 +14,12 @@
 -- Conditions with neither encounter_ref nor recordeddate are NOT handled
 -- here; this must be addressed separately.
 
--- Defensive choice still in play:
---   * COALESCE(enc_period_end_day, enc_period_start_day) treats an
---     open-ended (NULL end) encounter as a single-day window instead of
---     silently dropping the match.
+-- Open-ended encounters:
+--   * enc_period_end_day_filled (computed upstream in
+--     cohort_study_population) treats an open-ended (NULL end) encounter
+--     as a single-day window instead of silently dropping the match. This
+--     replaces the former inline
+--     COALESCE(enc_period_end_day, enc_period_start_day).
 
 -- condition_has_encounter_ref is retained for consistency with the other
 -- resources. It enforces the priority rule: a condition_ref with native
@@ -109,7 +111,7 @@ dx_recordeddate_links_ranked AS (
                 DATE_DIFF(
                     'day',
                     sp.enc_period_start_day,
-                    COALESCE(sp.enc_period_end_day, sp.enc_period_start_day)
+                    sp.enc_period_end_day_filled
                 ) ASC,
                 ABS(
                     DATE_DIFF(
@@ -127,10 +129,7 @@ dx_recordeddate_links_ranked AS (
     JOIN {{ prefix }}__cohort_study_population AS sp
         ON sp.subject_ref = dx.subject_ref
        AND dx.recordeddate_day BETWEEN sp.enc_period_start_day
-                                   AND COALESCE(
-                                       sp.enc_period_end_day,
-                                       sp.enc_period_start_day
-                                   )
+                                   AND sp.enc_period_end_day_filled
 ),
 
 dx_recordeddate_links AS (

@@ -29,11 +29,7 @@
 --
 -- core__documentreference is assumed NOT huge; single-table carry-through
 -- like rx / dx / proc. If it is large, apply the lab-style staging table.
---
--- doc_has_encounter_ref is retained for consistency with the other four
--- resources; given non-null refs and single-valued encounter_ref it is
--- provably inert (no ref can reach both branches).
---
+
 -- TIE-BREAK (exact-start-day; canonical across rx / dx / lab / proc / doc):
 --   1. encounter starts on the date-mapped day,
 --   2. narrowest encounter window,
@@ -119,7 +115,7 @@ doc_date_links_ranked AS (
                 DATE_DIFF(
                     'day',
                     sp.enc_period_start_day,
-                    COALESCE(sp.enc_period_end_day, sp.enc_period_start_day)
+                    sp.enc_period_end_day_filled
                 ) ASC,
                 ABS(
                     DATE_DIFF(
@@ -137,10 +133,7 @@ doc_date_links_ranked AS (
     JOIN {{ prefix }}__cohort_study_population AS sp
         ON sp.subject_ref = doc.subject_ref
        AND doc.doc_day BETWEEN sp.enc_period_start_day
-                           AND COALESCE(
-                               sp.enc_period_end_day,
-                               sp.enc_period_start_day
-                           )
+                           AND sp.enc_period_end_day_filled
 ),
 
 doc_date_links AS (
@@ -196,16 +189,17 @@ doc_links AS (
 )
 
 SELECT DISTINCT
-    doc_links.docstatus                       AS doc_status,
-    doc_links.type_code                       AS doc_type_code,
-    doc_links.type_display                    AS doc_type_display,
-    doc_links.type_system                     AS doc_type_system,
-    doc_links.author_day                      AS doc_author_day,
-    doc_links.doc_date                        AS doc_date,
-    doc_links.aux_has_text                     AS aux_has_text,
-    doc_links.documentreference_ref           AS documentreference_ref,
+    doc_links.docstatus                 AS doc_status,
+    doc_links.type_code                 AS doc_type_code,
+    doc_links.type_display              AS doc_type_display,
+    doc_links.type_system               AS doc_type_system,
+    doc_links.author_day                AS doc_author_day,
+    doc_links.doc_date                  AS doc_date,
+    doc_links.doc_day                   AS doc_link_day,
 
-    -- Audit fields.
+    doc_links.aux_has_text              AS aux_has_text,
+    doc_links.documentreference_ref     AS documentreference_ref,
+
     doc_links.documentreference_encounter_ref AS doc_documentreference_encounter_ref,
     doc_links.doc_link_method                 AS doc_link_method,
 

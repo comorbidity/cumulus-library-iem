@@ -146,10 +146,7 @@ proc_performed_links_ranked AS (
                 DATE_DIFF(
                     'day',
                     sp.enc_period_start_day,
-                    COALESCE(
-                        sp.enc_period_end_day,
-                        sp.enc_period_start_day
-                    )
+                    sp.enc_period_end_day_filled
                 ) ASC,
 
                 ABS(
@@ -169,10 +166,7 @@ proc_performed_links_ranked AS (
     JOIN {{ prefix }}__cohort_study_population AS sp
         ON sp.subject_ref = proc.subject_ref
        AND proc.performed_day BETWEEN sp.enc_period_start_day
-                                  AND COALESCE(
-                                      sp.enc_period_end_day,
-                                      sp.enc_period_start_day
-                                  )
+                                  AND sp.enc_period_end_day_filled
 ),
 
 proc_performed_links AS (
