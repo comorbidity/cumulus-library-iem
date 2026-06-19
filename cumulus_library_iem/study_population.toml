@@ -13,10 +13,11 @@ files= [
 ]
 
 [[actions]]
-description="study_population_obs"
-type="build:parallel"
+description="obs_base, lab_base"
+type="build:serial"
 files= [
-	"athena/iem__cohort_study_population_obs.sql"
+	"athena/iem__cohort_study_population_obs_base.sql",
+	"athena/iem__cohort_study_population_lab_base.sql"
 ]
 
 [[actions]]
