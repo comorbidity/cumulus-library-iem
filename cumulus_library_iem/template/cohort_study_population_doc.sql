@@ -19,27 +19,26 @@
 -- Document day used for matching:
 --   COALESCE(author_day, DATE("date"))
 -- author_day is preferred -- it is already day-precision (no DATE()
--- timezone truncation) and reflects when the note was authored; "date"
--- (DocumentReference.date, the reference creation timestamp; a reserved
+-- timezone truncation) and reflects when the note was authored. "date"
+-- (DocumentReference.date, the reference creation timestamp. a reserved
 -- word, hence quoted) is the fallback. Flip the precedence if "date" is
 -- the authoritative timing field for your notes.
 --
 -- Identity key: documentreference_ref (guaranteed non-null, 1:1 with
 -- Resource.id), used directly -- no COALESCE(..., id).
 --
--- core__documentreference is assumed NOT huge; single-table carry-through
+-- core__documentreference is assumed NOT huge. single-table carry-through
 -- like rx / dx / proc. If it is large, apply the lab-style staging table.
 
--- TIE-BREAK (exact-start-day; canonical across rx / dx / lab / proc / doc):
+-- TIE-BREAK (exact-start-day. canonical across rx / dx / lab / proc / doc):
 --   1. encounter starts on the date-mapped day,
 --   2. narrowest encounter window,
 --   3. encounter start closest to the date-mapped day,
 --   4. encounter ordinal, 5. encounter_ref.
--- NOTE: lab / proc / doc use exact-start; rx / dx currently use
+-- NOTE: lab / proc / doc use exact-start. rx / dx currently use
 -- most-recently-opened. Reconcile all to ONE rule.
 -- =====================================================================
 CREATE TABLE {{ prefix }}__cohort_study_population_doc AS
-
 WITH
 
 -- Any DocumentReference that has native encounter linkage at all.
@@ -61,6 +60,12 @@ by_encounter AS (
         doc.type_system             AS type_system,
         doc.author_day              AS author_day,
         doc."date"                  AS doc_date,
+
+        COALESCE(
+            doc.author_day,
+            DATE(doc."date")
+        )                           AS doc_link_day,
+
         doc.aux_has_text            AS aux_has_text,
         doc.documentreference_ref   AS documentreference_ref,
 
@@ -84,7 +89,11 @@ doc_date_candidates AS (
     SELECT DISTINCT
         doc.documentreference_ref,
         doc.subject_ref,
-        COALESCE(doc.author_day, DATE(doc."date")) AS doc_day
+
+        COALESCE(
+            doc.author_day,
+            DATE(doc."date")
+        ) AS doc_day
 
     FROM core__documentreference AS doc
 
@@ -92,7 +101,10 @@ doc_date_candidates AS (
         ON doc.documentreference_ref = has_encounter.documentreference_ref
 
     WHERE doc.encounter_ref IS NULL
-      AND COALESCE(doc.author_day, DATE(doc."date")) IS NOT NULL
+      AND COALESCE(
+            doc.author_day,
+            DATE(doc."date")
+          ) IS NOT NULL
       AND has_encounter.documentreference_ref IS NULL
 ),
 
@@ -156,12 +168,18 @@ by_date AS (
         doc.type_system             AS type_system,
         doc.author_day              AS author_day,
         doc."date"                  AS doc_date,
+
+        COALESCE(
+            doc.author_day,
+            DATE(doc."date")
+        )                           AS doc_link_day,
+
         doc.aux_has_text            AS aux_has_text,
         doc.documentreference_ref   AS documentreference_ref,
 
         doc.encounter_ref           AS documentreference_encounter_ref,
         link.link_encounter_ref     AS link_encounter_ref,
-        'author_day'                AS doc_link_method
+        'document_date'             AS doc_link_method
 
     FROM doc_date_links AS link
 
@@ -169,45 +187,60 @@ by_date AS (
         ON doc.documentreference_ref = link.documentreference_ref
 
     WHERE doc.encounter_ref IS NULL
-      AND COALESCE(doc.author_day, DATE(doc."date")) IS NOT NULL
+      AND COALESCE(
+            doc.author_day,
+            DATE(doc."date")
+          ) IS NOT NULL
 ),
 
 doc_links AS (
     SELECT
-        docstatus, type_code, type_display, type_system,
-        author_day, doc_date, aux_has_text, documentreference_ref,
-        documentreference_encounter_ref, link_encounter_ref, doc_link_method
+        docstatus,
+        type_code,
+        type_display,
+        type_system,
+        author_day,
+        doc_date,
+        doc_link_day,
+        aux_has_text,
+        documentreference_ref,
+        documentreference_encounter_ref,
+        link_encounter_ref,
+        doc_link_method
     FROM by_encounter
 
     UNION ALL
 
     SELECT
-        docstatus, type_code, type_display, type_system,
-        author_day, doc_date, aux_has_text, documentreference_ref,
-        documentreference_encounter_ref, link_encounter_ref, doc_link_method
+        docstatus,
+        type_code,
+        type_display,
+        type_system,
+        author_day,
+        doc_date,
+        doc_link_day,
+        aux_has_text,
+        documentreference_ref,
+        documentreference_encounter_ref,
+        link_encounter_ref,
+        doc_link_method
     FROM by_date
 )
 
 SELECT DISTINCT
-    doc_links.docstatus                 AS doc_status,
-    doc_links.type_code                 AS doc_type_code,
-    doc_links.type_display              AS doc_type_display,
-    doc_links.type_system               AS doc_type_system,
-    doc_links.author_day                AS doc_author_day,
-    doc_links.doc_date                  AS doc_date,
-    doc_links.doc_day                   AS doc_link_day,
-
-    doc_links.aux_has_text              AS aux_has_text,
-    doc_links.documentreference_ref     AS documentreference_ref,
-
+    doc_links.docstatus             AS doc_status,
+    doc_links.type_code             AS doc_type_code,
+    doc_links.type_display          AS doc_type_display,
+    doc_links.type_system           AS doc_type_system,
+    doc_links.author_day            AS doc_author_day,
+    doc_links.doc_date              AS doc_date,
+    doc_links.doc_link_day          AS doc_link_day,
+    doc_links.aux_has_text          AS aux_has_text,
+    doc_links.documentreference_ref AS documentreference_ref,
     doc_links.documentreference_encounter_ref AS doc_documentreference_encounter_ref,
     doc_links.doc_link_method                 AS doc_link_method,
-
     study_population.*
-
 FROM doc_links
-
 JOIN {{ prefix }}__cohort_study_population AS study_population
     ON study_population.encounter_ref = doc_links.link_encounter_ref
-
 ;
