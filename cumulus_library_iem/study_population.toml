@@ -13,6 +13,13 @@ files= [
 ]
 
 [[actions]]
+description="study_population_obs"
+type="build:parallel"
+files= [
+	"athena/iem__cohort_study_population_obs.sql"
+]
+
+[[actions]]
 description="study_population aspects ('enc', 'dx', 'rx', 'lab', 'proc', 'doc', 'diag')"
 type="build:parallel"
 files= [
