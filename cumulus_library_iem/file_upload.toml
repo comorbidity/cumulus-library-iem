@@ -12,9 +12,9 @@ files = [
   '../spreadsheet/file_upload_study_variable.toml'
 ]
 
-[[actions]]
-description = 'file_upload_elastic.toml'
-type = "build:parallel"
-files = [
-    './elastic_output/file_upload_elastic.toml'
-]
+#[[actions]]
+#description = 'file_upload_elastic.toml'
+#type = "build:parallel"
+#files = [
+#    './elastic_output/file_upload_elastic.toml'
+#]
