@@ -16,7 +16,7 @@ from cumulus_library_iem.tools import (
 #-----------------------------------------------------------------------------
 STUDY_PERIOD = 'cohort_study_period'
 STUDY_POPULATION = 'cohort_study_population'
-OBSERVATION_BASE = 'cohort_study_population_obs'
+OBS_TABLES = ['cohort_study_population_obs_base', 'cohort_study_population_lab_base']
 
 ###############################################################################
 # Make
@@ -56,14 +56,14 @@ def make() -> list[Path]:
     """
     study_period = make_study_population([STUDY_PERIOD])
     study_population = make_study_population([STUDY_POPULATION])
-    observation_base = make_study_population([OBSERVATION_BASE])
+    obs_tables = make_study_population(OBS_TABLES)
     aspect_list = fhir_reference.list_aspect()
     aspect_tables = [f"{STUDY_POPULATION}_{aspect}" for aspect in aspect_list]
     aspect_tables = make_study_population(aspect_tables)
 
     sections = [manifest.as_sql_toml(study_period, 'study_period'),
                 manifest.as_sql_toml(study_population, 'study_population'),
-                manifest.as_sql_toml(observation_base, 'study_population_obs'),
+                manifest.as_sql_toml(obs_tables, 'obs_base, lab_base', build_type='build:serial'),
                 manifest.as_sql_toml(aspect_tables, f'study_population aspects {str(aspect_list)}')]
 
     return [manifest.save_lines_toml(sections, 'study_population.toml')]
