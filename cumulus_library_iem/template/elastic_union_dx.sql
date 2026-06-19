@@ -11,5 +11,5 @@ SELECT  DISTINCT
 FROM    select_union
 JOIN    {{ prefix }}__cohort_variable_union_dx as dx
 ON      select_union.topic = dx.variable
-AND     select_union.encounter_ref = dx.encounter_ref
+AND     select_union.subject_ref = dx.subject_ref
 ;
