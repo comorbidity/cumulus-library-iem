@@ -16,7 +16,7 @@
 --                       keeping ONE encounter per allergyintolerance_ref.
 --
 -- Day derivation: DATE(recordeddate). core__allergyintolerance exposes
--- recordeddate as a raw timestamp here; if a precomputed recordeddate_day
+-- recordeddate as a raw timestamp here if a precomputed recordeddate_day
 -- column exists (as some core tables have), prefer it -- it is day-precision
 -- and avoids DATE()'s session-timezone truncation at midnight boundaries.
 --
@@ -26,13 +26,13 @@
 -- re-join on allergyintolerance_ref preserves every reaction row under the
 -- single chosen encounter, just as the diag template preserves result rows.
 
--- core__allergyintolerance is assumed NOT huge; single-table carry-through
+-- core__allergyintolerance is assumed NOT huge. single-table carry-through
 -- like rx / dx / proc / doc. If it is large, apply the lab-style staging.
 
--- TIE-BREAK (exact-start-day; canonical across all resources):
+-- TIE-BREAK (exact-start-day. canonical across all resources):
 --   1. encounter starts on the date-mapped day, 2. narrowest window,
 --   3. start closest to the date-mapped day, 4. ordinal, 5. encounter_ref.
--- NOTE: lab / proc / doc / diag / allergy use exact-start; rx / dx
+-- NOTE: lab / proc / doc / diag / allergy use exact-start. rx / dx
 -- currently use most-recently-opened. Reconcile all to ONE rule.
 -- =====================================================================
 CREATE TABLE {{ prefix }}__cohort_study_population_allergy AS
@@ -252,5 +252,4 @@ FROM allergy_links
 
 JOIN {{ prefix }}__cohort_study_population AS study_population
     ON study_population.encounter_ref = allergy_links.link_encounter_ref
-
 ;

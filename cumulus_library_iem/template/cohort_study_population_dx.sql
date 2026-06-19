@@ -12,7 +12,7 @@
 --                       per condition_ref (see TIE-BREAK below).
 --
 -- Conditions with neither encounter_ref nor recordeddate are NOT handled
--- here; this must be addressed separately.
+-- here. this must be addressed separately.
 
 -- Open-ended encounters:
 --   * enc_period_end_day_filled (computed upstream in
@@ -25,7 +25,7 @@
 -- resources. It enforces the priority rule: a condition_ref with native
 -- encounter linkage anywhere is not also recovered through recordeddate.
 
--- TIE-BREAK (exact-start-day; canonical across all resources):
+-- TIE-BREAK (exact-start-day. canonical across all resources):
 --   1. an encounter that starts on the recordeddate day,
 --   2. the narrowest encounter window,
 --   3. the encounter start closest to recordeddate,
@@ -88,7 +88,7 @@ dx_recordeddate_candidates AS (
 
 -- Priority 2: use subject_ref and recordeddate within the encounter date window.
 
--- TIE-BREAK (exact-start-day; keep identical across resources): when
+-- TIE-BREAK (exact-start-day. keep identical across resources): when
 -- recordeddate falls inside more than one encounter window, prefer
 --  1. an encounter that starts on the recordeddate day,
 --  2. the narrowest encounter window,
