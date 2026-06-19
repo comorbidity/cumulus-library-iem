@@ -1,4 +1,35 @@
 -- =====================================================================
+-- {{ prefix }}__cohort_study_population_lab_base   (STAGING)
+--
+-- Laboratory-only view over {{ prefix }}__cohort_study_population_obs.
+--
+-- All the heavy lifting lives in cohort_study_population_obs, which stages
+-- ALL Observation categories: the single scan of core__observation, the
+-- prune to the study-linkable universe (native encounter_ref OR
+-- effectivedatetime within the subject's in-study span), and the
+-- key_has_encounter native-linkage flag. This table just restricts that
+-- staged universe to laboratory Observations. it does not scan
+-- core__observation itself.
+--
+-- Identity key: observation_ref -- the true FHIR reference, carried
+-- through from obs and used directly by the downstream linkage step.
+-- There is no lab_key. the whole lab chain keys on observation_ref, the
+-- same convention as every other resource template.
+--
+-- Build order:
+--   cohort_study_population
+--   -> cohort_study_population_obs
+--   -> cohort_study_population_lab_base   (this table)
+--   -> cohort_study_population_lab
+-- =====================================================================
+
+CREATE TABLE {{ prefix }}__cohort_study_population_lab_base AS
+SELECT *
+FROM {{ prefix }}__cohort_study_population_obs
+WHERE category_code = 'laboratory'
+;
+
+-- =====================================================================
 -- {{ prefix }}__cohort_study_population_lab
 --
 -- Links staged laboratory Observations to in-study encounters with two
@@ -93,11 +124,11 @@ by_encounter AS (
 --
 -- Candidate Observations for effectivedatetime fallback: no encounter_ref,
 -- present effectivedatetime_day, and no native in-study encounter linkage
--- under the same staged lab_key.
+-- under the same staged observation_ref.
 --
 lab_effectivedate_candidates AS (
     SELECT DISTINCT
-        lab_key,
+        observation_ref,
         subject_ref,
         effectivedatetime_day AS effectivedate_day
     FROM {{ prefix }}__cohort_study_population_lab_base
@@ -112,11 +143,11 @@ lab_effectivedate_candidates AS (
 --
 lab_effectivedate_links_ranked AS (
     SELECT
-        lab.lab_key,
+        lab.observation_ref,
         sp.encounter_ref AS link_encounter_ref,
 
         ROW_NUMBER() OVER (
-            PARTITION BY lab.lab_key
+            PARTITION BY lab.observation_ref
             ORDER BY
                 CASE
                     WHEN lab.effectivedate_day = sp.enc_period_start_day
@@ -148,7 +179,7 @@ lab_effectivedate_links_ranked AS (
 
 lab_effectivedate_links AS (
     SELECT
-        lab_key,
+        observation_ref,
         link_encounter_ref
     FROM lab_effectivedate_links_ranked
     WHERE lab_link_rank = 1
@@ -156,7 +187,7 @@ lab_effectivedate_links AS (
 
 --
 -- Reattach the chosen encounter to all staged rows for the selected
--- lab_key. Preserves all coding/value rows for the Observation.
+-- observation_ref. Preserves all coding/value rows for the Observation.
 --
 by_effectivedate AS (
     SELECT DISTINCT
@@ -197,7 +228,7 @@ by_effectivedate AS (
     FROM lab_effectivedate_links AS link
 
     JOIN {{ prefix }}__cohort_study_population_lab_base AS lab
-        ON lab.lab_key = link.lab_key
+        ON lab.observation_ref = link.observation_ref
 
     WHERE lab.observation_encounter_ref IS NULL
       AND lab.effectivedatetime_day IS NOT NULL
@@ -276,19 +307,15 @@ join_lab AS (
     JOIN {{ prefix }}__cohort_study_population AS study_population
         ON study_population.encounter_ref = lab_links.link_encounter_ref
 )
-
 SELECT
     CASE
         WHEN join_lab.lab_observation_system = 'http://loinc.org'
         THEN loinc.consumer_name.consumer_name
         ELSE NULL
     END AS lab_observation_display,
-
-    join_lab.*
-
-FROM join_lab
-
-LEFT JOIN loinc.consumer_name
-    ON join_lab.lab_observation_code = loinc.consumer_name.loinc_number
+        join_lab.*
+FROM    join_lab
+LEFT    JOIN    loinc.consumer_name
+ON      join_lab.lab_observation_code = loinc.consumer_name.loinc_number
 
 ;
