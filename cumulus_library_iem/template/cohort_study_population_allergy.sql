@@ -139,39 +139,38 @@ by_recordeddate AS (
     AND     allergy.recordeddate        IS NOT  NULL
 ),
 
-allergy_links AS (
+union_link AS (
     SELECT  * FROM    by_encounter
     UNION ALL
     SELECT  * FROM    by_recordeddate
 )
-
 SELECT DISTINCT
-        allergy_links.allergy_clinical_status       AS allergy_clinical_status,
-        allergy_links.allergy_verification_status   AS allergy_verification_status,
-        allergy_links.allergy_type                  AS allergy_type,
-        allergy_links.allergy_category              AS allergy_category,
-        allergy_links.allergy_criticality           AS allergy_criticality,
-        allergy_links.allergy_code                  AS allergy_code,
-        allergy_links.allergy_system                AS allergy_system,
-        allergy_links.allergy_display               AS allergy_display,
-        allergy_links.allergy_recorded_date         AS allergy_recorded_date,
+        union_link.allergy_clinical_status       AS allergy_clinical_status,
+        union_link.allergy_verification_status   AS allergy_verification_status,
+        union_link.allergy_type                  AS allergy_type,
+        union_link.allergy_category              AS allergy_category,
+        union_link.allergy_criticality           AS allergy_criticality,
+        union_link.allergy_code                  AS allergy_code,
+        union_link.allergy_system                AS allergy_system,
+        union_link.allergy_display               AS allergy_display,
+        union_link.allergy_recorded_date         AS allergy_recorded_date,
 
-        allergy_links.allergy_link_day              AS allergy_link_day,
+        union_link.allergy_link_day              AS allergy_link_day,
 
-        allergy_links.allergy_reaction_row          AS allergy_reaction_row,
-        allergy_links.allergy_substance_code        AS allergy_substance_code,
-        allergy_links.allergy_substance_system      AS allergy_substance_system,
-        allergy_links.allergy_substance_display     AS allergy_substance_display,
-        allergy_links.allergy_manifestation_code    AS allergy_manifestation_code,
-        allergy_links.allergy_manifestation_system  AS allergy_manifestation_system,
-        allergy_links.allergy_manifestation_display AS allergy_manifestation_display,
-        allergy_links.allergy_severity              AS allergy_severity,
+        union_link.allergy_reaction_row          AS allergy_reaction_row,
+        union_link.allergy_substance_code        AS allergy_substance_code,
+        union_link.allergy_substance_system      AS allergy_substance_system,
+        union_link.allergy_substance_display     AS allergy_substance_display,
+        union_link.allergy_manifestation_code    AS allergy_manifestation_code,
+        union_link.allergy_manifestation_system  AS allergy_manifestation_system,
+        union_link.allergy_manifestation_display AS allergy_manifestation_display,
+        union_link.allergy_severity              AS allergy_severity,
 
-        allergy_links.allergyintolerance_ref        AS allergyintolerance_ref,
-        allergy_links.allergy_encounter_ref         AS allergy_encounter_ref,
-        allergy_links.allergy_link_method           AS allergy_link_method,
+        union_link.allergyintolerance_ref        AS allergyintolerance_ref,
+        union_link.allergy_encounter_ref         AS allergy_encounter_ref,
+        union_link.allergy_link_method           AS allergy_link_method,
         study_population.*
-FROM    allergy_links
+FROM    union_link
 JOIN    {{ prefix }}__cohort_study_population AS study_population
-ON      study_population.encounter_ref = allergy_links.link_encounter_ref
+ON      study_population.encounter_ref = union_link.link_encounter_ref
 ;

@@ -193,7 +193,7 @@ by_date AS (
           ) IS NOT NULL
 ),
 
-doc_links AS (
+union_link AS (
     SELECT
         docstatus,
         type_code,
@@ -228,19 +228,19 @@ doc_links AS (
 )
 
 SELECT DISTINCT
-    doc_links.docstatus             AS doc_status,
-    doc_links.type_code             AS doc_type_code,
-    doc_links.type_display          AS doc_type_display,
-    doc_links.type_system           AS doc_type_system,
-    doc_links.author_day            AS doc_author_day,
-    doc_links.doc_date              AS doc_date,
-    doc_links.doc_link_day          AS doc_link_day,
-    doc_links.aux_has_text          AS aux_has_text,
-    doc_links.documentreference_ref AS documentreference_ref,
-    doc_links.documentreference_encounter_ref AS doc_documentreference_encounter_ref,
-    doc_links.doc_link_method                 AS doc_link_method,
+    union_link.docstatus             AS doc_status,
+    union_link.type_code             AS doc_type_code,
+    union_link.type_display          AS doc_type_display,
+    union_link.type_system           AS doc_type_system,
+    union_link.author_day            AS doc_author_day,
+    union_link.doc_date              AS doc_date,
+    union_link.doc_link_day          AS doc_link_day,
+    union_link.aux_has_text          AS aux_has_text,
+    union_link.documentreference_ref AS documentreference_ref,
+    union_link.documentreference_encounter_ref AS doc_documentreference_encounter_ref,
+    union_link.doc_link_method                 AS doc_link_method,
     study_population.*
-FROM doc_links
+FROM union_link
 JOIN {{ prefix }}__cohort_study_population AS study_population
-    ON study_population.encounter_ref = doc_links.link_encounter_ref
+    ON study_population.encounter_ref = union_link.link_encounter_ref
 ;

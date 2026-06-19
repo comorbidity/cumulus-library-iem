@@ -116,25 +116,25 @@ by_recordeddate AS (
     WHERE   dx.encounter_ref    IS      NULL
       AND   dx.recordeddate     IS NOT  NULL
 ),
-dx_links AS (
+union_link AS (
     SELECT * FROM by_encounter
     UNION ALL
     SELECT * FROM by_recordeddate
 )
 SELECT  DISTINCT
-        dx_links.category_code           AS dx_category_code,
-        dx_links.code                    AS dx_code,
-        dx_links.code_display            AS dx_display,
-        dx_links.system                  AS dx_system,
-        dx_links.clinicalstatus_code     AS dx_clinical_status,
-        dx_links.verificationstatus_code AS dx_verification_status,
-        dx_links.recordeddate            AS dx_recorded_date,
-        dx_links.onsetdatetime           AS dx_onset_date,
-        dx_links.condition_ref           AS condition_ref,
-        dx_links.dx_condition_encounter_ref AS dx_condition_encounter_ref,
-        dx_links.dx_link_method          AS dx_link_method,
+        union_link.category_code           AS dx_category_code,
+        union_link.code                    AS dx_code,
+        union_link.code_display            AS dx_display,
+        union_link.system                  AS dx_system,
+        union_link.clinicalstatus_code     AS dx_clinical_status,
+        union_link.verificationstatus_code AS dx_verification_status,
+        union_link.recordeddate            AS dx_recorded_date,
+        union_link.onsetdatetime           AS dx_onset_date,
+        union_link.condition_ref           AS condition_ref,
+        union_link.dx_condition_encounter_ref AS dx_condition_encounter_ref,
+        union_link.dx_link_method          AS dx_link_method,
         study_population.*
-FROM    dx_links
+FROM    union_link
 JOIN    {{ prefix }}__cohort_study_population AS study_population
-ON      study_population.encounter_ref = dx_links.link_encounter_ref
+ON      study_population.encounter_ref = union_link.link_encounter_ref
 ;
