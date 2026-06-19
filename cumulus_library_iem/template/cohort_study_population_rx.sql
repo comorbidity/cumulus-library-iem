@@ -70,7 +70,7 @@ rx_has_encounter_ref AS (
 -- Candidate MedicationRequests for authoredOn fallback.
 rx_null_encounter_with_authoredon AS (
     SELECT DISTINCT
-        medicationrequest_ref,
+        rx.medicationrequest_ref,
         rx.subject_ref,
         DATE(rx.authoredon) AS rx_authoredon_day
     FROM core__medicationrequest AS rx
