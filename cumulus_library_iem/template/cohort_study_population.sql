@@ -1,77 +1,68 @@
-create table {{ prefix }}__cohort_study_population as
+CREATE TABLE {{ prefix }}__cohort_study_population AS
 WITH
-study_population as (
-    select  distinct
-            E.status,
-            E.age_at_visit,
+study_population AS (
+    SELECT  DISTINCT
+            enc.status,
+            enc.age_at_visit,
             valueset_age_group.age_group,
-            E.gender,
-            E.race_display,
-            E.ethnicity_display,
-            SP.period_ordinal       as enc_period_ordinal,
-            E.period_start_day      as enc_period_start_day,
-            E.period_end_day        as enc_period_end_day,
-            -- Normalized end-day for downstream date-window matching:
-            -- open-ended (NULL end) encounters collapse to a single-day
-            -- [start, start] window. Computed ONCE here so the per-resource
-            -- linkage templates can match on enc_period_end_day_filled
-            -- directly instead of each repeating
-            -- COALESCE(enc_period_end_day, enc_period_start_day).
-            COALESCE(E.period_end_day, E.period_start_day)
-                                    as enc_period_end_day_filled,
-            E.class_code            as enc_class_code,
-            E.class_display         as enc_class_display,
-            E.servicetype_code      as enc_servicetype_code,
-            E.servicetype_system    as enc_servicetype_system,
-            E.servicetype_display   as enc_servicetype_display,
-            E.type_code             as enc_type_code,
-            E.type_system           as enc_type_system,
-            E.type_display          as enc_type_display,
-            E.subject_ref,
-            E.encounter_ref
-    from    core__encounter                     as E,
-            {{ prefix }}__cohort_study_period        as SP,
-            {{ prefix }}__include_gender             as G,
-            {{ prefix }}__include_age_at_visit       as age,
-            {{ prefix }}__valueset_age_group         as valueset_age_group
-    where   (E.encounter_ref = SP.encounter_ref)  and
-            (E.gender = G.code)                   and
-            (E.age_at_visit between age.age_min and age.age_max) and
-            (E.age_at_visit = valueset_age_group.age_at_visit)
+            enc.gender,
+            enc.race_display,
+            enc.ethnicity_display,
+            sp.period_ordinal       AS enc_period_ordinal,
+            enc.period_start_day    AS enc_period_start_day,
+            enc.period_end_day      AS enc_period_end_day,
+            COALESCE(enc.period_end_day, enc.period_start_day)
+                                    AS enc_period_end_day_filled,
+            enc.class_code          AS enc_class_code,
+            enc.class_display       AS enc_class_display,
+            enc.servicetype_code    AS enc_servicetype_code,
+            enc.servicetype_system  AS enc_servicetype_system,
+            enc.servicetype_display AS enc_servicetype_display,
+            enc.type_code           AS enc_type_code,
+            enc.type_system         AS enc_type_system,
+            enc.type_display        AS enc_type_display,
+            enc.subject_ref,
+            enc.encounter_ref
+    from    core__encounter                     AS enc,
+            {{ prefix }}__cohort_study_period   AS sp,
+            {{ prefix }}__include_gender        AS sex,
+            {{ prefix }}__include_age_at_visit  AS age,
+            {{ prefix }}__valueset_age_group    AS valueset_age_group
+    WHERE   (enc.encounter_ref = sp.encounter_ref)
+    AND     (enc.gender = sex.code)
+    AND     (enc.age_at_visit BETWEEN age.age_min AND age.age_max)
+    AND     (enc.age_at_visit = valueset_age_group.age_at_visit)
 ),
-utilization as (
-    select  count(distinct enc_period_ordinal) as cnt_period,
+utilization AS (
+    SELECT  COUNT(DISTINCT enc_period_ordinal) AS cnt_period,
             subject_ref
-    from    study_population
-    group by subject_ref
+    FROM    study_population
+    GROUP BY subject_ref
 ),
-duration as (
-    select  min(enc_period_start_day)   as min_start_day,
-            max(enc_period_end_day)     as max_end_day,
+duration AS (
+    SELECT  MIN(enc_period_start_day)   AS min_start_day,
+            MAX(enc_period_end_day)     AS max_end_day,
             subject_ref
-    from    study_population
-    group by subject_ref
+    FROM    study_population
+    GROUP BY subject_ref
 ),
-duration_days as (
-    select
+duration_days AS (
+    SELECT
             subject_ref,
             duration.min_start_day,
             duration.max_end_day,
             date_diff('day',
             duration.min_start_day,
-            duration.max_end_day) as cnt_days
-    from    duration
+            duration.max_end_day) AS cnt_days
+    FROM    duration
 )
-select
-        study_population.*
-from
-        study_population,
+SELECT  study_population.*
+FROM    study_population,
         utilization,
         duration_days,
-        {{ prefix }}__include_utilization as include
-where
-        study_population.subject_ref = utilization.subject_ref
-and     study_population.subject_ref = duration_days.subject_ref
-and     utilization.cnt_period  between include.enc_min  and include.enc_max
-and     duration_days.cnt_days  between include.days_min and include.days_max
+        {{ prefix }}__include_utilization AS include
+WHERE   study_population.subject_ref = utilization.subject_ref
+AND     study_population.subject_ref = duration_days.subject_ref
+AND     utilization.cnt_period  BETWEEN include.enc_min  AND include.enc_max
+AND     duration_days.cnt_days  BETWEEN include.days_min AND include.days_max
 ;
