@@ -23,11 +23,10 @@ Usage:
 
 import re
 import sys
-from cumulus_library_iem.tools.elastic_query_print_bool import read_tsv
+from tools.manuscript.elastic_query_print_bool import read_tsv
 
 OPERATORS = {"OR", "AND", "NOT"}
 USE_COLOR = True  # set in main()
-
 
 # ---------- color ----------
 def c(code, s):
@@ -50,7 +49,11 @@ def tokenize(query):
             i += 1
         elif ch == '"':
             j = q.index('"', i + 1)
-            tokens.append(q[i:j + 1]); i = j + 1
+            end = j + 1
+            m = re.match(r'~\d+(?:\.\d+)?', q[end:])   # keep phrase slop ("a b"~3) on the phrase
+            if m:
+                end += m.end()
+            tokens.append(q[i:end]); i = end
         elif ch in "()":
             tokens.append(ch); i += 1
         else:
@@ -133,7 +136,16 @@ def annotate_group_fields(node):
 
 
 # ---------- render ----------
+def slop_dots(text):
+    """Render a phrase-slop "a b"~N as "a .....(N) b": N dots mark the allowed gap."""
+    m = re.match(r'^"(.+)"~(\d+)$', text)
+    if not m:
+        return text
+    inner = re.sub(r"\s+", " " + "." * int(m.group(2)) + " ", m.group(1))
+    return f'"{inner}"'
+
 def color_term(text):
+    text = slop_dots(text)
     return col_phrase(text) if text.startswith('"') else col_bare(text)
 
 def render(node, prefix="", is_last=True, is_root=True, covered=None, fields="none"):
@@ -186,7 +198,7 @@ def main(argv):
     for topic, query in read_tsv(path):
         if only and topic != only:
             continue
-        print(col_op("━" * 70)); print(topic); print(col_op("━" * 70))
+        print(col_op("\u2501" * 70)); print(topic); print(col_op("\u2501" * 70))
         try:
             print(tree(query, fields))
         except Exception as e:
