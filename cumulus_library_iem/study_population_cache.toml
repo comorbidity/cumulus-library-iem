@@ -2,5 +2,5 @@
 description="study population from cache"
 type="build:parallel"
 files= [
-	"athena/study_population_from_cache.sql"
+	"athena/study_population_view_cache.sql"
 ]
