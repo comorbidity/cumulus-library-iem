@@ -48,21 +48,59 @@ def make_elastic_union() -> list[Path]:
                   table_cols=['topic', 'document_title'])
     ]
 
+def make_elastic_union_dx() -> list[Path]:
+    return [
+        cube_patient(source_table=f'{PREFIX}__elastic_union_dx',
+                     table_name=tablespace.name_cube('union_fhir_elastic', 'patient'),
+                     table_cols=['variable',
+                                 'fhir_pat',
+                                 'fhir_enc',
+                                 'elastic_pat',
+                                 'elastic_enc',
+                                 'enc_period_start_year',
+                                 'age_group',
+                                 'gender']),
+
+        # cube_encounter(source_table=f'{PREFIX}__elastic_union_dx',
+        #                table_name=tablespace.name_cube('elastic_dx', 'encounter'),
+        #                table_cols=['variable',
+        #                            'fhir_pat',
+        #                            'fhir_enc',
+        #                            'elastic_pat',
+        #                            'elastic_enc',
+        #                            'enc_class_code',
+        #                            'enc_type_display',
+        #                            'enc_servicetype_display']),
+
+        cube_note(source_table=f'{PREFIX}__elastic_union_dx',
+                  table_name=tablespace.name_cube('union_fhir_elastic', 'note'),
+                  table_cols=['variable',
+                              'fhir_pat',
+                              'fhir_enc',
+                              'elastic_pat',
+                              'elastic_enc',
+                              'document_title',
+                              'enc_class_code']),
+    ]
+
 #-----------------------------------------------------------------------------
 # Make
 #-----------------------------------------------------------------------------
 def make() -> list[Path]:
     variable_union = make_variable_union()
     elastic_union = make_elastic_union()
+    elastic_union_dx = make_elastic_union_dx()
 
     sql_list = [
         manifest.as_sql_toml(variable_union, 'SQL cube variable union'),
         manifest.as_sql_toml(elastic_union, 'SQL cube elastic union'),
+        manifest.as_sql_toml(elastic_union_dx, 'SQL cube elastic union dx (with FHIR)'),
     ]
 
     export_list = [
         manifest.as_export_toml(variable_union, 'export cube tables variable union'),
-        manifest.as_export_toml(elastic_union, 'export cube tables study populations'),
+        manifest.as_export_toml(elastic_union, 'export cube elastic union'),
+        manifest.as_export_toml(elastic_union_dx, 'export cube elastic union dx (with FHIR)'),
     ]
 
     sections = sql_list + export_list + study_meta.make_inline()
