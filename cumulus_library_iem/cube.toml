@@ -16,6 +16,14 @@ files= [
 ]
 
 [[actions]]
+description="SQL cube elastic union dx (with FHIR)"
+type="build:parallel"
+files= [
+	"athena/iem__cube_patient_union_fhir_elastic.sql",
+	"athena/iem__cube_note_union_fhir_elastic.sql"
+]
+
+[[actions]]
 description="export cube tables variable union"
 type="export:counts"
 tables= [
@@ -24,12 +32,20 @@ tables= [
 ]
 
 [[actions]]
-description="export cube tables study populations"
+description="export cube elastic union"
 type="export:counts"
 tables= [
 	"iem__cube_patient_elastic",
 	"iem__cube_encounter_elastic",
 	"iem__cube_note_elastic"
+]
+
+[[actions]]
+description="export cube elastic union dx (with FHIR)"
+type="export:counts"
+tables= [
+	"iem__cube_patient_union_fhir_elastic",
+	"iem__cube_note_union_fhir_elastic"
 ]
 
 [[actions]]
