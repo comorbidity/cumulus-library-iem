@@ -7,7 +7,7 @@ files = [
 
 [[actions]]
 description=""
-type="build:parallel"
+type="build:serial"
 files= [
 	"athena/iem__elastic_union.sql",
 	"athena/iem__elastic_union_dx.sql"
