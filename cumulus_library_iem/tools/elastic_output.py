@@ -43,7 +43,7 @@ def make_file_upload_toml() -> list[Path]:
 
 def make_union() -> list[Path]:
     file_list = [_make_union(), _make_union(Aspect.dx)]
-    return [manifest.save_sql_toml(file_list, path_stage_toml())]
+    return [manifest.save_sql_toml(file_list, path_stage_toml(), 'Elastic Union', 'build:serial')]
 
 def _make_union(aspect:Aspect=None) -> Path:
     cohort = f'union_{aspect.name}' if aspect else f'union'
