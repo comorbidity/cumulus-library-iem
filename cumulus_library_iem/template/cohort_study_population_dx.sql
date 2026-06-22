@@ -89,7 +89,6 @@ date_candidates_ranked AS (
     ON      sp.subject_ref = date_candidates.subject_ref
     AND     date_candidates.recordeddate_day BETWEEN sp.enc_period_start_day AND sp.enc_period_end_day_filled
 ),
-
 date_candidates_links AS (
     SELECT  condition_ref,
             link_encounter_ref

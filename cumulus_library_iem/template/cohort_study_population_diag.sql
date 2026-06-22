@@ -25,24 +25,24 @@ resource_has_encounter_ref AS (
 -- Priority A: encounter_ref is NOT null
 by_encounter AS (
     SELECT  DISTINCT
-            diag.status AS diag_status,
-            diag.category_system AS diag_category_system,
-            diag.category_code AS diag_category_code,
-            diag.category_display AS diag_category_display,
-            diag.code_system AS diag_system,
-            diag.code_code AS diag_code,
-            diag.code_display AS diag_display,
-            diag.effectivedatetime_day AS diag_effectivedatetime_day,
-            diag.effectiveperiod_start_day AS diag_effectiveperiod_start_day,
-            diag.aux_has_text AS aux_has_text,
-            diag.result_ref AS result_ref,
+            diag.status                     AS diag_status,
+            diag.category_system            AS diag_category_system,
+            diag.category_code              AS diag_category_code,
+            diag.category_display           AS diag_category_display,
+            diag.code_system                AS diag_system,
+            diag.code_code                  AS diag_code,
+            diag.code_display               AS diag_display,
+            diag.effectivedatetime_day      AS diag_effectivedatetime_day,
+            diag.effectiveperiod_start_day  AS diag_effectiveperiod_start_day,
+            diag.aux_has_text               AS aux_has_text,
+            diag.result_ref                 AS result_ref,
             COALESCE(diag.effectivedatetime_day, diag.effectiveperiod_start_day) AS diag_link_day,
-            diag.diagnosticreport_ref AS diagnosticreport_ref,
-            diag.encounter_ref AS diag_encounter_ref,
-            sp.encounter_ref AS link_encounter_ref,
-            'encounter_ref' AS diag_link_method
-    FROM    {{ prefix }}__cohort_study_population AS sp
-    JOIN    core__diagnosticreport AS diag
+            diag.diagnosticreport_ref       AS diagnosticreport_ref,
+            diag.encounter_ref              AS diag_encounter_ref,
+            sp.encounter_ref                AS link_encounter_ref,
+            'encounter_ref'                 AS diag_link_method
+    FROM    {{ prefix }}__cohort_study_population   AS sp
+    JOIN    core__diagnosticreport                  AS diag
     ON      sp.encounter_ref = diag.encounter_ref
     WHERE   diag.encounter_ref IS NOT NULL
 ),
@@ -53,8 +53,8 @@ date_candidates AS (
             diag.diagnosticreport_ref,
             diag.subject_ref,
             COALESCE(diag.effectivedatetime_day, diag.effectiveperiod_start_day) AS candidate_day
-    FROM    core__diagnosticreport AS diag
-    LEFT JOIN resource_has_encounter_ref AS has_encounter
+    FROM    core__diagnosticreport          AS diag
+    LEFT JOIN resource_has_encounter_ref    AS has_encounter
     ON      diag.diagnosticreport_ref = has_encounter.diagnosticreport_ref
     WHERE   diag.encounter_ref IS NULL
     AND     COALESCE(diag.effectivedatetime_day, diag.effectiveperiod_start_day) IS NOT NULL
@@ -108,38 +108,33 @@ date_candidates_links AS (
 -- diagnosticreport_ref (preserves multi-row resources, e.g. one row per reaction/result).
 by_date AS (
     SELECT  DISTINCT
-            diag.status AS diag_status,
-            diag.category_system AS diag_category_system,
-            diag.category_code AS diag_category_code,
-            diag.category_display AS diag_category_display,
-            diag.code_system AS diag_system,
-            diag.code_code AS diag_code,
-            diag.code_display AS diag_display,
-            diag.effectivedatetime_day AS diag_effectivedatetime_day,
-            diag.effectiveperiod_start_day AS diag_effectiveperiod_start_day,
-            diag.aux_has_text AS aux_has_text,
-            diag.result_ref AS result_ref,
+            diag.status                     AS diag_status,
+            diag.category_system            AS diag_category_system,
+            diag.category_code              AS diag_category_code,
+            diag.category_display           AS diag_category_display,
+            diag.code_system                AS diag_system,
+            diag.code_code                  AS diag_code,
+            diag.code_display               AS diag_display,
+            diag.effectivedatetime_day      AS diag_effectivedatetime_day,
+            diag.effectiveperiod_start_day  AS diag_effectiveperiod_start_day,
+            diag.aux_has_text               AS aux_has_text,
+            diag.result_ref                 AS result_ref,
             COALESCE(diag.effectivedatetime_day, diag.effectiveperiod_start_day) AS diag_link_day,
-            diag.diagnosticreport_ref AS diagnosticreport_ref,
-            diag.encounter_ref AS diag_encounter_ref,
-            link.link_encounter_ref AS link_encounter_ref,
-            'effective_date' AS diag_link_method
-    FROM    date_candidates_links AS link
-    JOIN    core__diagnosticreport AS diag
+            diag.diagnosticreport_ref       AS diagnosticreport_ref,
+            diag.encounter_ref              AS diag_encounter_ref,
+            link.link_encounter_ref         AS link_encounter_ref,
+            'effective_date'                AS diag_link_method
+    FROM    date_candidates_links           AS link
+    JOIN    core__diagnosticreport          AS diag
     ON      diag.diagnosticreport_ref = link.diagnosticreport_ref
     WHERE   diag.encounter_ref IS NULL
       AND   COALESCE(diag.effectivedatetime_day, diag.effectiveperiod_start_day) IS NOT NULL
 ),
-
--- by_encounter and by_date are column-aligned, so SELECT * unions positionally.
--- Keep the two branches edited in lockstep.
 union_link AS (
     SELECT * FROM by_encounter
     UNION ALL
     SELECT * FROM by_date
 )
-
--- Canonical demographic attach (same as every resource).
 , join_diag AS (
     SELECT  DISTINCT
             union_link.diag_status              AS diag_status,

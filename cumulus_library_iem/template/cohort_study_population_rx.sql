@@ -109,7 +109,8 @@ by_authoredon AS (
         rx.category_display         AS rx_category_display,
         rx.medication_code          AS rx_code,
         rx.medication_system        AS rx_system,
-        COALESCE(NULLIF(TRIM(rx.medication_display), ''),vocab.display) AS rx_display,
+        COALESCE(NULLIF(TRIM(rx.medication_display), ''),vocab.display)
+                                    AS rx_display,
         rx.authoredon               AS rx_authoredon_date,
         rx.medicationrequest_ref    AS medicationrequest_ref,
         sp.*

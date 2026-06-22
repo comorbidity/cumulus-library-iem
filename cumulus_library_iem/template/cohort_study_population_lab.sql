@@ -83,8 +83,6 @@ date_candidates AS (
     AND     observation_encounter_ref   IS      NULL
     AND     effectivedatetime_day       IS NOT  NULL
 ),
-
---
 -- Priority B: effectivedatetime is NOT null and encounter_ref IS NULL
 date_candidates_ranked AS (
     SELECT  lab.observation_ref,
@@ -122,7 +120,6 @@ date_candidates_ranked AS (
     ON      sp.subject_ref = lab.subject_ref
     AND     lab.effectivedate_day BETWEEN sp.enc_period_start_day AND sp.enc_period_end_day
 ),
-
 date_candidates_links AS (
     SELECT
         observation_ref,
@@ -131,78 +128,52 @@ date_candidates_links AS (
     WHERE lab_link_rank = 1
 ),
 by_effectivedate AS (
-    SELECT DISTINCT
-        lab.observation_code                  AS observation_code,
-        lab.observation_system                AS observation_system,
+    SELECT  DISTINCT
+            lab.observation_code                  AS observation_code,
+            lab.observation_system                AS observation_system,
 
-        lab.valuecodeableconcept_code         AS valuecodeableconcept_code,
-        lab.valuecodeableconcept_display      AS valuecodeableconcept_display,
-        lab.valuecodeableconcept_system       AS valuecodeableconcept_system,
+            lab.valuecodeableconcept_code         AS valuecodeableconcept_code,
+            lab.valuecodeableconcept_display      AS valuecodeableconcept_display,
+            lab.valuecodeableconcept_system       AS valuecodeableconcept_system,
 
-        lab.effectivedatetime                 AS effectivedatetime,
-        lab.effectivedatetime_day             AS effectivedatetime_day,
+            lab.effectivedatetime                 AS effectivedatetime,
+            lab.effectivedatetime_day             AS effectivedatetime_day,
 
-        lab.interpretation_code               AS interpretation_code,
-        lab.interpretation_system             AS interpretation_system,
-        lab.interpretation_display            AS interpretation_display,
+            lab.interpretation_code               AS interpretation_code,
+            lab.interpretation_system             AS interpretation_system,
+            lab.interpretation_display            AS interpretation_display,
 
-        lab.valuequantity_value               AS valuequantity_value,
-        lab.valuequantity_comparator          AS valuequantity_comparator,
-        lab.valuequantity_unit                AS valuequantity_unit,
-        lab.valuequantity_system              AS valuequantity_system,
-        lab.valuequantity_code                AS valuequantity_code,
+            lab.valuequantity_value               AS valuequantity_value,
+            lab.valuequantity_comparator          AS valuequantity_comparator,
+            lab.valuequantity_unit                AS valuequantity_unit,
+            lab.valuequantity_system              AS valuequantity_system,
+            lab.valuequantity_code                AS valuequantity_code,
 
-        lab.valuestring                       AS valuestring,
+            lab.valuestring                       AS valuestring,
 
-        lab.dataabsentreason_code             AS dataabsentreason_code,
-        lab.dataabsentreason_system           AS dataabsentreason_system,
-        lab.dataabsentreason_display          AS dataabsentreason_display,
+            lab.dataabsentreason_code             AS dataabsentreason_code,
+            lab.dataabsentreason_system           AS dataabsentreason_system,
+            lab.dataabsentreason_display          AS dataabsentreason_display,
 
-        lab.status                            AS status,
-        lab.specimen_ref                      AS specimen_ref,
-        lab.observation_ref                   AS observation_ref,
+            lab.status                            AS status,
+            lab.specimen_ref                      AS specimen_ref,
+            lab.observation_ref                   AS observation_ref,
 
-        lab.observation_encounter_ref         AS lab_observation_encounter_ref,
-        link.link_encounter_ref               AS link_encounter_ref,
-        'effectivedatetime'                   AS lab_link_method
-
-    FROM date_candidates_links AS link
-
-    JOIN {{ prefix }}__cohort_study_population_lab_base AS lab
-        ON lab.observation_ref = link.observation_ref
-
-    WHERE lab.observation_encounter_ref IS NULL
-      AND lab.effectivedatetime_day IS NOT NULL
+            lab.observation_encounter_ref         AS lab_observation_encounter_ref,
+            link.link_encounter_ref               AS link_encounter_ref,
+            'effectivedatetime'                   AS lab_link_method
+    FROM    date_candidates_links AS link
+    JOIN    {{ prefix }}__cohort_study_population_lab_base AS lab
+    ON      lab.observation_ref = link.observation_ref
+    WHERE   lab.observation_encounter_ref   IS      NULL
+    AND     lab.effectivedatetime_day       IS NOT  NULL
 ),
-
 union_link AS (
-    SELECT
-        observation_code, observation_system,
-        valuecodeableconcept_code, valuecodeableconcept_display, valuecodeableconcept_system,
-        effectivedatetime, effectivedatetime_day,
-        interpretation_code, interpretation_system, interpretation_display,
-        valuequantity_value, valuequantity_comparator, valuequantity_unit,
-        valuequantity_system, valuequantity_code,
-        valuestring,
-        dataabsentreason_code, dataabsentreason_system, dataabsentreason_display,
-        status, specimen_ref, observation_ref,
-        lab_observation_encounter_ref, link_encounter_ref, lab_link_method
-    FROM by_encounter
+    SELECT * FROM by_encounter
 
     UNION ALL
 
-    SELECT
-        observation_code, observation_system,
-        valuecodeableconcept_code, valuecodeableconcept_display, valuecodeableconcept_system,
-        effectivedatetime, effectivedatetime_day,
-        interpretation_code, interpretation_system, interpretation_display,
-        valuequantity_value, valuequantity_comparator, valuequantity_unit,
-        valuequantity_system, valuequantity_code,
-        valuestring,
-        dataabsentreason_code, dataabsentreason_system, dataabsentreason_display,
-        status, specimen_ref, observation_ref,
-        lab_observation_encounter_ref, link_encounter_ref, lab_link_method
-    FROM by_effectivedate
+    SELECT * FROM by_effectivedate
 ),
 join_lab AS (
     SELECT  DISTINCT

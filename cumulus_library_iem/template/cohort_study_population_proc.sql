@@ -34,7 +34,8 @@ by_encounter AS (
             proc.code_code          AS proc_code,
             proc.code_display       AS proc_display,
             proc.code_system        AS proc_system,
-            COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) AS proc_link_day,
+            COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start))
+                                    AS proc_link_day,
             proc.procedure_ref      AS procedure_ref,
             proc.encounter_ref      AS proc_encounter_ref,
             sp.encounter_ref        AS link_encounter_ref,
@@ -93,16 +94,12 @@ date_candidates_ranked AS (
     ON      sp.subject_ref = date_candidates.subject_ref
     AND     date_candidates.candidate_day BETWEEN sp.enc_period_start_day AND sp.enc_period_end_day_filled
 ),
-
 date_candidates_links AS (
     SELECT  procedure_ref,
             link_encounter_ref
     FROM    date_candidates_ranked
     WHERE   link_rank = 1
 ),
-
--- Priority B: reattach the chosen encounter to EVERY row of the selected
--- procedure_ref (preserves multi-row resources, e.g. one row per reaction/result).
 by_date AS (
     SELECT  DISTINCT
             proc.category_code      AS proc_category_code,
