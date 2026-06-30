@@ -17,7 +17,7 @@ dependencies = [
     "pyrfc3339",
     "sqlfluff >= 3, <4",
     "tomli_w",
-    "rapid-elastic @ git+ssh://git@github.com/smart-on-fhir/rapid-elastic.git@main",
+    # "rapid-elastic @ git+ssh://git@github.com/smart-on-fhir/rapid-elastic.git@main",
 ]
 # You can alter this to discuss your study specifics
 description = "IEM: Inborn Errors of Metabolism (Liver)"

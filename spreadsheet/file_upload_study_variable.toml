@@ -1,4 +1,4 @@
-config_type="file_upload"
+config_type = "file_upload"
 
 [tables.valueset_dx_cerebrotendinous_xanthomatosis]
 file = "dx_cerebrotendinous_xanthomatosis.csv"

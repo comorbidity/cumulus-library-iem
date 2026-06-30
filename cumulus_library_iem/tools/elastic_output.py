@@ -1,4 +1,5 @@
 from pathlib import Path
+from cumulus_library_iem.tools.settings import ENCOUNTER_REF
 from cumulus_library_iem.tools.fhir_reference import Aspect
 from cumulus_library_iem.tools import manifest, tablespace, filetool, template
 
@@ -52,7 +53,9 @@ def make_union(aspect:Aspect=None) -> Path:
     table_list = list_tables()
     return filetool.save_athena_view(
         tablespace.name_elastic(cohort),
-        template.load(f"elastic_{cohort}.sql", select_union=select_union(table_list))
+        template.load(f"elastic_{cohort}.sql",
+                      encounter_ref=ENCOUNTER_REF,
+                      select_union=select_union(table_list))
     )
 
 def make() -> list[Path]:
@@ -67,8 +70,8 @@ def make() -> list[Path]:
                                           description='elastic_output UNION',
                                           build_type='build:serial')]
 
-        return [manifest.save_file_upload_toml(list_csv(), upload_file),
-                manifest.save_actions_toml(action_list, 'elastic_output.toml')]
+        todo_refactor = manifest.save_file_upload_toml(list_csv(), upload_file)
+        return [manifest.save_actions_toml(action_list, 'elastic_output.toml')]
     return list()
 
 if __name__ == '__main__':
