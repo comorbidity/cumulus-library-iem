@@ -1,65 +1,65 @@
 [[actions]]
-description="SQL cube variable union"
-type="build:parallel"
-files= [
-	"athena/iem__cube_patient_variable_union.sql",
-	"athena/iem__cube_encounter_variable_union.sql"
+description = "SQL cube variable union"
+type = "build:parallel"
+files = [
+    "athena/iem__cube_patient_variable_union.sql",
+    "athena/iem__cube_encounter_variable_union.sql",
 ]
 
 [[actions]]
-description="SQL cube elastic union"
-type="build:parallel"
-files= [
-	"athena/iem__cube_patient_elastic.sql",
-	"athena/iem__cube_encounter_elastic.sql",
-	"athena/iem__cube_note_elastic.sql"
+description = "SQL cube elastic union"
+type = "build:parallel"
+files = [
+    "athena/iem__cube_patient_elastic.sql",
+    "athena/iem__cube_encounter_elastic.sql",
+    "athena/iem__cube_note_elastic.sql",
 ]
 
 [[actions]]
-description="SQL cube elastic union dx (with FHIR)"
-type="build:parallel"
-files= [
-	"athena/iem__cube_patient_union_fhir_elastic.sql",
-	"athena/iem__cube_note_union_fhir_elastic.sql"
+description = "SQL cube elastic union dx (with FHIR)"
+type = "build:parallel"
+files = [
+    "athena/iem__cube_patient_union_fhir_elastic.sql",
+    "athena/iem__cube_note_union_fhir_elastic.sql",
 ]
 
 [[actions]]
-description="export cube tables variable union"
-type="export:counts"
-tables= [
-	"iem__cube_patient_variable_union",
-	"iem__cube_encounter_variable_union"
+description = "export cube tables variable union"
+type = "build:parallel"
+files = [
+    "athena/iem__cube_patient_variable_union.sql",
+    "athena/iem__cube_encounter_variable_union.sql",
 ]
 
 [[actions]]
-description="export cube elastic union"
-type="export:counts"
-tables= [
-	"iem__cube_patient_elastic",
-	"iem__cube_encounter_elastic",
-	"iem__cube_note_elastic"
+description = "export cube elastic union"
+type = "build:parallel"
+files = [
+    "athena/iem__cube_patient_elastic.sql",
+    "athena/iem__cube_encounter_elastic.sql",
+    "athena/iem__cube_note_elastic.sql",
 ]
 
 [[actions]]
-description="export cube elastic union dx (with FHIR)"
-type="export:counts"
-tables= [
-	"iem__cube_patient_union_fhir_elastic",
-	"iem__cube_note_union_fhir_elastic"
+description = "export cube elastic union dx (with FHIR)"
+type = "build:parallel"
+files = [
+    "athena/iem__cube_patient_union_fhir_elastic.sql",
+    "athena/iem__cube_note_union_fhir_elastic.sql",
 ]
 
 [[actions]]
-description="SQL study metadata"
-type="build:parallel"
-files= [
-	"athena/iem__meta_date.sql",
-	"athena/iem__meta_version.sql"
+description = "SQL study metadata"
+type = "build:parallel"
+files = [
+    "athena/iem__meta_date.sql",
+    "athena/iem__meta_version.sql",
 ]
 
 [[actions]]
-description="export study metadata"
-type="export:meta"
-tables= [
-	"iem__meta_date",
-	"iem__meta_version"
+description = "export study metadata"
+type = "export:meta"
+tables = [
+    "iem__meta_date",
+    "iem__meta_version",
 ]

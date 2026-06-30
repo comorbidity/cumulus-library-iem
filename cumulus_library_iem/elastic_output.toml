@@ -1,14 +1,14 @@
 [[actions]]
-description = 'file_upload_elastic.toml'
+description = "elastic_output CSV uploads"
 type = "build:parallel"
 files = [
-    './elastic_output/file_upload_elastic.toml'
+    "../elastic_output/file_upload_elastic.toml",
 ]
 
 [[actions]]
-description=""
-type="build:serial"
-files= [
-	"athena/iem__elastic_union.sql",
-	"athena/iem__elastic_union_dx.sql"
+description = "elastic_output UNION"
+type = "build:serial"
+files = [
+    "athena/iem__elastic_union.sql",
+    "athena/iem__elastic_union_dx.sql",
 ]

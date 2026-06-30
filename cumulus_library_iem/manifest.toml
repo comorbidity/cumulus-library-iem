@@ -6,8 +6,8 @@ files = ['file_upload.toml']
 
 [[stages.study_population]]
 type = "submanifest"
-#files = ['study_population.toml']
-files = ['study_population_cache.toml'] # << optional cached copy
+files = ['study_population.toml']
+#files = ['study_population_cache.toml'] # << optional cached copy
 
 [[stages.study_variable]]
 type = "submanifest"

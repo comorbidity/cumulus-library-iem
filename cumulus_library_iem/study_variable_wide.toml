@@ -1,27 +1,27 @@
 [[actions]]
-description="variable union (bool)"
-type="build:parallel"
-files= [
-	"athena/iem__cohort_variable_union.sql"
+description = "variable union (bool)"
+type = "build:parallel"
+files = [
+    "athena/iem__cohort_variable_union.sql",
 ]
 
 [[actions]]
-description="variable union ('dx')"
-type="build:parallel"
-files= [
-	"athena/iem__cohort_variable_union_dx.sql"
+description = "variable union ('dx')"
+type = "build:parallel"
+files = [
+    "athena/iem__cohort_variable_union_dx.sql",
 ]
 
 [[actions]]
-description="variable wide (bool)"
-type="build:parallel"
-files= [
-	"athena/iem__cohort_variable_wide.sql"
+description = "variable wide (bool)"
+type = "build:parallel"
+files = [
+    "athena/iem__cohort_variable_wide.sql",
 ]
 
 [[actions]]
-description="variable wide ('dx')"
-type="build:parallel"
-files= [
-	"athena/iem__cohort_variable_wide_dx.sql"
+description = "variable wide ('dx')"
+type = "build:parallel"
+files = [
+    "athena/iem__cohort_variable_wide_dx.sql",
 ]
