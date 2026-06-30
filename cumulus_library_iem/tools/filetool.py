@@ -2,7 +2,7 @@ import os
 import json
 from pathlib import Path
 from typing import Dict, Any
-from cumulus_library_iem.tools import fhir_reference, settings
+from cumulus_library_iem.tools import fhir_reference
 
 #-----------------------------------------------------------------------------
 # PROJECT HOME
@@ -10,7 +10,7 @@ from cumulus_library_iem.tools import fhir_reference, settings
 def path_project(filename=None) -> Path:
     """
     :param filename: optional
-    :return: path to home "project" directory `cumulus_library_iem`
+    :return: path to home "project" directory `cumulus_library_ibd_cds`
     """
     project_dir = Path(__file__).resolve().parent.parent
     if filename:
@@ -76,6 +76,24 @@ def path_template(file_sql: Path | str = None) -> Path:
     return path_project() / 'template' / file_sql
 
 #-----------------------------------------------------------------------------
+# Tests File(s)
+#-----------------------------------------------------------------------------
+def path_tests(file: Path | str = None) -> Path:
+    if not file:
+        return path_project().parent / 'tests'
+    return path_project().parent / 'tests' / file
+
+def path_tests_athena(file_sql: Path | str = None) -> Path:
+    if not file_sql:
+        return path_tests() / 'athena'
+    return path_tests() / 'athena' / file_sql
+
+def path_tests_template(file_sql: Path | str = None) -> Path:
+    if not file_sql:
+        return path_tests() / 'template'
+    return path_tests() / 'template' / file_sql
+
+#-----------------------------------------------------------------------------
 # LLM File(s)
 #-----------------------------------------------------------------------------
 def path_llm(filename: Path | str = None) -> Path:
@@ -100,16 +118,6 @@ def path_llm_athena(filename: Path | str = None) -> Path:
 
 def save_llm_athena(file_sql: str, contents: str) -> Path:
     return Path(write_text(contents, path_llm_athena(file_sql)))
-
-#-----------------------------------------------------------------------------
-# Elastic
-#-----------------------------------------------------------------------------
-def path_elastic_output() -> Path | None:
-    output_dir = Path(settings.ELASTIC_OUTPUT)
-    if not output_dir and not Path(output_dir).exists():
-        print(f'Does not exist', output_dir)
-        return None
-    return Path(output_dir)
 
 #-----------------------------------------------------------------------------
 # Read/Write Text

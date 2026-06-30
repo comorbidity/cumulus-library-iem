@@ -91,20 +91,20 @@ def make() -> list[Path]:
     elastic_union_dx = make_elastic_union_dx()
 
     sql_list = [
-        manifest.as_sql_toml(variable_union, 'SQL cube variable union'),
-        manifest.as_sql_toml(elastic_union, 'SQL cube elastic union'),
-        manifest.as_sql_toml(elastic_union_dx, 'SQL cube elastic union dx (with FHIR)'),
+        manifest.SqlAction(variable_union, 'SQL cube variable union'),
+        manifest.SqlAction(elastic_union, 'SQL cube elastic union'),
+        manifest.SqlAction(elastic_union_dx, 'SQL cube elastic union dx (with FHIR)'),
     ]
 
     export_list = [
-        manifest.as_export_toml(variable_union, 'export cube tables variable union'),
-        manifest.as_export_toml(elastic_union, 'export cube elastic union'),
-        manifest.as_export_toml(elastic_union_dx, 'export cube elastic union dx (with FHIR)'),
+        manifest.SqlAction(variable_union, 'export cube tables variable union'),
+        manifest.SqlAction(elastic_union, 'export cube elastic union'),
+        manifest.SqlAction(elastic_union_dx, 'export cube elastic union dx (with FHIR)'),
     ]
 
-    sections = sql_list + export_list + study_meta.make_inline()
+    actions = sql_list + export_list + study_meta.make_actions()
 
-    return [manifest.save_lines_toml(sections, 'cube.toml')]
+    return [manifest.save_actions_toml(actions, 'cube.toml')]
 
 #-----------------------------------------------------------------------------
 # MAIN method

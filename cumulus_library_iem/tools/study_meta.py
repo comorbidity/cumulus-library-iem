@@ -10,35 +10,19 @@ def make_study_meta_sql(data_package_version:int = DATA_PACKAGE_VERSION) -> list
     return [template.copy(f"meta_date.sql"),
             template.copy(f"meta_version.sql", data_package_version=str(data_package_version))]
 
-def make_inline()->list[str]:
+def make_actions() -> list[manifest.SqlAction | manifest.ExportAction]:
     """
-    Make SQL study meta and suggest TOML, example
-
-    [[actions]]
-    description = "export metadata"
-    type = "build:serial"
-    files = [
-        'athena/iem__meta_date.sql',
-        'athena/iem__meta_version.sql'
-    ]
-
-    [[actions]]
-    description = "export metadata"
-    type = "export:meta"
-    tables = [
-        'iem__meta_date',
-        'iem__meta_version'
-    ]
+    Make SQL study metadata and export metadata actions.
     """
     file_list = make_study_meta_sql()
 
     return [
-        manifest.as_sql_toml(file_list, 'SQL study metadata'),
-        manifest.as_export_toml(file_list, 'export study metadata', 'export:meta')
+        manifest.SqlAction(file_list, 'SQL study metadata'),
+        manifest.ExportAction(file_list, 'export study metadata', 'export:meta'),
     ]
 
 def make() -> list[Path]:
-    return [manifest.save_lines_toml(make_inline(), 'study_meta.toml')]
+    return [manifest.save_actions_toml(make_actions(), 'study_meta.toml')]
 
 if __name__ == '__main__':
     for target in make():

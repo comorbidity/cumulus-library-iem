@@ -1,32 +1,18 @@
+import csv
 from pathlib import Path
-from cumulus_library_iem.tools import manifest, template, filetool, tablespace
+from cumulus_library_iem.tools.settings import ENCOUNTER_REF
+from cumulus_library_iem.tools import manifest, template, filetool
 
 def make_cohort() -> list[Path]:
-    return [template.copy('cohort_casedef.sql')]
+    return [copy_template('cohort_casedef.sql')]
 
 def make_cohort_candidate() -> list[Path]:
-    out = list()
-    for rule in ['candidate', 'exclude', 'include']:
-        file= f'cohort_casedef_{rule}.sql'
-        dest = tablespace.name_prefix(file)
-        path = filetool.path_athena(dest)
+    criteria_list = ['candidate', 'exclude', 'include']
+    return [copy_template(f'cohort_casedef_{rule}.sql') for rule in criteria_list]
 
-        if path.exists():
-            out.append(path)
-        else:
-            out.append(template.copy(file))
-    return out
-
-def make_cohort_aspects(casedef_meta='') -> list[Path]:
-    """
-    Make cohorts for each case definition aspect [dx, rx, lab, proc].
-    Default= one table for each [dx, rx, lab, proc]
-    :param casedef_meta: optionally include "casedef.subtype" or other study specific case definition metadata.
-    :return: list of file.sql
-    """
-    # Default aspects using the templates that join study_population_$aspect.
+def make_cohort_aspects() -> list[Path]:
     aspect_list = ['dx', 'lab', 'proc', 'rx']
-    return [template.copy(f'cohort_casedef_{aspect}.sql', casedef_meta=casedef_meta) for aspect in aspect_list]
+    return [copy_template(f'cohort_casedef_{aspect}.sql') for aspect in aspect_list]
 
 def make_timeline() -> list[Path]:
     """
@@ -37,10 +23,23 @@ def make_timeline() -> list[Path]:
     * cohort_casedef.sql
     * cohort_variable_wide.sql
     * cohort_study_population_enc.sql
-
-    :return: list of file.sql
     """
-    return [template.copy(f'cohort_timeline.sql')]
+    return [copy_template(f'cohort_timeline.sql')]
+
+#-----------------------------------------------------------------------------
+# Template Helpers
+#-----------------------------------------------------------------------------
+def casedef_columns() -> list[str]:
+    """
+    :return: ['subtype','system','code','display','tier']
+    """
+    with open(filetool.path_spreadsheet('casedef.csv'), newline='', encoding='utf-8-sig') as f:
+        return next(csv.reader(f), [])
+
+def copy_template(template_sql:str) -> Path:
+    return template.copy(template_sql,
+                         casedef_columns=casedef_columns(),
+                         encounter_ref=ENCOUNTER_REF)
 
 #-----------------------------------------------------------------------------
 # Make
@@ -51,15 +50,16 @@ def make() -> list[Path]:
     aspect_files = make_cohort_aspects()
     timeline_files = make_timeline()
 
-    sections = [manifest.as_sql_toml(rules_files, 'filter include/exclude', build_type='build:serial'),
-                manifest.as_sql_toml(cohort_files, 'cohort from case definition (valueset_casedef)'),
-                manifest.as_sql_toml(aspect_files, 'cohort for case definition aspects (dx, rx, lab, proc)'),
-                manifest.as_sql_toml(timeline_files, 'timeline for casedef with variables')]
+    actions = [
+        manifest.FileAction([f'../spreadsheet/file_upload_casedef.toml']),
+        manifest.SqlAction(rules_files, 'filter include/exclude', 'build:serial'),
+        manifest.SqlAction(cohort_files, 'cohort from case definition (valueset_casedef)'),
+        manifest.SqlAction(aspect_files, 'cohort for case definition aspects (dx, rx, lab, proc)'),
+        manifest.SqlAction(timeline_files, 'timeline for casedef with variables'),
+    ]
 
-    return [manifest.save_lines_toml(sections, 'casedef.toml')]
+    return [manifest.save_actions_toml(actions, 'casedef.toml')]
 
 if __name__ == '__main__':
     for target in make():
         print(target)
-
-

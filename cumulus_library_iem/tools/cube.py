@@ -2,7 +2,7 @@ from pathlib import Path
 from cumulus_library.builders.counts import CountsBuilder
 from cumulus_library_iem.tools import filetool
 from cumulus_library_iem.tools.tablespace import name_trim, name_cube, ctas_as_view
-from cumulus_library_iem.tools.settings import CUMULUS_CUBE_MIN_SUBJECTS, CUMULUS_CUBE_AS_VIEW
+from cumulus_library_iem.tools.settings import CUBE_MIN_SUBJECTS, CUBE_AS_VIEW
 from cumulus_library_iem.tools import manifest
 
 MANIFEST = manifest.get_manifest()
@@ -12,7 +12,7 @@ def cube_fhir_resource(primary_id:str,
                        source_table='study_population',
                        table_cols=None,
                        table_name=None,
-                       min_subject=CUMULUS_CUBE_MIN_SUBJECTS) -> Path:
+                       min_subject=CUBE_MIN_SUBJECTS) -> Path:
     """Generates a counts table using a template
 
     :param primary_id: The type of FHIR resource to count
@@ -35,7 +35,7 @@ def cube_fhir_resource(primary_id:str,
             min_subject=min_subject,
             primary_id=primary_id,
     )
-    if CUMULUS_CUBE_AS_VIEW == 1:
+    if CUBE_AS_VIEW == 1:
         sql = ctas_as_view(sql, table_name)
 
     return filetool.save_athena_view(table_name, sql)
@@ -43,7 +43,7 @@ def cube_fhir_resource(primary_id:str,
 def cube_patient(source_table='study_population',
                  table_cols=None,
                  table_name=None,
-                 min_subject=CUMULUS_CUBE_MIN_SUBJECTS) -> Path:
+                 min_subject=CUBE_MIN_SUBJECTS) -> Path:
     return cube_fhir_resource(
         primary_id='subject_ref',
         source_table=source_table,
@@ -54,7 +54,7 @@ def cube_patient(source_table='study_population',
 def cube_encounter(source_table='study_population',
                    table_cols=None,
                    table_name=None,
-                   min_subject=CUMULUS_CUBE_MIN_SUBJECTS) -> Path:
+                   min_subject=CUBE_MIN_SUBJECTS) -> Path:
     return cube_fhir_resource(
         primary_id='encounter_ref',
         source_table=source_table,
@@ -65,7 +65,7 @@ def cube_encounter(source_table='study_population',
 def cube_document(source_table='study_population_doc',
                   table_cols=None,
                   table_name=None,
-                  min_subject=CUMULUS_CUBE_MIN_SUBJECTS) -> Path:
+                  min_subject=CUBE_MIN_SUBJECTS) -> Path:
     return cube_fhir_resource(
         primary_id='documentreference_ref',
         source_table=source_table,
@@ -76,7 +76,7 @@ def cube_document(source_table='study_population_doc',
 def cube_diagnostic(source_table='study_population_doc',
                     table_cols=None,
                     table_name=None,
-                    min_subject=CUMULUS_CUBE_MIN_SUBJECTS) -> Path:
+                    min_subject=CUBE_MIN_SUBJECTS) -> Path:
     return cube_fhir_resource(
         primary_id='diagnosticreport_ref',
         source_table=source_table,
@@ -87,7 +87,7 @@ def cube_diagnostic(source_table='study_population_doc',
 def cube_note(source_table='sample_casedef',
               table_cols=None,
               table_name=None,
-              min_subject=CUMULUS_CUBE_MIN_SUBJECTS) -> Path:
+              min_subject=CUBE_MIN_SUBJECTS) -> Path:
     return cube_fhir_resource(
         primary_id='note_ref',
         source_table=source_table,

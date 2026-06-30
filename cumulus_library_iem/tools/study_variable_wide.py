@@ -1,4 +1,5 @@
 from pathlib import Path
+from cumulus_library_iem.tools.settings import ENCOUNTER_REF
 from cumulus_library_iem.tools import filetool, tablespace, manifest, template, fhir_reference
 from cumulus_library_iem.tools.fhir_reference import Aspect
 from cumulus_library_iem.tools.tablespace import name_trim, name_cohort
@@ -41,6 +42,7 @@ def _make_variable_union(aspect:Aspect=None) -> Path:
     return filetool.save_athena_view(
         name_cohort(cohort),
         template.load(f"cohort_{cohort}.sql",
+                      encounter_ref=ENCOUNTER_REF,
                       select_union=select_union(variable_list),
                       variable_list=list_variables_as_str(variable_list)))
 
@@ -55,7 +57,7 @@ def select_union(variable_list: list[str]) -> str:
     sql = list()
     for variable in variable_list:
         variable = name_trim(variable)
-        select = f"\tSELECT '{variable}'\t AS variable, code, display, system, encounter_ref"
+        select = f"\tSELECT '{variable}'\t AS variable, code, display, system, {ENCOUNTER_REF}"
         select+= f", {fhir_reference.get_column(variable).reference} AS resource_ref"
         from_table = f" FROM {tablespace.PREFIX}__cohort_{variable}"
         sql.append(select + from_table)
@@ -78,6 +80,7 @@ def make_variable_wide_bool(aspect:Aspect=None) -> Path:
     return filetool.save_athena_view(
         name_cohort(cohort),
         template.load(f"cohort_{cohort}.sql",
+                      encounter_ref=ENCOUNTER_REF,
                       select_wide_bool=select_wide_bool(variable_list),
                       select_wide_any=select_wide_any(variable_list)))
 
@@ -156,6 +159,7 @@ def _make_variable_wide(aspect:Aspect, generator=None) -> Path:
         return filetool.save_athena_view(
             name_cohort(cohort),
             template.load(f"cohort_variable_wide_aspect.sql",
+                          encounter_ref=ENCOUNTER_REF,
                           aspect=aspect.name,
                           select_wide_dict=generator()))
 
@@ -260,7 +264,7 @@ def select_wide_doc(variable_list: list[str] = None, columns: dict = None) -> st
     """
     FHIR DocumentReference
     * https://build.fhir.org/documentreference.html
-z
+
     :param variable_list: default = Document Reference variables
     :param columns: default= author date, code
     :return: str SQL
@@ -303,12 +307,14 @@ def make() -> list[Path]:
     """
     aspect_list = [aspect.name for aspect in list_aspects()]
 
-    sections = [manifest.as_sql_toml(make_variable_union_bool(), 'variable union (bool)'),
-                manifest.as_sql_toml(make_variable_union_aspect(), f'variable union {aspect_list}'),
-                manifest.as_sql_toml([make_variable_wide_bool()], 'variable wide (bool)'),
-                manifest.as_sql_toml(make_variable_wide(), f'variable wide {aspect_list}'), ]
+    actions = [
+        manifest.SqlAction(make_variable_union_bool(), 'variable union (bool)'),
+        manifest.SqlAction(make_variable_union_aspect(), f'variable union {aspect_list}'),
+        manifest.SqlAction([make_variable_wide_bool()], 'variable wide (bool)'),
+        manifest.SqlAction(make_variable_wide(), f'variable wide {aspect_list}'),
+    ]
 
-    return [manifest.save_lines_toml(sections, 'study_variable_wide.toml')]
+    return [manifest.save_actions_toml(actions, 'study_variable_wide.toml')]
 
 if __name__ == '__main__':
     for output_toml in make():

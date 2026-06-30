@@ -80,10 +80,10 @@ def clean()->list[Path]:
     return [
         filetool.write_lines(
             clean_files(),
-            filetool.path_athena('irae__drop_study_variable.sh')),
+            filetool.path_athena('drop_study_variable.sh')),
         filetool.write_lines(
             drop_tables(),
-            filetool.path_athena('irae__drop_study_variable.sql'))]
+            filetool.path_athena('drop_study_variable.sql'))]
 
 #-----------------------------------------------------------------------------
 # List tables
@@ -138,11 +138,18 @@ def make() -> list[Path]:
 
     :return: list of TOML outputs
     """
+    upload_file = 'file_upload_study_variable.toml'
     upload_list = list_variable_uploads()
     variable_list = [make_cohort(variable) for variable in list_variables()]
 
-    return [manifest.save_file_upload_toml(upload_list, 'file_upload_study_variable.toml'),
-            manifest.save_sql_toml(variable_list, 'study_variable.toml', description='variable cohorts')]
+    actions_list = [manifest.FileAction(file_list=[f'../spreadsheet/{upload_file}'],
+                                        description='CSV valueset definitions for variables',
+                                        build_type='build:parallel'),
+                    manifest.SqlAction(file_list=variable_list,
+                                       description='variable cohorts')]
+
+    return [manifest.save_file_upload_toml(upload_list, upload_file),
+            manifest.save_actions_toml(actions_list, 'study_variable.toml')]
 
 if __name__ == '__main__':
     for output_toml in make():

@@ -1,4 +1,5 @@
 from pathlib import Path
+from cumulus_library_iem.tools.settings import ENCOUNTER_REF
 from cumulus_library_iem.tools import filetool, template, tablespace, manifest
 from cumulus_library_iem.tools.study_variable import Aspect, list_aspect_names
 
@@ -16,7 +17,7 @@ TEMPORALITY = ['pre', 'peri', 'peri_post', 'post']
 # Step 1: sample_casedef
 ##########################################################################################################
 def make_sample() -> list[Path]:
-    return [template.copy('sample_casedef.sql')]
+    return [template.copy('sample_casedef.sql', encounter_ref=ENCOUNTER_REF)]
 
 ########################################################################################################
 # Step 2: for each Aspect
@@ -39,7 +40,7 @@ def _make_aspect(aspect: Aspect | str) -> Path:
     """
     if isinstance(aspect, Aspect):
         return _make_aspect(aspect.name)
-    content = template.load('sample_casedef_aspect.sql', aspect=aspect)
+    content = template.load('sample_casedef_aspect.sql', aspect=aspect, encounter_ref=ENCOUNTER_REF)
     table = tablespace.name_prefix(f'sample_casedef_{aspect}')
     path = filetool.path_athena(f'{table}.sql')
     return filetool.save_athena(path, content)
@@ -77,11 +78,18 @@ def _make_temporality(template_name:str, temporality:str, limit: int = None) -> 
     else:
         limit = ''
     text = template.load(f'{template_name}.sql',
+                         encounter_ref=ENCOUNTER_REF,
                          temporality=temporality,
                          limit=limit)
     target_table = tablespace.name_prefix(table_name)
     target_file = filetool.path_athena(f'{target_table}.sql')
     return Path(filetool.write_text(text, target_file))
+
+def make_sample_task() -> list[Path]:
+    task = ['ibd__sample_task.sql',
+            'ibd__sample_task_aspect.sql',
+            'ibd__sample_task_tier.sql']
+    return [filetool.path_athena(t) for t in task]
 
 #-----------------------------------------------------------------------------
 # Make
@@ -89,13 +97,16 @@ def _make_temporality(template_name:str, temporality:str, limit: int = None) -> 
 def make() -> list[Path]:
     aspect_list = list_aspect_names()
 
-    sections = [manifest.as_sql_toml(make_sample(), 'sample_casedef (all)'),
-                manifest.as_sql_toml(make_aspect(), f'sample for aspects {aspect_list}'),
-                manifest.as_sql_toml(make_temporality(), f'sample temporality {TEMPORALITY}'),
-                manifest.as_sql_toml(make_temporality_limit_patient(10), f'sample size limit patients'),
-                manifest.as_sql_toml(make_temporality_limit_note(50), f'sample size limit notes')]
+    actions = [
+        manifest.SqlAction(make_sample(), 'sample_casedef (all)'),
+        manifest.SqlAction(make_aspect(), f'sample for aspects {aspect_list}'),
+        manifest.SqlAction(make_temporality(), f'sample temporality {TEMPORALITY}'),
+        manifest.SqlAction(make_temporality_limit_patient(10), 'sample size limit patients'),
+        manifest.SqlAction(make_temporality_limit_note(50), 'sample size limit notes'),
+        manifest.SqlAction(make_sample_task(), 'sample task', "build:serial"),
+    ]
 
-    return [manifest.save_lines_toml(sections, 'sample.toml')]
+    return [manifest.save_actions_toml(actions, 'sample.toml')]
 
 if __name__ == '__main__':
     for target in make():
