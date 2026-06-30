@@ -1,4 +1,4 @@
-CREATE TABLE {{ prefix }}__cohort_study_population AS
+CREATE  TABLE   {{ prefix }}__cohort_study_population AS
 WITH
 study_population AS (
     SELECT  DISTINCT

@@ -2,8 +2,9 @@
 --  Link Procedure to study_population
 --
 --  PRIORITIES
---    A. encounter_ref   is NOT null
---    B. performeddatetime / performedperiod_start is NOT null  AND  encounter_ref IS NULL
+--    A. encounter_ref maps to a retained study_population encounter
+--    B. performeddatetime / performedperiod_start present AND encounter_ref is NULL
+--       *or* not retained study_population encounter (date-rescue for orphans)
 --
 --  TIE-BREAK (exact-start-date)
 --    1. encounter starts on the date-mapped day
@@ -15,16 +16,9 @@
 --  Shared skeleton across rx / dx / proc / doc / diag / allergy. Only the
 --  resource table, ref, date expression, and columns differ.
 --  =====================================================================
-CREATE TABLE {{ prefix }}__cohort_study_population_proc AS
+CREATE  TABLE   {{ prefix }}__cohort_study_population_proc AS
 WITH
-resource_has_encounter_ref AS (
-    SELECT  DISTINCT
-            procedure_ref
-    FROM    core__procedure
-    WHERE   encounter_ref IS NOT NULL
-),
-
--- Priority A: native encounter_ref.
+-- Priority A: encounter_ref maps to retained study_population encounter.
 by_encounter AS (
     SELECT  DISTINCT
             proc.category_code      AS proc_category_code,
@@ -35,33 +29,41 @@ by_encounter AS (
             proc.code_display       AS proc_display,
             proc.code_system        AS proc_system,
             COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start))
-                                    AS proc_link_day,
+                                    AS proc_performed_day,
             proc.procedure_ref      AS procedure_ref,
-            proc.encounter_ref      AS proc_encounter_ref,
-            sp.encounter_ref        AS link_encounter_ref,
-            'encounter_ref'         AS proc_link_method
+
+            proc.subject_ref        AS subject_ref,
+            proc.encounter_ref      AS encounter_ref,
+            proc.encounter_ref      AS encounter_ref_link,
+            'encounter_ref'         AS encounter_ref_link_col
     FROM    {{ prefix }}__cohort_study_population AS sp
     JOIN    core__procedure         AS proc
     ON      sp.encounter_ref = proc.encounter_ref
+    AND     sp.subject_ref   = proc.subject_ref
     WHERE   proc.encounter_ref      IS NOT NULL
 ),
 
--- Priority B candidates: date present, no encounter_ref, never natively linked.
+-- Priority B candidates: date present AND the procedure's encounter_ref is NOT a
+-- retained study_population encounter. The anti-join against
+-- cohort_study_population covers BOTH a true-null encounter_ref (never matches) and
+-- an encounter_ref pointing at an encounter dropped by the population filters.
+-- NOTE: anti-join depends on consistent subject_ref formatting across the two tables.
 date_candidates AS (
     SELECT  DISTINCT
             proc.procedure_ref,
             proc.subject_ref,
-            COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) AS candidate_day
+            COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start))
+                            AS candidate_day
     FROM    core__procedure AS proc
-    LEFT JOIN resource_has_encounter_ref AS has_encounter
-    ON      proc.procedure_ref = has_encounter.procedure_ref
-    WHERE   proc.encounter_ref IS NULL
-    AND     COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) IS NOT NULL
-    AND     has_encounter.procedure_ref IS NULL
+    LEFT JOIN {{ prefix }}__cohort_study_population AS sp
+    ON      proc.encounter_ref = sp.encounter_ref
+    AND     proc.subject_ref   = sp.subject_ref
+    WHERE   COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) IS NOT NULL
+    AND     sp.encounter_ref   IS NULL
 ),
 date_candidates_ranked AS (
     SELECT  date_candidates.procedure_ref,
-            sp.encounter_ref AS link_encounter_ref,
+            sp.encounter_ref AS encounter_ref_link,
             ROW_NUMBER() OVER (
                 PARTITION BY date_candidates.procedure_ref
                 ORDER BY
@@ -96,7 +98,7 @@ date_candidates_ranked AS (
 ),
 date_candidates_links AS (
     SELECT  procedure_ref,
-            link_encounter_ref
+            encounter_ref_link
     FROM    date_candidates_ranked
     WHERE   link_rank = 1
 ),
@@ -109,16 +111,17 @@ by_date AS (
             proc.code_code          AS proc_code,
             proc.code_display       AS proc_display,
             proc.code_system        AS proc_system,
-            COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) AS proc_link_day,
+            COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) AS proc_performed_day,
             proc.procedure_ref      AS procedure_ref,
-            proc.encounter_ref      AS proc_encounter_ref,
-            link.link_encounter_ref AS link_encounter_ref,
-            'performed_date'        AS proc_link_method
+
+            proc.subject_ref        AS subject_ref,
+            proc.encounter_ref      AS encounter_ref,
+            link.encounter_ref_link AS encounter_ref_link,
+            'performed_date'        AS encounter_ref_link_col
     FROM    date_candidates_links   AS link
     JOIN    core__procedure         AS proc
     ON      proc.procedure_ref = link.procedure_ref
-    WHERE   proc.encounter_ref      IS NULL
-    AND     COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) IS NOT NULL
+    WHERE   COALESCE(DATE(proc.performeddatetime), DATE(proc.performedperiod_start)) IS NOT NULL
 ),
 union_all AS (
     SELECT * FROM by_encounter
@@ -126,19 +129,6 @@ union_all AS (
     SELECT * FROM by_date
 )
 SELECT  DISTINCT
-        union_all.proc_category_code    AS proc_category_code,
-        union_all.proc_category_display AS proc_category_display,
-        union_all.proc_category_system  AS proc_category_system,
-        union_all.proc_status           AS proc_status,
-        union_all.proc_code             AS proc_code,
-        union_all.proc_display          AS proc_display,
-        union_all.proc_system           AS proc_system,
-        union_all.proc_link_day         AS proc_link_day,
-        union_all.procedure_ref         AS procedure_ref,
-        union_all.proc_encounter_ref    AS proc_encounter_ref,
-        union_all.proc_link_method      AS proc_link_method,
-        study_population.*
+        union_all.*
 FROM    union_all
-JOIN    {{ prefix }}__cohort_study_population AS study_population
-ON      study_population.encounter_ref = union_all.link_encounter_ref
 ;

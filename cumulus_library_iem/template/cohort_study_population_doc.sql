@@ -2,8 +2,9 @@
 --  Link DocumentReference to study_population
 --
 --  PRIORITIES
---    A. encounter_ref   is NOT null
---    B. date is NOT null  AND  encounter_ref IS NULL
+--    A. encounter_ref maps to a retained study_population encounter
+--    B. date present AND encounter_ref is NULL *or* not retained
+--       study_population encounter (date-rescue for orphaned documents)
 --
 --  TIE-BREAK (exact-start-date)
 --    1. encounter starts on the date-mapped day
@@ -12,56 +13,53 @@
 --    4. ordinal
 --    5. encounter_ref
 --  =====================================================================
-CREATE TABLE {{ prefix }}__cohort_study_population_doc AS
+CREATE  TABLE   {{ prefix }}__cohort_study_population_doc AS
 WITH
-
--- Any DocumentReference that has native encounter linkage at all.
-doc_has_encounter_ref AS (
-    SELECT DISTINCT
-        documentreference_ref
-    FROM core__documentreference
-    WHERE encounter_ref IS NOT NULL
-),
-
-
--- Priority A: encounter_ref is NOT null
+-- Priority A: encounter_ref maps to retained study_population encounter
 by_encounter AS (
-    SELECT  DISTINCT
-            doc.docstatus               AS docstatus,
-            doc.type_code               AS type_code,
-            doc.type_display            AS type_display,
-            doc.type_system             AS type_system,
-            doc.author_day              AS author_day,
+    SELECT
+            doc.docstatus               AS doc_status,
+            doc.type_code               AS doc_type_code,
+            doc.type_display            AS doc_type_display,
+            doc.type_system             AS doc_type_system,
+            doc.author_day              AS doc_author_day,
             doc."date"                  AS doc_date,
             COALESCE(doc.author_day,DATE(doc."date"))
                                         AS doc_link_day,
             doc.aux_has_text            AS aux_has_text,
             doc.documentreference_ref   AS documentreference_ref,
-            doc.encounter_ref           AS doc_encounter_ref,
-            sp.encounter_ref            AS link_encounter_ref,
-            'encounter_ref'             AS doc_link_method
+            doc.subject_ref             AS subject_ref,
+            doc.encounter_ref           AS encounter_ref,
+            doc.encounter_ref           AS encounter_ref_link,
+            'encounter_ref'             AS encounter_ref_link_col
     FROM    {{ prefix }}__cohort_study_population AS sp
     JOIN    core__documentreference     AS doc
-    ON      sp.encounter_ref = doc.encounter_ref
-    WHERE   doc.encounter_ref IS NOT NULL
+    ON      sp.subject_ref      = doc.subject_ref
+    AND     sp.encounter_ref    = doc.encounter_ref
+    WHERE   doc.encounter_ref   IS NOT NULL
 ),
 
--- Priority B: date is NOT null and encounter_ref IS NULL
-doc_date_candidates AS (
+-- Priority B candidates: date present AND the document's encounter_ref is NOT a
+-- retained study_population encounter. The anti-join against
+-- cohort_study_population covers BOTH a true-null encounter_ref (never matches) and
+-- an encounter_ref pointing at an encounter dropped by the population filters.
+-- NOTE: anti-join depends on consistent subject_ref formatting across the two tables.
+date_candidates AS (
     SELECT  DISTINCT
             doc.documentreference_ref,
             doc.subject_ref,
-            COALESCE(doc.author_day,DATE(doc."date")) AS doc_day
-    FROM    core__documentreference AS doc
-    LEFT JOIN doc_has_encounter_ref AS has_encounter
-    ON      doc.documentreference_ref = has_encounter.documentreference_ref
-    WHERE doc.encounter_ref IS NULL
-    AND     COALESCE(doc.author_day,DATE(doc."date")) IS NOT NULL
-    AND     has_encounter.documentreference_ref IS NULL
+            COALESCE(doc.author_day,DATE(doc."date"))
+                                            AS doc_day
+    FROM    core__documentreference         AS doc
+    LEFT JOIN {{ prefix }}__cohort_study_population AS sp
+    ON      doc.encounter_ref = sp.encounter_ref
+    AND     doc.subject_ref   = sp.subject_ref
+    WHERE   COALESCE(doc.author_day,DATE(doc."date"))   IS NOT  NULL
+    AND     sp.encounter_ref                            IS      NULL
 ),
-doc_date_links_ranked AS (
+date_candidates_ranked AS (
     SELECT  doc.documentreference_ref,
-            sp.encounter_ref AS link_encounter_ref,
+            sp.encounter_ref AS encounter_ref_link,
             ROW_NUMBER() OVER (
                 PARTITION BY doc.documentreference_ref
                 ORDER BY
@@ -89,58 +87,44 @@ doc_date_links_ranked AS (
                     -- Tie-Break #5: encounter_ref
                     sp.encounter_ref ASC
             ) AS doc_link_rank
-    FROM    doc_date_candidates AS doc
+    FROM    date_candidates AS doc
     JOIN    {{ prefix }}__cohort_study_population AS sp
     ON      sp.subject_ref = doc.subject_ref
     AND     doc.doc_day BETWEEN sp.enc_period_start_day AND sp.enc_period_end_day_filled
 ),
-doc_date_links AS (
-    SELECT
-        documentreference_ref,
-        link_encounter_ref
-    FROM doc_date_links_ranked
+date_candidates_links AS (
+    SELECT  documentreference_ref,
+            encounter_ref_link
+    FROM date_candidates_ranked
     WHERE doc_link_rank = 1
 ),
 by_date AS (
-    SELECT  DISTINCT
-            doc.docstatus               AS docstatus,
-            doc.type_code               AS type_code,
-            doc.type_display            AS type_display,
-            doc.type_system             AS type_system,
-            doc.author_day              AS author_day,
+    SELECT
+            doc.docstatus               AS doc_status,
+            doc.type_code               AS doc_type_code,
+            doc.type_display            AS doc_type_display,
+            doc.type_system             AS doc_type_system,
+            doc.author_day              AS doc_author_day,
             doc."date"                  AS doc_date,
             COALESCE(doc.author_day,DATE(doc."date"))
                                         AS doc_link_day,
             doc.aux_has_text            AS aux_has_text,
             doc.documentreference_ref   AS documentreference_ref,
-            doc.encounter_ref           AS doc_encounter_ref,
-            link.link_encounter_ref     AS link_encounter_ref,
-            'document_date'             AS doc_link_method
-    FROM    doc_date_links AS link
+            doc.subject_ref             AS subject_ref,
+            doc.encounter_ref           AS encounter_ref,
+            link.encounter_ref_link     AS encounter_ref_link,
+            'document_date'             AS encounter_ref_link_col
+    FROM    date_candidates_links AS link
     JOIN    core__documentreference AS doc
     ON      doc.documentreference_ref = link.documentreference_ref
-    WHERE   doc.encounter_ref IS NULL
-      AND   COALESCE(doc.author_day,DATE(doc."date")) IS NOT NULL
+    WHERE   COALESCE(doc.author_day,DATE(doc."date")) IS NOT NULL
 ),
 union_link AS (
     SELECT * FROM by_encounter
     UNION ALL
     SELECT * from by_date
 )
-SELECT DISTINCT
-    union_link.docstatus            AS doc_status,
-    union_link.type_code            AS doc_type_code,
-    union_link.type_display         AS doc_type_display,
-    union_link.type_system          AS doc_type_system,
-    union_link.author_day           AS doc_author_day,
-    union_link.doc_date             AS doc_date,
-    union_link.doc_link_day         AS doc_link_day,
-    union_link.aux_has_text         AS aux_has_text,
-    union_link.documentreference_ref AS documentreference_ref,
-    union_link.doc_encounter_ref    AS doc_doc_encounter_ref,
-    union_link.doc_link_method      AS doc_link_method,
-    study_population.*
-FROM union_link
-JOIN {{ prefix }}__cohort_study_population AS study_population
-    ON study_population.encounter_ref = union_link.link_encounter_ref
+SELECT  DISTINCT
+        union_link.*
+FROM    union_link
 ;

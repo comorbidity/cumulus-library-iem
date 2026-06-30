@@ -1,4 +1,4 @@
-CREATE TABLE {{ prefix }}__meta_date AS
+CREATE  TABLE   {{ prefix }}__meta_date AS
 with study_period as
 (
     select

@@ -1,4 +1,4 @@
-CREATE TABLE {{ prefix }}__cohort_variable_union_dx AS
+CREATE  TABLE   {{ prefix }}__cohort_variable_union_dx AS
 SELECT DISTINCT
         var.variable,
         var.code,

@@ -1,3 +1,6 @@
+DROP    TABLE
+IF      EXISTS  {{ prefix }}__elastic_union_dx;
+--
 CREATE TABLE {{ prefix }}__elastic_union_dx AS
 WITH
 union_search AS
@@ -43,7 +46,6 @@ tabular AS
     LEFT JOIN   {{ prefix }}__elastic_union              AS elastic_encounter
     ON          union_search.encounter_ref      =           elastic_encounter.encounter_ref
     AND         union_search.variable           =           elastic_encounter.topic
-    WHERE       union_search.variable NOT LIKE '%generic%'
 ),
 aggregate as
 (

@@ -2,8 +2,9 @@
 --  Link Condition to study_population
 --  priorities:
 
---  A. encounter_ref    is NOT null
---  B. recordeddate     is NOT null and encounter_ref IS NULL
+--  A. encounter_ref maps to a retained study_population encounter
+--  B. recordeddate present AND encounter_ref is NULL *or* not retained
+--     study_population encounter (date-rescue for orphaned conditions)
 
 -- TIE-BREAK exact-start-date
 --  1. encounter starts on the date-mapped day
@@ -12,51 +13,49 @@
 --  4. ordinal
 --  5. encounter_ref
 -- =====================================================================
-CREATE TABLE {{ prefix }}__cohort_study_population_dx AS
+CREATE  TABLE   {{ prefix }}__cohort_study_population_dx AS
 WITH
-resource_has_encounter_ref AS (
-    SELECT  DISTINCT
-            condition_ref
-    FROM    core__condition
-    WHERE   encounter_ref IS NOT NULL
-),
-
--- Priority A: encounter_ref is NOT null
+-- Priority A: encounter_ref maps to retained study_population encounter
 by_encounter AS (
     SELECT  DISTINCT
-            dx.category_code            AS category_code,
-            dx.code                     AS code,
-            dx.code_display             AS code_display,
-            dx.system                   AS system,
-            dx.clinicalstatus_code      AS clinicalstatus_code,
-            dx.verificationstatus_code  AS verificationstatus_code,
-            dx.recordeddate             AS recordeddate,
-            dx.onsetdatetime            AS onsetdatetime,
+            dx.category_code            AS dx_category_code,
+            dx.code                     AS dx_code,
+            dx.code_display             AS dx_display,
+            dx.system                   AS dx_system,
+            dx.clinicalstatus_code      AS dx_clinical_status,
+            dx.verificationstatus_code  AS dx_verification_status,
+            dx.recordeddate             AS dx_recorded_date,
+            dx.onsetdatetime            AS dx_onset_date,
             dx.condition_ref            AS condition_ref,
-            dx.encounter_ref            AS dx_condition_encounter_ref,
-            sp.encounter_ref            AS link_encounter_ref,
-            'encounter_ref'             AS dx_link_method
+            dx.subject_ref              AS subject_ref,
+            dx.encounter_ref            AS encounter_ref,
+            dx.encounter_ref            AS encounter_ref_link,
+            'encounter_ref'             AS encounter_ref_link_col
     FROM    {{ prefix }}__cohort_study_population AS sp
     JOIN    core__condition AS dx
     ON      sp.encounter_ref = dx.encounter_ref
+    AND     sp.subject_ref  = dx.subject_ref
     WHERE   dx.encounter_ref IS NOT NULL
 ),
--- Priority B: recordeddate is NOT null and encounter_ref IS NULL
+-- Priority B candidates: recordeddate present AND the condition's encounter_ref is
+-- NOT retained study_population encounter. The anti-join against
+-- cohort_study_population covers BOTH a true-null encounter_ref (never matches) and
+-- an encounter_ref pointing at an encounter dropped by the population filters.
 date_candidates AS (
     SELECT  DISTINCT
             dx.condition_ref,
             dx.subject_ref,
-            DATE(dx.recordeddate) AS recordeddate_day
-    FROM    core__condition AS dx
-    LEFT JOIN resource_has_encounter_ref AS has_encounter
-    ON      dx.condition_ref = has_encounter.condition_ref
-    WHERE   dx.encounter_ref    IS      NULL
-    AND     dx.recordeddate     IS NOT  NULL
-    AND     has_encounter.condition_ref IS NULL
+            DATE(dx.recordeddate)   AS recordeddate_day
+    FROM    core__condition         AS dx
+    LEFT JOIN {{ prefix }}__cohort_study_population AS sp
+    ON      dx.encounter_ref = sp.encounter_ref
+    AND     dx.subject_ref  = sp.subject_ref
+    WHERE   dx.recordeddate     IS NOT  NULL
+    AND     sp.encounter_ref    IS      NULL
 ),
 date_candidates_ranked AS (
     SELECT  date_candidates.condition_ref,
-            sp.encounter_ref AS link_encounter_ref,
+            sp.encounter_ref AS encounter_ref_link,
             ROW_NUMBER() OVER (
                 PARTITION BY date_candidates.condition_ref
                 ORDER BY
@@ -91,29 +90,29 @@ date_candidates_ranked AS (
 ),
 date_candidates_links AS (
     SELECT  condition_ref,
-            link_encounter_ref
+            encounter_ref_link
     FROM    date_candidates_ranked
     WHERE   dx_link_rank = 1
 ),
 by_recordeddate AS (
     SELECT  DISTINCT
-            dx.category_code            AS category_code,
-            dx.code                     AS code,
-            dx.code_display             AS code_display,
-            dx.system                   AS system,
-            dx.clinicalstatus_code      AS clinicalstatus_code,
-            dx.verificationstatus_code  AS verificationstatus_code,
-            dx.recordeddate             AS recordeddate,
-            dx.onsetdatetime            AS onsetdatetime,
+            dx.category_code            AS dx_category_code,
+            dx.code                     AS dx_code,
+            dx.code_display             AS dx_display,
+            dx.system                   AS dx_system,
+            dx.clinicalstatus_code      AS dx_clinical_status,
+            dx.verificationstatus_code  AS dx_verification_status,
+            dx.recordeddate             AS dx_recorded_date,
+            dx.onsetdatetime            AS dx_onset_date,
             dx.condition_ref            AS condition_ref,
-            dx.encounter_ref            AS dx_condition_encounter_ref,
-            link.link_encounter_ref     AS link_encounter_ref,
-            'recordeddate'              AS dx_link_method
-    FROM    date_candidates_links AS link
-    JOIN    core__condition AS dx
+            dx.subject_ref              AS subject_ref,
+            dx.encounter_ref            AS encounter_ref,
+            link.encounter_ref_link     AS encounter_ref_link,
+            'recordeddate'              AS encounter_ref_link_col
+    FROM    date_candidates_links       AS link
+    JOIN    core__condition             AS dx
     ON      dx.condition_ref = link.condition_ref
-    WHERE   dx.encounter_ref    IS      NULL
-      AND   dx.recordeddate     IS NOT  NULL
+    WHERE   dx.recordeddate     IS NOT  NULL
 ),
 union_link AS (
     SELECT * FROM by_encounter
@@ -121,19 +120,6 @@ union_link AS (
     SELECT * FROM by_recordeddate
 )
 SELECT  DISTINCT
-        union_link.category_code           AS dx_category_code,
-        union_link.code                    AS dx_code,
-        union_link.code_display            AS dx_display,
-        union_link.system                  AS dx_system,
-        union_link.clinicalstatus_code     AS dx_clinical_status,
-        union_link.verificationstatus_code AS dx_verification_status,
-        union_link.recordeddate            AS dx_recorded_date,
-        union_link.onsetdatetime           AS dx_onset_date,
-        union_link.condition_ref           AS condition_ref,
-        union_link.dx_condition_encounter_ref AS dx_condition_encounter_ref,
-        union_link.dx_link_method          AS dx_link_method,
-        study_population.*
+        union_link.*
 FROM    union_link
-JOIN    {{ prefix }}__cohort_study_population AS study_population
-ON      study_population.encounter_ref = union_link.link_encounter_ref
 ;

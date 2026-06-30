@@ -1,4 +1,4 @@
-CREATE TABLE {{ prefix }}__exclude_casedef AS
+CREATE TABLE {{ prefix }}__cohort_casedef_exclude AS
 -- Optional: user defined exclusions
 SELECT
     cast(NULL as varchar) as subject_ref,

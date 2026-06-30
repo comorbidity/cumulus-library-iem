@@ -2,9 +2,9 @@
 --  Link AllergyIntolerance to study_population
 --  priorities:
 
---  A. encounter_ref   is NOT null
---  B. recordeddate    is NOT null and encounter_ref IS NULL
-
+--  A. encounter_ref maps to a retained study_population encounter
+--  B. recordeddate present AND encounter_ref is NULL *or* not retained
+--     study_population encounter (date-rescue for orphaned allergies)
 
 -- TIE-BREAK exact-start-date
 --  1. encounter starts on the date-mapped day
@@ -13,18 +13,11 @@
 --  4. ordinal
 --  5. encounter_ref
 -- =====================================================================
-CREATE TABLE {{ prefix }}__cohort_study_population_allergy AS
+CREATE  TABLE   {{ prefix }}__cohort_study_population_allergy AS
 WITH
-resource_has_encounter_ref AS (
-    SELECT  DISTINCT
-            allergyintolerance_ref
-    FROM    core__allergyintolerance
-    WHERE   encounter_ref IS NOT NULL
-),
-
--- Priority A: encounter_ref is NOT null
+-- Priority A: encounter_ref maps to retained study_population encounter
 by_encounter AS (
-    SELECT  DISTINCT
+    SELECT
             allergy.clinicalstatus_code             AS allergy_clinical_status,
             allergy.verificationstatus_code         AS allergy_verification_status,
             allergy."type"                          AS allergy_type,
@@ -44,31 +37,38 @@ by_encounter AS (
             allergy.reaction_manifestation_display  AS allergy_manifestation_display,
             allergy.reaction_severity               AS allergy_severity,
             allergy.allergyintolerance_ref          AS allergyintolerance_ref,
-            allergy.encounter_ref                   AS allergy_encounter_ref,
-            sp.encounter_ref                        AS link_encounter_ref,
-            'encounter_ref'                         AS allergy_link_method
+            sp.subject_ref                          AS subject_ref,
+            sp.encounter_ref                        AS encounter_ref,
+            sp.encounter_ref                        AS encounter_ref_link,
+            'encounter_ref'                         AS encounter_ref_link_col
     FROM    {{ prefix }}__cohort_study_population   AS sp
     JOIN    core__allergyintolerance                AS allergy
     ON      sp.encounter_ref = allergy.encounter_ref
+    AND     sp.subject_ref   = allergy.patient_ref
     WHERE   allergy.encounter_ref IS NOT NULL
 ),
 
--- Priority B: recordeddate is NOT null and encounter_ref IS NULL
+-- Priority B candidates: recordeddate present AND the allergy's encounter_ref is
+-- NOT retained study_population encounter. The anti-join against
+-- cohort_study_population covers BOTH a true-null encounter_ref (never matches) and
+-- an encounter_ref pointing at an encounter dropped by the population filters.
+-- NOTE: this anti-join depends on subject_ref being formatted consistently between
+-- core__allergyintolerance.patient_ref and cohort_study_population.subject_ref.
 date_candidates AS (
     SELECT  DISTINCT
-            allergy.allergyintolerance_ref      AS allergyintolerance_ref,
-            allergy.subject_ref                 as subject_ref,
-            DATE(allergy.recordeddate)          AS allergy_day
-    FROM    core__allergyintolerance            AS allergy
-    LEFT    JOIN resource_has_encounter_ref     AS has_encounter
-    ON      allergy.allergyintolerance_ref = has_encounter.allergyintolerance_ref
-    WHERE   allergy.encounter_ref   IS      NULL
-    AND     allergy.recordeddate    IS NOT  NULL
-    AND     has_encounter.allergyintolerance_ref IS NULL
+            allergy.allergyintolerance_ref  AS allergyintolerance_ref,
+            allergy.patient_ref             AS subject_ref,
+            DATE(allergy.recordeddate)      AS allergy_day
+    FROM    core__allergyintolerance        AS allergy
+    LEFT JOIN {{ prefix }}__cohort_study_population AS sp
+    ON      allergy.encounter_ref = sp.encounter_ref
+    AND     allergy.patient_ref   = sp.subject_ref
+    WHERE   allergy.recordeddate  IS NOT  NULL
+    AND     sp.encounter_ref      IS      NULL
 ),
 date_candidates_ranked AS (
     SELECT  date_candidates.allergyintolerance_ref,
-            sp.encounter_ref AS link_encounter_ref,
+            sp.encounter_ref AS encounter_ref_link,
             ROW_NUMBER() OVER (
                 PARTITION BY date_candidates.allergyintolerance_ref
                 ORDER BY
@@ -98,79 +98,52 @@ date_candidates_ranked AS (
             ) AS allergy_link_rank
     FROM    date_candidates
     JOIN    {{ prefix }}__cohort_study_population AS sp
-    ON      sp.subject_ref = allergy.subject_ref
+    ON      sp.subject_ref = date_candidates.subject_ref
     AND     date_candidates.allergy_day BETWEEN sp.enc_period_start_day AND sp.enc_period_end_day_filled
 ),
 date_candidates_links AS (
     SELECT  allergyintolerance_ref,
-            link_encounter_ref
+            encounter_ref_link
     FROM    date_candidates_ranked
     WHERE   allergy_link_rank = 1
 ),
 
 by_recordeddate AS (
     SELECT  DISTINCT
-            allergy.clinicalstatus_code              AS allergy_clinical_status,
-            allergy.verificationstatus_code          AS allergy_verification_status,
-            allergy.type                             AS allergy_type,
-            allergy.category                         AS allergy_category,
-            allergy.criticality                      AS allergy_criticality,
-            allergy.code_code                        AS allergy_code,
-            allergy.code_system                      AS allergy_system,
-            allergy.code_display                     AS allergy_display,
-            allergy.recordeddate                     AS allergy_recorded_date,
-            DATE(allergy.recordeddate)               AS allergy_link_day,
-            allergy.reaction_row                     AS allergy_reaction_row,
-            allergy.reaction_substance_code          AS allergy_substance_code,
-            allergy.reaction_substance_system        AS allergy_substance_system,
-            allergy.reaction_substance_display       AS allergy_substance_display,
-            allergy.reaction_manifestation_code      AS allergy_manifestation_code,
-            allergy.reaction_manifestation_system    AS allergy_manifestation_system,
-            allergy.reaction_manifestation_display   AS allergy_manifestation_display,
-            allergy.reaction_severity                AS allergy_severity,
-            allergy.allergyintolerance_ref           AS allergyintolerance_ref,
-            allergy.encounter_ref                    AS allergy_encounter_ref,
-            link.link_encounter_ref                  AS link_encounter_ref,
-            'recordeddate'                           AS allergy_link_method
+            allergy.clinicalstatus_code             AS allergy_clinical_status,
+            allergy.verificationstatus_code         AS allergy_verification_status,
+            allergy."type"                          AS allergy_type,
+            allergy.category                        AS allergy_category,
+            allergy.criticality                     AS allergy_criticality,
+            allergy.code_code                       AS allergy_code,
+            allergy.code_system                     AS allergy_system,
+            allergy.code_display                    AS allergy_display,
+            allergy.recordeddate                    AS allergy_recorded_date,
+            DATE(allergy.recordeddate)              AS allergy_link_day,
+            allergy.reaction_row                    AS allergy_reaction_row,
+            allergy.reaction_substance_code         AS allergy_substance_code,
+            allergy.reaction_substance_system       AS allergy_substance_system,
+            allergy.reaction_substance_display      AS allergy_substance_display,
+            allergy.reaction_manifestation_code     AS allergy_manifestation_code,
+            allergy.reaction_manifestation_system   AS allergy_manifestation_system,
+            allergy.reaction_manifestation_display  AS allergy_manifestation_display,
+            allergy.reaction_severity               AS allergy_severity,
+            allergy.allergyintolerance_ref          AS allergyintolerance_ref,
+            allergy.patient_ref                     AS subject_ref,
+            allergy.encounter_ref                   AS encounter_ref,
+            link.encounter_ref_link                 AS encounter_ref_link,
+            'recordeddate'                          AS encounter_ref_link_col
     FROM    date_candidates_links       AS link
     JOIN    core__allergyintolerance    AS allergy
     ON      allergy.allergyintolerance_ref = link.allergyintolerance_ref
-    WHERE   allergy.encounter_ref       IS      NULL
-    AND     allergy.recordeddate        IS NOT  NULL
+    WHERE   allergy.recordeddate        IS NOT  NULL
 ),
-
 union_link AS (
     SELECT  * FROM    by_encounter
     UNION ALL
     SELECT  * FROM    by_recordeddate
 )
-SELECT DISTINCT
-        union_link.allergy_clinical_status       AS allergy_clinical_status,
-        union_link.allergy_verification_status   AS allergy_verification_status,
-        union_link.allergy_type                  AS allergy_type,
-        union_link.allergy_category              AS allergy_category,
-        union_link.allergy_criticality           AS allergy_criticality,
-        union_link.allergy_code                  AS allergy_code,
-        union_link.allergy_system                AS allergy_system,
-        union_link.allergy_display               AS allergy_display,
-        union_link.allergy_recorded_date         AS allergy_recorded_date,
-
-        union_link.allergy_link_day              AS allergy_link_day,
-
-        union_link.allergy_reaction_row          AS allergy_reaction_row,
-        union_link.allergy_substance_code        AS allergy_substance_code,
-        union_link.allergy_substance_system      AS allergy_substance_system,
-        union_link.allergy_substance_display     AS allergy_substance_display,
-        union_link.allergy_manifestation_code    AS allergy_manifestation_code,
-        union_link.allergy_manifestation_system  AS allergy_manifestation_system,
-        union_link.allergy_manifestation_display AS allergy_manifestation_display,
-        union_link.allergy_severity              AS allergy_severity,
-
-        union_link.allergyintolerance_ref        AS allergyintolerance_ref,
-        union_link.allergy_encounter_ref         AS allergy_encounter_ref,
-        union_link.allergy_link_method           AS allergy_link_method,
-        study_population.*
+SELECT  DISTINCT
+        union_link.*
 FROM    union_link
-JOIN    {{ prefix }}__cohort_study_population AS study_population
-ON      study_population.encounter_ref = union_link.link_encounter_ref
 ;

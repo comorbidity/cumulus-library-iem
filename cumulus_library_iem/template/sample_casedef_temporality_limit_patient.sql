@@ -1,16 +1,17 @@
-create TABLE {{ prefix }}__sample_casedef_{{ temporality }}_limit_patient_{{ limit }} as
+CREATE TABLE    {{ prefix }}__sample_casedef_{{ temporality }}_limit_patient_{{ limit }} AS
 WITH
-patient_list as (
-    select  distinct
+patient_list AS (
+    SELECT  DISTINCT
             subject_ref
-    from    {{ prefix }}__sample_casedef_{{ temporality }}
+    FROM    {{ prefix }}__sample_casedef_{{ temporality }}
     limit   {{ limit }}
 )
-select      distinct
-            note.*
-from        {{ prefix }}__sample_casedef_{{ temporality }} as note,
-            patient_list as P
-where       P.subject_ref = note.subject_ref
-order by    subject_ref,
-            enc_period_ordinal,
-            note_ordinal;
+SELECT  DISTINCT
+        note.*
+FROM    {{ prefix }}__sample_casedef_{{ temporality }} as note
+JOIN    patient_list AS p
+ON      p.subject_ref = note.subject_ref
+ORDER BY
+        subject_ref,
+        enc_period_ordinal,
+        note_ordinal;

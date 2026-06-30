@@ -1,4 +1,4 @@
-CREATE TABLE {{ prefix }}__cohort_study_period as
+CREATE  TABLE   {{ prefix }}__cohort_study_period AS
 WITH
 include as
 (
@@ -9,7 +9,7 @@ include as
     from
         {{ prefix }}__include_study_period
 ),
-range as (
+enc_range as (
     SELECT  DISTINCT
             E.subject_ref,
             E.period_start_day,
@@ -36,11 +36,11 @@ history as (
      AND    e.period_start_day < date(include.period_start)
     WHERE   EXISTS  (
             SELECT  1
-            FROM    range
-            WHERE   range.subject_ref = E.subject_ref)
+            FROM    enc_range
+            WHERE   enc_range.subject_ref = E.subject_ref)
 ),
 merged as (
-    select  *  from range
+    select  *  from enc_range
     UNION ALL
     select  *  from history
 ),

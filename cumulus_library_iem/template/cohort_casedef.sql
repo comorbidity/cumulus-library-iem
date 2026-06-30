@@ -1,4 +1,4 @@
-CREATE  TABLE {{ prefix }}__cohort_casedef AS
+CREATE  TABLE   {{ prefix }}__cohort_casedef AS
 WITH
 -- casedef matches for encounter_ref
 casedef_encounter AS (
@@ -8,9 +8,10 @@ casedef_encounter AS (
             sp.enc_period_start_day,
             sp.enc_period_ordinal,
             casedef.*
-    FROM    {{ prefix }}__cohort_casedef_include as casedef
-    JOIN    {{ prefix }}__cohort_study_population as sp
-    ON      casedef.encounter_ref = sp.encounter_ref
+    FROM    {{ prefix }}__cohort_casedef_include    AS casedef
+    JOIN    {{ prefix }}__cohort_study_population   AS sp
+    ON      casedef.subject_ref = sp.subject_ref
+    AND     casedef.{{ encounter_ref }} = sp.encounter_ref
 ),
 -- rare use of select DISTINCT for query optimization
 casedef_subject AS (
@@ -19,7 +20,7 @@ casedef_subject AS (
     FROM    casedef_encounter
 ),
 -- history of subject_ref
-longitudinal AS (
+history AS (
     SELECT  sp.enc_period_ordinal,
             sp.enc_period_start_day,
             sp.age_at_visit,
@@ -34,7 +35,7 @@ longitudinal AS (
             sp.subject_ref,
             sp.encounter_ref
     FROM    casedef_subject
-    JOIN    {{ prefix }}__cohort_study_population as SP
+    JOIN    {{ prefix }}__cohort_study_population as sp
     ON      casedef_subject.subject_ref = sp.subject_ref
 ),
 -- min/max age and periods for subject_ref
@@ -52,12 +53,12 @@ calc_days_since as (
     SELECT  date_diff(
                 'day',
                 DATE(calc_duration.enc_period_start_day_min),
-                DATE(longitudinal.enc_period_start_day)) as days_since,
-            (longitudinal.enc_period_ordinal - enc_period_ordinal_min) as ordinal_since,
-            longitudinal.encounter_ref
-    FROM    longitudinal
+                DATE(history.enc_period_start_day)) as days_since,
+            (history.enc_period_ordinal - enc_period_ordinal_min) as ordinal_since,
+            history.encounter_ref
+    FROM    history
     JOIN    calc_duration
-    ON      longitudinal.subject_ref = calc_duration.subject_ref
+    ON      history.subject_ref = calc_duration.subject_ref
 ),
 -- relative period: before, during, or after *1st* casedef match
 calc_ordinal AS (
@@ -70,8 +71,8 @@ calc_ordinal AS (
             calc_days_since.encounter_ref
     FROM    calc_days_since
 ),
--- Join longitudinal history with calculated values
-join_longitudinal AS (
+-- Join history history with calculated values
+longitudinal AS (
     SELECT  calc_ordinal.days_since,
             calc_ordinal.ordinal_since,
             CASE
@@ -85,12 +86,38 @@ join_longitudinal AS (
             calc_ordinal.peri_post,
             calc_ordinal.post,
             calc_duration.enc_period_ordinal_min,
-            longitudinal.enc_period_ordinal,
+            history.enc_period_ordinal,
             calc_duration.enc_period_start_day_min,
-            longitudinal.enc_period_start_day,
+            history.enc_period_start_day,
             calc_duration.age_at_casedef_min,
             calc_duration.age_at_casedef_max,
+            history.age_at_visit,
+            history.age_group,
+            history.gender,
+            history.race_display,
+            history.status,
+            history.enc_class_code,
+            history.enc_class_display,
+            history.enc_type_display,
+            history.enc_servicetype_display,
+            history.subject_ref,
+            history.encounter_ref
+    FROM    history
+    JOIN    calc_duration
+    ON      history.subject_ref = calc_duration.subject_ref
+    JOIN    calc_ordinal
+    ON      history.encounter_ref = calc_ordinal.encounter_ref
+)
+SELECT      DISTINCT
+            longitudinal.enc_period_ordinal_min,
+            longitudinal.enc_period_ordinal,
+            longitudinal.ordinal_since,
+            longitudinal.enc_period_start_day_min,
+            longitudinal.enc_period_start_day,
+            longitudinal.days_since,
             longitudinal.age_at_visit,
+            longitudinal.age_at_casedef_min,
+            longitudinal.age_at_casedef_max,
             longitudinal.age_group,
             longitudinal.gender,
             longitudinal.race_display,
@@ -99,16 +126,21 @@ join_longitudinal AS (
             longitudinal.enc_class_display,
             longitudinal.enc_type_display,
             longitudinal.enc_servicetype_display,
-            longitudinal.subject_ref,
-            longitudinal.encounter_ref
-    FROM    longitudinal
-    JOIN    calc_duration
-    ON      longitudinal.subject_ref = calc_duration.subject_ref
-    JOIN    calc_ordinal
-    ON      longitudinal.encounter_ref = calc_ordinal.encounter_ref
-)
-SELECT      DISTINCT *
-FROM        join_longitudinal
+            longitudinal.casedef_period,
+            longitudinal.pre,
+            longitudinal.peri,
+            longitudinal.peri_post,
+            longitudinal.post,
+            -- casedef columns from CSV Valueset
+            {%- for col in casedef_columns %}
+                casedef.{{ col }},
+            {%- endfor %}
+            --
+            casedef.resource_ref,
+            COALESCE(casedef.subject_ref, longitudinal.subject_ref)             AS subject_ref,
+            COALESCE(casedef.{{ encounter_ref }}, longitudinal.encounter_ref)   AS {{ encounter_ref }}
+FROM        longitudinal
 LEFT JOIN   {{ prefix }}__cohort_casedef_include as casedef
-USING       (subject_ref, encounter_ref)
+ON          longitudinal.subject_ref = casedef.subject_ref
+AND         longitudinal.encounter_ref = casedef.{{ encounter_ref }}
 ;
