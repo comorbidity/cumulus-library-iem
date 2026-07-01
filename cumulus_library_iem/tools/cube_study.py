@@ -62,16 +62,6 @@ def make_elastic_union_dx() -> list[Path]:
                                  'gender'
                                  ]),
 
-        # cube_encounter(source_table=f'{PREFIX}__elastic_union_dx',
-        #                table_name=tablespace.name_cube('elastic_dx', 'encounter'),
-        #                table_cols=['variable',
-        #                            'fhir_pat',
-        #                            'fhir_enc',
-        #                            'elastic_pat',
-        #                            'elastic_enc',
-        #                            'enc_class_code',
-        #                            'enc_type_display',
-        #                            'enc_servicetype_display']),
 
         cube_note(source_table=f'{PREFIX}__elastic_union_dx',
                   table_name=tablespace.name_cube('union_fhir_elastic', 'note'),

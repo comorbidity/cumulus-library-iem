@@ -1,7 +1,7 @@
 from pathlib import Path
 from cumulus_library_iem.tools import manifest, template
 
-DATA_PACKAGE_VERSION = 16
+DATA_PACKAGE_VERSION = 17
 
 def make_study_meta_sql(data_package_version:int = DATA_PACKAGE_VERSION) -> list[Path]:
     """
